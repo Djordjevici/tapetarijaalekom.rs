@@ -1,15 +1,17 @@
-# Alekom — brand predlog (radni materijal)
+# Tapetarija Alekom — predlog za klijenta
 
-Predlog vizuelnog identiteta za klijenta, na osnovu digitalnog audita.
+## Šalji klijentu ovo
 
-## Kako otvoriti
+**`Alekom_za_klijenta.pdf`** — kratko, na srpskom, spremno za slanje.
 
-1. Otvori **`Alekom_brand_predlog.html`** u browseru (najbolje — boje, fontovi, logoi).
-2. Ili **`Alekom_brand_predlog.pdf`** — za slanje klijentu.
-3. `Alekom_izvestaj.pdf` — originalni audit.
+Ili otvori **`Alekom_za_klijenta.html`** u pregledaču.
 
-## Šta klijent treba da označi
+Unutra:
+1. Izbor logoa (1–5)
+2. Izbor boja i fontova (A / B / C)
+3. Kako se predstavljaju + kako piše ime
+4. Listić za povratak odgovora
 
-U dokumentu na dnu: pozicioniranje (P1/P2), paleta A/B/C, logo 1–5.
+Napomena: bez auto-industrije. Sav tekst na srpskom.
 
-Branch: `cursor/alekom-brand-predlog-a287` — radni predlog, nije production sajt.
+Ostali fajlovi (`Alekom_brand_predlog.*`) su duži radni materijal — nije potrebno slati klijentu.

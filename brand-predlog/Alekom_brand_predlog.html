@@ -28,9 +28,9 @@
     padding: 48px 28px 0;
   }
   .cover {
-    padding: 56px 0 48px;
+    padding: 40px 0 36px;
     border-bottom: 1px solid var(--line);
-    margin-bottom: 48px;
+    margin-bottom: 40px;
   }
   .cover .eyebrow {
     font-size: 12px;
@@ -43,24 +43,24 @@
   .cover h1 {
     font-family: "Fraunces", Georgia, serif;
     font-weight: 500;
-    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-size: clamp(2.2rem, 5.5vw, 3.2rem);
     line-height: 1.05;
-    margin-bottom: 18px;
+    margin-bottom: 14px;
   }
   .cover .lede {
     max-width: 640px;
     color: var(--muted);
-    font-size: 1.05rem;
+    font-size: 1.02rem;
   }
   .cover .meta {
-    margin-top: 28px;
+    margin-top: 22px;
     display: flex;
     flex-wrap: wrap;
     gap: 10px 22px;
     font-size: 0.85rem;
     color: var(--muted);
   }
-  section { margin-bottom: 56px; }
+  section { margin-bottom: 52px; }
   h2 {
     font-family: "Fraunces", Georgia, serif;
     font-weight: 500;
@@ -78,11 +78,72 @@
     border: 1px solid var(--line);
     border-left: 4px solid #b86b3a;
     padding: 18px 20px;
-    margin-bottom: 26px;
+    margin-bottom: 22px;
     font-size: 0.95rem;
     color: var(--muted);
   }
   .callout strong { color: var(--ink); }
+
+  .logo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 800px) {
+    .logo-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 520px) {
+    .logo-grid { grid-template-columns: 1fr; }
+  }
+  .logo-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 14px;
+  }
+  .logo-card.featured {
+    border-color: #b86b3a;
+    box-shadow: 0 0 0 1px #b86b3a;
+  }
+  .logo-card img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 12px;
+    background: #eee;
+  }
+  .logo-card h4 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+  }
+  .logo-card p {
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .logo-pick {
+    margin-top: 18px;
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 18px 20px;
+  }
+  .logo-pick h3 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+  }
+  .logo-pick label {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.92rem;
+  }
+  .logo-pick label:last-child { border-bottom: none; }
+  .logo-pick input { margin-top: 3px; width: 16px; height: 16px; }
 
   .facts {
     display: grid;
@@ -140,6 +201,28 @@
     font-size: 0.82rem;
     color: var(--muted);
   }
+
+  .name-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 18px;
+  }
+  @media (max-width: 720px) {
+    .name-options { grid-template-columns: 1fr; }
+  }
+  .name-opt {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 16px;
+  }
+  .name-opt .ex {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .name-opt p { font-size: 0.82rem; color: var(--muted); }
 
   .mood {
     width: 100%;
@@ -276,63 +359,6 @@
   }
   .opt-c .type-sample .small { font-family: "Sora", system-ui, sans-serif; }
 
-  .logo-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-  @media (max-width: 800px) {
-    .logo-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 520px) {
-    .logo-grid { grid-template-columns: 1fr; }
-  }
-  .logo-card {
-    background: #fff;
-    border: 1px solid var(--line);
-    padding: 14px;
-  }
-  .logo-card img {
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    display: block;
-    margin-bottom: 12px;
-    background: #eee;
-  }
-  .logo-card h4 {
-    font-family: "Fraunces", Georgia, serif;
-    font-weight: 500;
-    font-size: 1.05rem;
-    margin-bottom: 4px;
-  }
-  .logo-card p {
-    font-size: 0.82rem;
-    color: var(--muted);
-  }
-
-  .name-options {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-    margin-top: 18px;
-  }
-  @media (max-width: 720px) {
-    .name-options { grid-template-columns: 1fr; }
-  }
-  .name-opt {
-    background: #fff;
-    border: 1px solid var(--line);
-    padding: 16px;
-  }
-  .name-opt .ex {
-    font-family: "Fraunces", Georgia, serif;
-    font-size: 1.2rem;
-    font-weight: 500;
-    margin-bottom: 6px;
-  }
-  .name-opt p { font-size: 0.82rem; color: var(--muted); }
-
   .site-map {
     background: #fff;
     border: 1px solid var(--line);
@@ -412,9 +438,8 @@
       <div class="eyebrow">Predlog · vizuelni identitet · za odluku klijenta</div>
       <h1>Tapetarija Alekom</h1>
       <p class="lede">
-        Tri pravca za boje, tipografiju i logo — da vlasnik što ranije izabere smer,
-        pa da sajt i digitalni brend idu bez većih izmena. Predlog sledi nalaze digitalnog
-        audita: problem nije kvalitet zanata, već nevidljivost i odsustvo jasne priče.
+        Prvo biramo logo, zatim boje i fontove. Cilj: što manje izmena kad krenemo u izradu sajta.
+        Sav sadržaj je na srpskom — za slanje klijentu.
       </p>
       <div class="meta">
         <span>Aleksandar Komarov PR · Petrovaradin</span>
@@ -424,93 +449,73 @@
       </div>
     </header>
 
+    <!-- ========== 1. LOGO PRVO ========== -->
     <section>
-      <h2>Šta izveštaj traži od brenda</h2>
-      <div class="callout">
-        <strong>Ključni zaključak audita:</strong> radnja je zanatski jaka, ali digitalno „zamrznuta“
-        na nivou 2010-ih (stari template alekom.ls.rs bez fotografija). Konkurencija u NS
-        (Pera Barok, Molnar, Vlasta, Perfekta…) ima lični brend i vidljive preporuke.
-        Alekom treba <em>portfolio pre/posle</em>, jasan sajt na mobilnom, i dosledno pozicioniranje.
-      </div>
-      <div class="facts">
-        <div class="fact">
-          <b>Pravni / kontakt</b>
-          <span>Zanatska radnja ALEKOM, Aleksandar Komarov PR<br>
-          Tunislava Paunovića 24, Petrovaradin<br>
-          021/64 33 621 · 064/24 96 345</span>
-        </div>
-        <div class="fact">
-          <b>Šta rade (APR + ponuda)</b>
-          <span>Tapaciranje kauča, fotelja, stolica, tabureta · restauracija stilskog nameštaja
-          i kožne galanterije · sedišta za autobuse, motocikle i automobile · nameštaj za poslovne prostore</span>
-        </div>
-        <div class="fact">
-          <b>Šta nedostaje (audit)</b>
-          <span>Vizuelni portfolio · jasan lični/brand identitet · sajt koji gradi poverenje ·
-          aktivne recenzije na Google-u</span>
-        </div>
-        <div class="fact">
-          <b>Cilj ovog dokumenta</b>
-          <span>Da klijent označi: pozicioniranje + paletu/fontove + logo smer — pre nego što
-          krenemo u izradu sajta.</span>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Pozicioniranje — prvo ovo</h2>
+      <h2>1. Logo — prvo ovo</h2>
       <p class="section-lede">
-        Audit predlaže da se Alekom jasno pozicionira (ne „sve za sve“).
-        Izaberite jedan glavni stub — drugi ostaje kao sekundarna usluga.
+        Pet pravaca. Označite jedan glavni znak, ili kombinaciju
+        <strong>natpis + mali znak</strong> (npr. 1 + 2). Finalni vektorski logo radimo posle izbora.
       </p>
-      <div class="pos-grid">
-        <div class="pos-card">
-          <h3>P1 · Stilski / antikni</h3>
-          <p>Majstor za restauraciju i stilski nameštaj — kvalitet šava, tkanina, detalj.</p>
-          <ul>
-            <li>Poruka: „Vraćamo karakter starom nameštaju.“</li>
-            <li>Vizuel: tople materijalne boje, pre/posle stilskih komada</li>
-            <li>Publika: domovi, kolekcionari, dizajneri enterijera</li>
-          </ul>
-          <div class="who">Bolje ide uz opcije A ili B ispod.</div>
+      <div class="callout">
+        <strong>Zašto logo prvo:</strong> konkurencija u Novom Sadu pamti se po imenu i znaku
+        (Pera Barok, Vlasta, Perfekta…). Alekom treba jednostavan, pamtljiv znak koji radi
+        na sajtu, na Instagramu i na etiketi nameštaja.
+      </div>
+
+      <div class="logo-grid">
+        <div class="logo-card featured">
+          <img src="logo-01-wordmark-sav.png" alt="Natpis Alekom sa šavom">
+          <h4>1 · Natpis + šav</h4>
+          <p>Samo tipografija. Iskrzana linija = konac. Najčišći za sajt i potpis u poruci.</p>
         </div>
-        <div class="pos-card">
-          <h3>P2 · Poslovni / ugostiteljstvo</h3>
-          <p>Iskustvo u opremanju objekata i nameštaju za poslovne prostore — brzina + pouzdanost.</p>
-          <ul>
-            <li>Poruka: „Tapaciranje za objekte koji rade svaki dan.“</li>
-            <li>Vizuel: mirniji, „studio“ ton, reference objekata</li>
-            <li>Publika: hoteli, kafići, kancelarije, agencije</li>
-          </ul>
-          <div class="who">Bolje ide uz opciju C (Noćni atelje).</div>
+        <div class="logo-card featured">
+          <img src="logo-02-monogram-a.png" alt="Monogram slovo A">
+          <h4>2 · Monogram A</h4>
+          <p>Kružni pečat sa slovom A. Za ikonicu sajta, Instagram profil i etiketu na nameštaju.</p>
+        </div>
+        <div class="logo-card">
+          <img src="logo-03-fabric-fold.png" alt="Nabor tkanine">
+          <h4>3 · Nabor tkanine</h4>
+          <p>Apstraktan znak — dva nabora sugerišu slovo A. Manje bukvalan, moderniji.</p>
+        </div>
+        <div class="logo-card">
+          <img src="logo-04-button-wordmark.png" alt="Dugme i natpis alekom">
+          <h4>4 · Dugme + alekom</h4>
+          <p>Tapacirsko dugme uz natpis. Jasna asocijacija na zanat.</p>
+        </div>
+        <div class="logo-card">
+          <img src="logo-05-pecat.png" alt="Pečat Tapetarija Alekom">
+          <h4>5 · Pečat (tradicija)</h4>
+          <p>Pečat sa mestom / godinom. Jak za poverenje — u finalu: „od 2006 · Petrovaradin“.</p>
+        </div>
+        <div class="logo-card" style="display:flex;flex-direction:column;justify-content:center;min-height:280px;background:#fafaf7;">
+          <h4>Preporuka</h4>
+          <p style="margin-top:8px;">
+            Za sajt: <strong>natpis</strong> (1 ili 4).<br>
+            Za profil / ikonicu: <strong>monogram ili pečat</strong> (2 ili 5).<br>
+            Najčešće se koriste <em>oba</em>.
+          </p>
         </div>
       </div>
-      <div class="name-options">
-        <div class="name-opt">
-          <div class="ex">Alekom</div>
-          <p>Ostaje firmni naziv. Čisto, kratko. Manje „ličnog“ od konkurencije.</p>
-        </div>
-        <div class="name-opt">
-          <div class="ex">Alekom · Komarov</div>
-          <p>Firma + prezime majstora. Audit kaže da konkurencija pobeđuje ličnim brendom.</p>
-        </div>
-        <div class="name-opt">
-          <div class="ex">Tapetarija Alekom</div>
-          <p>Pun opisni oblik — dobar za Google i Google Business. Preporuka za sajt + GBP.</p>
-        </div>
+
+      <div class="logo-pick">
+        <h3>Izbor logoa (označiti)</h3>
+        <label><input type="checkbox"> <strong>1</strong> — Natpis + šav</label>
+        <label><input type="checkbox"> <strong>2</strong> — Monogram A</label>
+        <label><input type="checkbox"> <strong>3</strong> — Nabor tkanine</label>
+        <label><input type="checkbox"> <strong>4</strong> — Dugme + alekom</label>
+        <label><input type="checkbox"> <strong>5</strong> — Pečat</label>
+        <label><input type="checkbox"> Kombinacija: natpis + mali znak (npr. 1+2 ili 4+5)</label>
       </div>
     </section>
 
+    <!-- ========== 2. BOJE I FONTOVI ========== -->
     <section>
-      <h2>Atmosfera (mood)</h2>
-      <p class="section-lede">Tri različita osećaja — bakarni šav, šumska radionica, noćni atelje.</p>
-      <img class="mood" src="moodboard-tri-pravca.png" alt="Moodboard tri pravca">
-      <p class="caption">Levo → desno: A bakarni · B šumski · C noćni. Klijent bira jedan; detalji se fino podešavaju posle.</p>
-    </section>
+      <h2>2. Boje i fontovi</h2>
+      <p class="section-lede">Tri pravca. Izaberite A, B ili C — logo se lako preboji u izabranu paletu.</p>
 
-    <section>
-      <h2>Tri opcije boja + fontova</h2>
-      <p class="section-lede">Izaberite A, B ili C. Logo koncepti ispod mogu se kombinovati sa bilo kojom paletom.</p>
+      <img class="mood" src="moodboard-tri-pravca.png" alt="Atmosfera tri pravca">
+      <p class="caption" style="margin-bottom:26px;">Levo → desno: A bakarni · B šumski · C noćni.</p>
 
       <div class="options">
 
@@ -519,8 +524,8 @@
             <span class="tag">Opcija A · preporuka</span>
             <h3>Bakarni šav</h3>
             <p>
-              Već je na coming-soon stranici (tapetarijaalekom.rs). Topla bakarna nit na tamnom škriljcu —
-              zanatski i miran. Kontinuitet sa onim što Google Business već vodi.
+              Već je na stranici „Uskoro“ (tapetarijaalekom.rs). Topla bakarna nit na tamnom škriljcu —
+              zanatski i miran. Kontinuitet sa onim što Google profil već vodi.
             </p>
           </div>
           <div class="option-body">
@@ -529,17 +534,17 @@
               <div class="swatch">#E7EBE6<small>platno</small></div>
               <div class="swatch">#B86B3A<small>bakar</small></div>
               <div class="swatch">#141816<small>mastilo</small></div>
-              <div class="swatch">#8FA094<small>sage</small></div>
+              <div class="swatch">#8FA094<small>žalfija</small></div>
             </div>
             <div class="type-row">
               <div class="type-sample">
                 <div class="big">Novi život za omiljeni nameštaj</div>
                 <div class="small">Tapaciranje i restauracija — Aleksandar Komarov, Petrovaradin, od 2006.</div>
-                <div class="type-meta">Naslovi: Fraunces (italic) · Tekst: Outfit</div>
+                <div class="type-meta">Naslovi: Fraunces (kurziv) · Tekst: Outfit</div>
               </div>
               <div class="fit">
                 <strong>Zašto A:</strong> najmanji rizik — već ste u tom smeru. Dobro za stilski nameštaj
-                i pre/posle galeriju. Ne liči na generički „krem + terakota“ AI izgled.
+                i galeriju pre/posle.
               </div>
             </div>
           </div>
@@ -551,7 +556,7 @@
             <h3>Šumska radionica</h3>
             <p>
               Dublja zelena + meka glina. Više „prirodni materijali / drvo / platno“.
-              Dobro ako je stub P1 (stilski / antikni).
+              Dobro ako je stub stilski / antikni nameštaj.
             </p>
           </div>
           <div class="option-body">
@@ -580,7 +585,7 @@
             <span class="tag">Opcija C</span>
             <h3>Noćni atelje</h3>
             <p>
-              Ugljen + magla + oker. Najmoderniji, „studio“ ton — bliži ugostiteljstvu i poslovnim objektima (P2).
+              Ugljen + magla + oker. Najmoderniji ton — bliži ugostiteljstvu i poslovnim objektima.
             </p>
           </div>
           <div class="option-body">
@@ -598,7 +603,7 @@
                 <div class="type-meta">Naslovi: Newsreader · Tekst: Sora</div>
               </div>
               <div class="fit">
-                <strong>Zašto C:</strong> jači kontrast za Instagram i B2B utisak. Manje „klasična tapetarija“.
+                <strong>Zašto C:</strong> jači kontrast za društvene mreže i utisak kod poslovnih klijenata.
               </div>
             </div>
           </div>
@@ -607,66 +612,100 @@
       </div>
     </section>
 
+    <!-- ========== 3. POZICIONIRANJE ========== -->
     <section>
-      <h2>Logo koncepti</h2>
+      <h2>3. Kako se predstavljamo</h2>
       <p class="section-lede">
-        Pet brzih pravaca. Finalni vektor (SVG) ide posle izbora.
-        Audit naglašava da konkurencija ima prepoznatljiv znak/ime — zato biramo jednostavan,
-        pamtljiv mark + wordmark.
+        Izveštaj predlaže jasan stub (ne „sve za sve“). Izaberite jedan glavni — drugi ostaje kao dopuna.
+        <strong>Bez auto-industrije</strong> — to nije deo ponude.
       </p>
-      <div class="logo-grid">
-        <div class="logo-card">
-          <img src="logo-01-wordmark-sav.png" alt="Wordmark sa šavom">
-          <h4>1 · Wordmark + šav</h4>
-          <p>Čist tipografski znak. Iskrzana linija = konac. Najčišći za sajt i potpis mejla.</p>
+      <div class="pos-grid">
+        <div class="pos-card">
+          <h3>P1 · Stilski / antikni</h3>
+          <p>Majstor za restauraciju i stilski nameštaj — kvalitet šava, tkanina, detalj.</p>
+          <ul>
+            <li>Poruka: „Vraćamo karakter starom nameštaju.“</li>
+            <li>Slike: pre/posle stilskih komada</li>
+            <li>Publika: domovi, dizajneri enterijera</li>
+          </ul>
+          <div class="who">Bolje ide uz opcije boja A ili B.</div>
         </div>
-        <div class="logo-card">
-          <img src="logo-02-monogram-a.png" alt="Monogram A">
-          <h4>2 · Monogram A</h4>
-          <p>Kružni pečat sa slovom A. Favicon, Instagram profil, etiketa na nameštaju.</p>
+        <div class="pos-card">
+          <h3>P2 · Poslovni / ugostiteljstvo</h3>
+          <p>Iskustvo u opremanju objekata i nameštaju za poslovne prostore — pouzdanost i rok.</p>
+          <ul>
+            <li>Poruka: „Tapaciranje za objekte koji rade svaki dan.“</li>
+            <li>Slike: reference objekata, kancelarije, lokali</li>
+            <li>Publika: hoteli, kafići, kancelarije</li>
+          </ul>
+          <div class="who">Bolje ide uz opciju C (Noćni atelje).</div>
         </div>
-        <div class="logo-card">
-          <img src="logo-03-fabric-fold.png" alt="Nabor tkanine">
-          <h4>3 · Nabor tkanine</h4>
-          <p>Apstraktni znak — dva nabora sugerišu „A“. Manje bukvalan, moderniji.</p>
+      </div>
+      <div class="name-options">
+        <div class="name-opt">
+          <div class="ex">Alekom</div>
+          <p>Kratak firmni naziv. Čisto. Manje „ličnog“ od konkurencije.</p>
         </div>
-        <div class="logo-card">
-          <img src="logo-04-button-wordmark.png" alt="Dugme + alekom">
-          <h4>4 · Dugme + alekom</h4>
-          <p>Tapacirsko dugme + wordmark. Jasna asocijacija na zanat.</p>
+        <div class="name-opt">
+          <div class="ex">Alekom · Komarov</div>
+          <p>Firma + prezime majstora. Konkurencija pobeđuje ličnim brendom — ovo to jača.</p>
         </div>
-        <div class="logo-card">
-          <img src="logo-05-pecat.png" alt="Pečat od 2006">
-          <h4>5 · Pečat (tradicija)</h4>
-          <p>Pečat sa godinom / mestom. Jak za poverenje — u finalu: „od 2006 · Petrovaradin“.</p>
-        </div>
-        <div class="logo-card" style="display:flex;flex-direction:column;justify-content:center;min-height:280px;background:#fafaf7;">
-          <h4>Preporuka</h4>
-          <p style="margin-top:8px;">Sajt + potpis: wordmark (1 ili 4).<br>Profil / favicon: monogram ili pečat (2 ili 5).<br>Često se koriste <em>oba</em>.</p>
+        <div class="name-opt">
+          <div class="ex">Tapetarija Alekom</div>
+          <p>Pun opisni oblik — najbolji za Google i Google profil firme. Preporuka za sajt.</p>
         </div>
       </div>
     </section>
 
+    <!-- ========== 4. O RADNJI ========== -->
     <section>
-      <h2>Šta sajt mora da ima (iz audita)</h2>
+      <h2>4. O radnji (kratko)</h2>
+      <div class="facts">
+        <div class="fact">
+          <b>Kontakt</b>
+          <span>Zanatska radnja ALEKOM, Aleksandar Komarov PR<br>
+          Tunislava Paunovića 24, Petrovaradin<br>
+          021/64 33 621 · 064/24 96 345</span>
+        </div>
+        <div class="fact">
+          <b>Usluge</b>
+          <span>Tapaciranje kauča, fotelja, stolica, tabureta · restauracija stilskog nameštaja
+          i kožne galanterije · nameštaj za poslovne prostore i ugostiteljstvo</span>
+        </div>
+        <div class="fact">
+          <b>Šta nedostaje (iz izveštaja)</b>
+          <span>Galerija radova · jasan vizuelni identitet · sajt koji gradi poverenje ·
+          recenzije na Google-u</span>
+        </div>
+        <div class="fact">
+          <b>Cilj ovog dokumenta</b>
+          <span>Da klijent označi: logo + boje/fontove + kako se predstavlja —
+          pre izrade sajta.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 5. SAJT ========== -->
+    <section>
+      <h2>5. Šta sajt treba da ima</h2>
       <p class="section-lede">
-        Audit: zameniti stari ls.rs template jednostranačnim sajtom sa portfoliom,
-        cenovnim rasponom i formularom — mora raditi na mobilnom. Fotografije su ključ.
+        Zameniti stari besplatni šablon jednostranačnim sajtom: galerija, orijentacione cene,
+        formular — mora lepo raditi na telefonu. Fotografije su ključ.
       </p>
       <div class="site-map">
         <ol>
-          <li><strong>Hero</strong> — „Tapetarija Alekom“ kao glavni signal, jedna rečenica pozicioniranja, CTA poziv / upit, jedna dominantna fotografija rada (full-bleed).</li>
-          <li><strong>Usluge</strong> — kauč/fotelja/stolica · stilski / koža · auto/moto/autobus · poslovni prostori (prema izabranom stubu P1/P2).</li>
-          <li><strong>Pre i posle</strong> — ključna sekcija. Audit traži 20–30 slika; na sajtu start sa 6–12 jakih parova.</li>
-          <li><strong>Galerija / reference</strong> — gotovi radovi, eventualno objekti.</li>
-          <li><strong>O majstoru</strong> — Aleksandar Komarov, od 2006., Petrovaradin. Lična priča (audit: konkurencija pobeđuje ličnim brendom).</li>
-          <li><strong>Orijentacione cene</strong> — raspon („od …“), ne obavezan pun cenovnik — audit eksplicitno traži cenovni raspon.</li>
-          <li><strong>Kontakt</strong> — telefoni, adresa, mapa, Instagram/FB, kratka forma za upit.</li>
+          <li><strong>Prva sekcija</strong> — „Tapetarija Alekom“ kao glavni signal, jedna rečenica, dugme za poziv / upit, jedna velika fotografija rada preko cele širine.</li>
+          <li><strong>Usluge</strong> — kauč / fotelja / stolica · stilski / koža · poslovni prostori i ugostiteljstvo (prema izabranom stubu P1/P2).</li>
+          <li><strong>Pre i posle</strong> — ključna sekcija. Cilj 20–30 slika ukupno; na sajtu start sa 6–12 jakih parova.</li>
+          <li><strong>Galerija radova</strong> — gotovi komadi i reference.</li>
+          <li><strong>O majstoru</strong> — Aleksandar Komarov, od 2006., Petrovaradin. Lična priča (konkurencija pobeđuje ličnim brendom).</li>
+          <li><strong>Orijentacione cene</strong> — raspon („od …“), ne obavezno pun cenovnik.</li>
+          <li><strong>Kontakt</strong> — telefoni, adresa, mapa, Instagram / Fejsbuk, kratka forma za upit.</li>
         </ol>
         <div class="before-after">
           <div class="ba-box">
             <div class="label">Pre</div>
-            <div class="hint">Istrošena presvlaka — isti ugao, dnevno svetlo (telefon OK)</div>
+            <div class="hint">Istrošena presvlaka — isti ugao, dnevno svetlo (telefon je u redu)</div>
           </div>
           <div class="ba-box">
             <div class="label">Posle</div>
@@ -674,32 +713,33 @@
           </div>
         </div>
         <p class="caption" style="margin-top:12px;">
-          Paralelno sa sajtom (iz audita): Google Business popunjen + 10–15 recenzija od starih klijenata + redovne objave pre/posle na IG/FB.
+          Paralelno: Google profil popunjen + 10–15 recenzija od starih klijenata + redovne objave pre/posle na Instagramu i Fejsbuku.
         </p>
       </div>
     </section>
 
+    <!-- ========== LISTIĆ ========== -->
     <section>
-      <h2>Listić za odluku (proslediti klijentu)</h2>
-      <p class="section-lede">Neka označe — vraćate ispunjeno i krećemo u izradu.</p>
+      <h2>Listić za odluku</h2>
+      <p class="section-lede">Neka klijent označi — vraćate ispunjeno i krećemo u izradu.</p>
       <div class="checklist">
-        <label><input type="checkbox"> Pozicioniranje: <strong>P1 Stilski / antikni</strong></label>
-        <label><input type="checkbox"> Pozicioniranje: <strong>P2 Poslovni / ugostiteljstvo</strong></label>
-        <label><input type="checkbox"> Naziv na sajtu: <strong>Alekom</strong> / <strong>Tapetarija Alekom</strong> / <strong>Alekom · Komarov</strong></label>
+        <label><input type="checkbox"> Logo: <strong>1</strong> · <strong>2</strong> · <strong>3</strong> · <strong>4</strong> · <strong>5</strong> (ili natpis + mali znak)</label>
         <label><input type="checkbox"> Boje/fontovi: <strong>A Bakarni šav</strong></label>
         <label><input type="checkbox"> Boje/fontovi: <strong>B Šumska radionica</strong></label>
         <label><input type="checkbox"> Boje/fontovi: <strong>C Noćni atelje</strong></label>
-        <label><input type="checkbox"> Logo: <strong>1</strong> · <strong>2</strong> · <strong>3</strong> · <strong>4</strong> · <strong>5</strong> (ili kombinacija wordmark + znak)</label>
-        <label><input type="checkbox"> Imamo / snimićemo pre–posle (cilj 20–30; za sajt min. 6 parova)</label>
+        <label><input type="checkbox"> Predstavljanje: <strong>P1 Stilski / antikni</strong></label>
+        <label><input type="checkbox"> Predstavljanje: <strong>P2 Poslovni / ugostiteljstvo</strong></label>
+        <label><input type="checkbox"> Naziv na sajtu: <strong>Alekom</strong> / <strong>Tapetarija Alekom</strong> / <strong>Alekom · Komarov</strong></label>
+        <label><input type="checkbox"> Imamo / snimićemo pre–posle fotografije (cilj 20–30; za sajt najmanje 6 parova)</label>
         <label><input type="checkbox"> Možemo tražiti 10–15 recenzija od starih klijenata</label>
       </div>
     </section>
 
     <p class="note">
       Predlog pravca, ne finalni dizajn sajta. Finalni logo u vektoru posle izbora.
-      Coming-soon trenutno koristi pravac blizak opciji A. Godina u pečatu: <strong>2006</strong> (APR), ne 2000.
+      Stranica „Uskoro“ trenutno koristi pravac blizak opciji A. Godina: <strong>2006</strong>.
       <br><br>
-      Izvor konteksta: digitalni audit „Tapetarija Alekom — zašto nema novih klijenata“.
+      Izvor: digitalni izveštaj „Tapetarija Alekom — zašto nema novih klijenata“.
       Kontakt: Tunislava Paunovića 24, Petrovaradin · 021 64 33 621 · 064 24 96 345
     </p>
 
