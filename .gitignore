@@ -15,3 +15,6 @@ yarn-error.log*
 next-env.d.ts
 tsconfig.tsbuildinfo
 .vercel
+
+__pycache__/
+*.pyc
