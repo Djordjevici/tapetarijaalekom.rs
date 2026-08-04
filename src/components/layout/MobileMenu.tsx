@@ -137,7 +137,7 @@ export default function MobileMenu({
           <div className="grid gap-2.5">
             <a
               href={telLink}
-              className="flex min-h-[52px] items-center justify-center bg-bakar font-semibold text-white"
+              className="flex min-h-[52px] items-center justify-center bg-bakar-dugme font-semibold text-white"
             >
               Pozovite {site.phone.display}
             </a>

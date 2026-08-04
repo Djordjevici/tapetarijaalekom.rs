@@ -36,6 +36,7 @@ export default function UslugeStrana() {
           <Zaglavlje
             nadnaslov="Usluge"
             naslov="Šta sve radimo i za koga."
+            glavni
             uvod="Svaka usluga ima svoje zahteve — drugačiji materijal, drugačiji šav i drugačiju pripremu konstrukcije. Ovde je detaljno šta to znači u praksi."
             prigusen="text-mist-2"
           />

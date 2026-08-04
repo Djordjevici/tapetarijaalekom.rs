@@ -31,6 +31,7 @@ export default function KontaktStrana() {
           <Zaglavlje
             nadnaslov="Kontakt"
             naslov="Javite se — dogovorimo se."
+            glavni
             uvod="Najbrže je telefonom. Ako vam je lakše, pošaljite fotografije kroz formu i mi se javljamo."
             prigusen="text-mist-2"
           />

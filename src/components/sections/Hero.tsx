@@ -117,7 +117,7 @@ export default function Hero() {
           {/* redosled na telefonu: poziv prvi */}
           <a
             href={telLink}
-            className="order-1 flex min-h-[54px] items-center justify-center bg-bakar px-7 text-[0.94rem] font-semibold text-white transition-colors duration-300 hover:bg-bakar-svetli sm:order-2 sm:bg-transparent sm:px-0 sm:text-platno sm:underline sm:decoration-mist-3 sm:decoration-1 sm:underline-offset-[6px] sm:hover:bg-transparent sm:hover:text-bakar-svetli"
+            className="order-1 flex min-h-[54px] items-center justify-center bg-bakar-dugme px-7 text-[0.94rem] font-semibold text-white transition-colors duration-300 hover:bg-bakar-dugme-hover sm:order-2 sm:bg-transparent sm:px-0 sm:text-platno sm:underline sm:decoration-mist-3 sm:decoration-1 sm:underline-offset-[6px] sm:hover:bg-transparent sm:hover:text-bakar-svetli"
           >
             <span className="sm:hidden">Pozovite odmah</span>
             <span className="hidden sm:inline">
@@ -126,7 +126,7 @@ export default function Hero() {
           </a>
           <a
             href="#procena"
-            className="order-2 flex min-h-[54px] items-center justify-center border border-mist-3 px-7 text-[0.94rem] font-semibold transition-colors duration-300 hover:border-bakar hover:text-bakar-svetli sm:order-1 sm:mr-7 sm:border-0 sm:bg-bakar sm:text-white sm:hover:bg-bakar-svetli sm:hover:text-white"
+            className="order-2 flex min-h-[54px] items-center justify-center border border-mist-3 px-7 text-[0.94rem] font-semibold transition-colors duration-300 hover:border-bakar hover:text-bakar-svetli sm:order-1 sm:mr-7 sm:border-0 sm:bg-bakar-dugme sm:text-white sm:hover:bg-bakar-dugme-hover sm:hover:text-white"
           >
             <span className="sm:hidden">Pošaljite fotografiju</span>
             <span className="hidden sm:inline">

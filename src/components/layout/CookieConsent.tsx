@@ -64,7 +64,7 @@ gtag('js',new Date());gtag('config','${analyticsId}',{anonymize_ip:true});`}
             <button
               type="button"
               onClick={() => odluci("prihvaceno")}
-              className="min-h-[44px] flex-1 bg-bakar px-4 text-malo font-semibold text-white"
+              className="min-h-[44px] flex-1 bg-bakar-dugme px-4 text-malo font-semibold text-white"
             >
               Prihvatam
             </button>

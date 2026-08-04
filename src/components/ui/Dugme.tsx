@@ -10,7 +10,7 @@ const osnova =
   "transition-colors duration-300 ease-meko";
 
 const tonovi: Record<Ton, string> = {
-  puni: "bg-bakar text-white hover:bg-bakar-svetli",
+  puni: "bg-bakar-dugme text-white hover:bg-bakar-dugme-hover",
   obris:
     "border border-current text-current hover:text-bakar " +
     "[&>span]:transition-colors",

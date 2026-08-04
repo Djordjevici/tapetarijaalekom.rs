@@ -17,7 +17,7 @@ export default function NijeNadjeno() {
         <div className="mt-9 flex flex-col gap-3 sm:flex-row">
           <Link
             href="/"
-            className="flex min-h-[52px] items-center justify-center bg-bakar px-6 text-malo font-semibold text-white transition-colors hover:bg-bakar-svetli"
+            className="flex min-h-[52px] items-center justify-center bg-bakar-dugme px-6 text-malo font-semibold text-white transition-colors hover:bg-bakar-dugme-hover"
           >
             Na početnu
           </Link>

@@ -398,13 +398,16 @@ export default function FormaProcena() {
           ]
             .filter((o) => o.prikazi)
             .map((o, i) => (
-              <label key={o.v} className="flex items-center gap-2.5 text-malo">
+              <label
+                key={o.v}
+                className="flex min-h-[44px] cursor-pointer items-center gap-2.5 text-malo"
+              >
                 <input
                   type="radio"
                   name="kontakt"
                   value={o.v}
                   defaultChecked={i === 0}
-                  className="h-4 w-4 accent-bakar"
+                  className="h-5 w-5 accent-bakar"
                 />
                 {o.l}
               </label>
@@ -413,14 +416,14 @@ export default function FormaProcena() {
       </div>
 
       <div>
-        <label className="flex items-start gap-3 text-malo text-mist-2">
+        <label className="flex min-h-[44px] cursor-pointer items-start gap-3 py-2 text-malo text-mist-2">
           <input
             type="checkbox"
             name="pristanak"
             required
             aria-invalid={Boolean(greske.pristanak)}
             aria-describedby={greske.pristanak ? "greska-pristanak" : undefined}
-            className="mt-0.5 h-4 w-4 shrink-0 accent-bakar"
+            className="mt-0.5 h-5 w-5 shrink-0 accent-bakar"
           />
           <span>
             Saglasan sam da se moji podaci i priložene fotografije koriste radi
@@ -463,7 +466,7 @@ export default function FormaProcena() {
         <button
           type="submit"
           disabled={stanje === "slanje" || !contactFormEnabled}
-          className="inline-flex min-h-[54px] items-center justify-center bg-bakar px-7 text-[0.94rem] font-semibold text-white transition-colors duration-300 hover:bg-bakar-svetli disabled:cursor-not-allowed disabled:opacity-45"
+          className="inline-flex min-h-[54px] items-center justify-center bg-bakar-dugme px-7 text-[0.94rem] font-semibold text-white transition-colors duration-300 hover:bg-bakar-dugme-hover disabled:cursor-not-allowed disabled:opacity-45"
         >
           {stanje === "slanje" ? "Slanje…" : "Pošaljite upit"}
         </button>

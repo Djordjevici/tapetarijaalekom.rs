@@ -40,6 +40,7 @@ export default function RadoviStrana() {
           <Zaglavlje
             nadnaslov="Radovi"
             naslov="Pre i posle, na istom komadu."
+            glavni
             uvod={
               imaSadrzaj
                 ? "Povucite klizač i uporedite stanje pre i posle radova."
@@ -82,7 +83,7 @@ export default function RadoviStrana() {
                   <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                     <a
                       href="#procena"
-                      className="flex min-h-[52px] items-center justify-center bg-bakar px-6 text-malo font-semibold text-white transition-colors hover:bg-bakar-svetli"
+                      className="flex min-h-[52px] items-center justify-center bg-bakar-dugme px-6 text-malo font-semibold text-white transition-colors hover:bg-bakar-dugme-hover"
                     >
                       Pošaljite fotografiju
                     </a>

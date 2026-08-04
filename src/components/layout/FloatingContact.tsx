@@ -83,7 +83,7 @@ export default function FloatingContact() {
         onClick={() => setOtvoren((v) => !v)}
         aria-expanded={otvoren}
         aria-controls="kontakt-opcije"
-        className="ml-auto flex min-h-[52px] items-center gap-2.5 bg-bakar px-5 text-malo font-semibold text-white shadow-xl transition-colors duration-300 hover:bg-bakar-svetli"
+        className="ml-auto flex min-h-[52px] items-center gap-2.5 bg-bakar-dugme px-5 text-malo font-semibold text-white shadow-xl transition-colors duration-300 hover:bg-bakar-dugme-hover"
       >
         <span
           aria-hidden

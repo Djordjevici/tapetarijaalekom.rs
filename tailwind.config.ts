@@ -15,12 +15,17 @@ const config: Config = {
         platno: "#E7E6E0",
         papir: "#F2F1EB",
         bakar: "#BE7242",
+        /* za belu tipografiju na bakarnoj podlozi treba tamniji ton */
+        "bakar-dugme": "#9C5323",
+        "bakar-dugme-hover": "#8A461A",
+        /* bakar kao tekst na svetlom mora biti tamniji od akcentnog */
+        "bakar-tekst": "#944D1F",
         "bakar-svetli": "#D08B5C",
         orah: "#2B241F",
         lisce: "#869896",
         ink: "#1A1C1A",
         "ink-2": "#4E554E",
-        "ink-3": "#6E756D",
+        "ink-3": "#5E655D",
         "mist-1": "rgba(231, 230, 224, 0.92)",
         "mist-2": "rgba(231, 230, 224, 0.68)",
         "mist-3": "rgba(231, 230, 224, 0.46)",

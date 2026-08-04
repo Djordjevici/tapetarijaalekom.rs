@@ -78,7 +78,7 @@ export default function Header() {
             </a>
             <a
               href={telLink}
-              className="inline-flex min-h-[44px] items-center bg-bakar px-4 py-3 text-malo font-semibold text-white transition-colors duration-300 hover:bg-bakar-svetli sm:px-5"
+              className="inline-flex min-h-[44px] items-center bg-bakar-dugme px-4 py-3 text-malo font-semibold text-white transition-colors duration-300 hover:bg-bakar-dugme-hover sm:px-5"
             >
               <span className="sm:hidden">Pozovite</span>
               <span className="hidden sm:inline">{site.phone.display}</span>

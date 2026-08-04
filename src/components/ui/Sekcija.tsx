@@ -64,13 +64,17 @@ export function Zaglavlje({
   uvod,
   centrirano = false,
   prigusen = "text-ink-2",
+  glavni = false,
 }: {
   nadnaslov?: string;
   naslov: ReactNode;
   uvod?: ReactNode;
   centrirano?: boolean;
   prigusen?: string;
+  /** Naslov strane. Tačno jedan po strani nosi h1. */
+  glavni?: boolean;
 }) {
+  const Naslov = glavni ? "h1" : "h2";
   return (
     <div className={centrirano ? "mx-auto max-w-tekst text-center" : "max-w-2xl"}>
       {nadnaslov && (
@@ -79,7 +83,7 @@ export function Zaglavlje({
         </Otkrij>
       )}
       <Otkrij kasnjenje={60}>
-        <h2 className="text-h2">{naslov}</h2>
+        <Naslov className="text-h2">{naslov}</Naslov>
       </Otkrij>
       {uvod && (
         <Otkrij kasnjenje={120}>

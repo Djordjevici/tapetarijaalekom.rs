@@ -28,7 +28,7 @@ export default function Faq() {
                 </span>
                 <span
                   aria-hidden
-                  className={`mt-2 grid h-5 w-5 shrink-0 place-items-center text-bakar transition-transform duration-400 ease-meko ${
+                  className={`mt-2 grid h-5 w-5 shrink-0 place-items-center text-bakar-tekst transition-transform duration-400 ease-meko ${
                     aktivno ? "rotate-45" : ""
                   }`}
                 >

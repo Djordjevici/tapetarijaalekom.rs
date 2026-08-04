@@ -215,7 +215,7 @@ export function ZavrsniCta() {
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
               href="#procena"
-              className="flex min-h-[54px] w-full items-center justify-center bg-bakar px-8 text-[0.94rem] font-semibold text-white transition-colors duration-300 hover:bg-bakar-svetli sm:w-auto"
+              className="flex min-h-[54px] w-full items-center justify-center bg-bakar-dugme px-8 text-[0.94rem] font-semibold text-white transition-colors duration-300 hover:bg-bakar-dugme-hover sm:w-auto"
             >
               Pošaljite fotografiju za procenu
             </a>
