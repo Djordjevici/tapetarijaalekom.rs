@@ -1,0 +1,49 @@
+import IzborProjekta from "@/components/before-after/IzborProjekta";
+import Otkrij from "@/components/ui/Otkrij";
+import Sekcija, { Zaglavlje } from "@/components/ui/Sekcija";
+import { flags } from "@/data/site";
+import { visibleProjects } from "@/data/projects";
+
+/**
+ * Pre i posle.
+ *
+ * Sekcija se ne renderuje dok nema autentičnih parova fotografija — bez
+ * praznog prostora i bez linka u navigaciji. Uključuje se flags.beforeAfter
+ * kada bude najmanje 2–3 prava para.
+ */
+export default function PreIPosle() {
+  const projekti = visibleProjects(flags.showPlaceholderProjects);
+  if (!projekti.length) return null;
+  if (!flags.beforeAfter && !flags.showPlaceholderProjects) return null;
+
+  return (
+    <Sekcija id="radovi" podloga="ugljen">
+      <div className="sadrzaj">
+        <Zaglavlje
+          nadnaslov="Pre i posle"
+          naslov="Razlika se najbolje vidi na istom komadu."
+          uvod="Povucite klizač i uporedite. Isti ugao, isto svetlo — samo pre i posle radova."
+          prigusen="text-mist-2"
+        />
+
+        <Otkrij className="mt-14">
+          <IzborProjekta projekti={projekti} />
+        </Otkrij>
+
+        <Otkrij>
+          <p className="mt-12 max-w-tekst border-l-2 border-bakar pl-4 text-malo text-mist-2">
+            Imate komad koji razmišljate da obnovite? Pošaljite nekoliko
+            fotografija i kratak opis — javićemo vam se da zajedno prođemo kroz
+            mogućnosti.{" "}
+            <a
+              href="#procena"
+              className="font-semibold text-platno underline decoration-bakar decoration-1 underline-offset-4"
+            >
+              Pošaljite fotografiju
+            </a>
+          </p>
+        </Otkrij>
+      </div>
+    </Sekcija>
+  );
+}

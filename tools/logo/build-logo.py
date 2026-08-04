@@ -9,18 +9,21 @@ import json
 import math
 import os
 
+import monogram as MONO
+
 G = json.load(open(os.environ.get("GLYPHS", "/tmp/logo/glyphs.json")))
 UPEM = G["upem"]
 
 CX = CY = 100.0
 R_RING = 95.0
 RING_W = 1.8
-CAP = 12.0           # visina verzala u kružnom tekstu
-BAND_OUTER = 89.0    # spoljna ivica tekstualnog pojasa
+CAP = 12.8           # visina verzala u kružnom tekstu
+BAND_OUTER = 90.5    # spoljna ivica tekstualnog pojasa
 R_TOP = BAND_OUTER - CAP
 R_BOT = BAND_OUTER
 R_STITCH = 84.0      # radijus bakarnog šava i tačaka
-TRACK = 0.14         # dodatni razmak između slova, u em
+TRACK = 0.12
+TRACK_BOTTOM = 0.085         # dodatni razmak između slova, u em
 
 CAP_RATIO = 0.72     # visina verzala Fraunces-a u odnosu na upem
 FS_ARC = CAP / CAP_RATIO
@@ -63,7 +66,7 @@ def arc_text(text: str, radius: float, font_size: float, bottom: bool):
     """Postavi tekst po luku, glif po glif, sa pravim širinama iz fonta."""
     glyphs = [G["roman"][c] for c in text]
     scale = font_size / UPEM
-    track = TRACK * font_size
+    track = (TRACK_BOTTOM if bottom else TRACK) * font_size
 
     widths = [g["adv"] * scale for g in glyphs]
     total = sum(widths) + track * (len(glyphs) - 1)
@@ -89,13 +92,8 @@ def arc_text(text: str, radius: float, font_size: float, bottom: bool):
 
 
 def monogram(cap_height: float, cx: float = CX, cy: float = CY) -> str:
-    g = G[MONO_VARIANT]["A"]
-    scale = cap_height / (CAP_RATIO * UPEM)
-    w = g["adv"] * scale
-    # kurzivni A je optički desno od svoje širine, pa ga blago vraćamo ulevo
-    x = cx - w / 2 - cap_height * 0.055
-    return (f'<path transform="translate({fmt(x)} {fmt(cy + cap_height / 2)}) '
-            f'scale({fmt(scale)} {fmt(-scale)})" d="{g["d"]}"/>')
+    """Ručno crtan monogram, iz tools/logo/monogram.py."""
+    return MONO.monogram_svg(cap_height, cx, cy)
 
 
 def polar(angle_deg: float, radius: float):
@@ -151,7 +149,7 @@ def build_seal(ink: str, copper: str, mono: bool = False) -> str:
 {bottom}
   </g>
   <g fill="{ink_c}" aria-hidden="true">
-    {monogram(70.0)}
+    {monogram(79.0)}
   </g>
 </svg>
 '''
@@ -176,14 +174,34 @@ def build_mark(ink: str, copper: str, mono: bool = False) -> str:
 '''
 
 
-def build_mark_tiny(ink: str, mono: bool = False) -> str:
-    """Najprostija verzija za 16 px: samo debeo prsten i monogram."""
+def build_mark_16(ink: str, mono: bool = False) -> str:
+    """Za 16 i 24 px: samo debeo prsten i monogram. Prvo slovo A, pa znak."""
     ink_c = "currentColor" if mono else ink
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="s">
   <title id="s">Alekom</title>
-  <circle cx="100" cy="100" r="89" fill="none" stroke="{ink_c}" stroke-width="13"/>
+  <circle cx="100" cy="100" r="88" fill="none" stroke="{ink_c}" stroke-width="15"/>
   <g fill="{ink_c}" aria-hidden="true">
-    {monogram(104.0)}
+    {monogram(108.0)}
+  </g>
+</svg>
+'''
+
+
+def build_mark_32(ink: str, copper: str, mono: bool = False) -> str:
+    """Za 32 px: prsten, monogram i samo dve bakarne tačke."""
+    ink_c = "currentColor" if mono else ink
+    copper_c = "currentColor" if mono else copper
+    dx, dy = polar(90, 74)
+    ex, ey = polar(-90, 74)
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="s">
+  <title id="s">Alekom</title>
+  <circle cx="100" cy="100" r="89" fill="none" stroke="{ink_c}" stroke-width="11"/>
+  <g fill="{copper_c}">
+    <circle cx="{fmt(dx)}" cy="{fmt(dy)}" r="6.5"/>
+    <circle cx="{fmt(ex)}" cy="{fmt(ey)}" r="6.5"/>
+  </g>
+  <g fill="{ink_c}" aria-hidden="true">
+    {monogram(100.0)}
   </g>
 </svg>
 '''
@@ -233,6 +251,35 @@ def build_lockup(ink: str, copper: str, mono: bool = False) -> str:
 '''
 
 
+def build_lockup_compact(ink: str, copper: str, mono: bool = False) -> str:
+    """Kompaktni lockup za male veličine: znak + ALEKOM, bez sitnog teksta."""
+    ink_c = "currentColor" if mono else ink
+    copper_c = "currentColor" if mono else copper
+    name, name_w = line_text("ALEKOM", 23.0, 0.09)
+
+    mark, gap = 40.0, 12.0
+    text_x = mark + gap
+    width = text_x + name_w + 1
+    height = 42.0
+    ms = mark / 200.0
+
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {fmt(width)} {fmt(height)}" role="img" aria-labelledby="lc">
+  <title id="lc">Tapetarija Alekom</title>
+  <g transform="translate(0 {fmt((height - mark) / 2)}) scale({fmt(ms)})">
+    <circle cx="100" cy="100" r="89" fill="none" stroke="{ink_c}" stroke-width="11"/>
+    <g fill="{copper_c}">
+      <circle cx="{fmt(polar(90, 74)[0])}" cy="{fmt(polar(90, 74)[1])}" r="6.5"/>
+      <circle cx="{fmt(polar(-90, 74)[0])}" cy="{fmt(polar(-90, 74)[1])}" r="6.5"/>
+    </g>
+    <g fill="{ink_c}">{monogram(100.0)}</g>
+  </g>
+  <g fill="{ink_c}" aria-hidden="true" transform="translate({fmt(text_x)} {fmt(height / 2 + 8.0)})">
+    {name}
+  </g>
+</svg>
+'''
+
+
 OUT = "/workspace/public/logo"
 os.makedirs(OUT, exist_ok=True)
 
@@ -246,15 +293,14 @@ files = {
     "alekom-lockup.svg": build_lockup(INK_DARK, COPPER),
     "alekom-lockup-dark.svg": build_lockup(INK_LIGHT, COPPER),
     "alekom-lockup-mono.svg": build_lockup(INK_DARK, COPPER, mono=True),
-    "favicon.svg": build_mark(INK_DARK, COPPER),
-    "favicon-tiny.svg": build_mark_tiny(INK_DARK),
-    "favicon-tiny-dark.svg": build_mark_tiny(INK_LIGHT),
+    "alekom-lockup-compact.svg": build_lockup_compact(INK_DARK, COPPER),
+    "alekom-lockup-compact-dark.svg": build_lockup_compact(INK_LIGHT, COPPER),
+    "alekom-mark-32.svg": build_mark_32(INK_DARK, COPPER),
+    "alekom-mark-32-dark.svg": build_mark_32(INK_LIGHT, COPPER),
+    "alekom-mark-16.svg": build_mark_16(INK_DARK),
+    "alekom-mark-16-dark.svg": build_mark_16(INK_LIGHT),
+    "favicon.svg": build_mark_32(INK_DARK, COPPER),
 }
-
-# druga opcija monograma, za poređenje pre finalizacije
-MONO_VARIANT = "italic_wonk0"
-files["alekom-seal-alt-a.svg"] = build_seal(INK_DARK, COPPER)
-MONO_VARIANT = "italic_wonk1"
 
 for name, svg in files.items():
     with open(os.path.join(OUT, name), "w", encoding="utf-8") as fh:

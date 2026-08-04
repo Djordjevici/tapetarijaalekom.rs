@@ -25,7 +25,7 @@ upem = 2000
 out = {'upem': upem}
 
 # Roman for arc text — 500 weight, display optical size
-roman = inst(ROMAN, opsz=48, wght=500, SOFT=0, WONK=0)
+roman = inst(ROMAN, opsz=48, wght=560, SOFT=0, WONK=0)
 out['roman'] = {c: glyph_data(roman, c) for c in 'ALEKOMTPRIJ'}
 
 # Italic A variants for the monogram

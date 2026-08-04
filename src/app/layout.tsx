@@ -1,0 +1,86 @@
+import type { Metadata, Viewport } from "next";
+import { Fraunces, Manrope } from "next/font/google";
+
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import FloatingContact from "@/components/layout/FloatingContact";
+import MobileActionBar from "@/components/layout/MobileActionBar";
+import CookieConsent from "@/components/layout/CookieConsent";
+import { site } from "@/data/site";
+import { localBusinessSchema, meta } from "@/lib/seo";
+
+import "./globals.css";
+
+const display = Fraunces({
+  subsets: ["latin-ext"],
+  style: ["normal", "italic"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const body = Manrope({
+  subsets: ["latin-ext"],
+  weight: ["400", "500", "600"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
+  ...meta({
+    title: "Tapetarija Alekom — presvlačenje nameštaja, Novi Sad",
+    description:
+      "Tapetarska radionica u Petrovaradinu od 2006. Presvlačenje kauča, fotelja i stolica, restauracija stilskog nameštaja i šivenje po meri. Pošaljite fotografiju i zatražite procenu.",
+  }),
+  icons: {
+    icon: [
+      { url: "/logo/alekom-mark-16.svg", sizes: "16x16", type: "image/svg+xml" },
+      { url: "/logo/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/logo/alekom-mark.svg",
+  },
+  manifest: "/manifest.webmanifest",
+  robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#1C2F2A",
+  colorScheme: "light",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="sr-Latn-RS" className={`${display.variable} ${body.variable}`}>
+      <body className="bez-js">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessSchema()),
+          }}
+        />
+        {/* Skida oznaku bez-js pre prvog slikanja, da reveal ne bljesne. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.body.classList.remove('bez-js')`,
+          }}
+        />
+
+        <a
+          href="#sadrzaj"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-sumrak focus:px-4 focus:py-2 focus:text-platno"
+        >
+          Preskoči na sadržaj
+        </a>
+
+        <Header />
+        <main id="sadrzaj">{children}</main>
+        <Footer />
+        <FloatingContact />
+        <MobileActionBar />
+        <CookieConsent />
+      </body>
+    </html>
+  );
+}
