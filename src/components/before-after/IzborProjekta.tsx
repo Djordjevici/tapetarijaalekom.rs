@@ -1,8 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 import PrePosle from "./PrePosle";
+import { img } from "@/data/images";
 import type { Project } from "@/types";
 
 /**
@@ -77,24 +79,47 @@ export default function IzborProjekta({
           <div
             role="tablist"
             aria-label="Izbor projekta"
-            className="mt-8 flex flex-wrap gap-2"
+            className="mt-8 grid grid-cols-3 gap-2.5"
           >
-            {projekti.map((proj, i) => (
-              <button
-                key={proj.slug}
-                type="button"
-                role="tab"
-                aria-selected={i === aktivan}
-                onClick={() => setAktivan(i)}
-                className={`min-h-[44px] px-4 text-[0.8rem] font-semibold transition-colors duration-300 ${
-                  i === aktivan
-                    ? "border border-bakar text-bakar-svetli"
-                    : "border border-linija-tamna text-mist-2 hover:text-platno"
-                }`}
-              >
-                {proj.shortTitle}
-              </button>
-            ))}
+            {projekti.map((proj, i) => {
+              const minijatura = img(proj.afterImage);
+              const aktivna = i === aktivan;
+              return (
+                <button
+                  key={proj.slug}
+                  type="button"
+                  role="tab"
+                  aria-selected={aktivna}
+                  onClick={() => setAktivan(i)}
+                  className={`group relative overflow-hidden rounded-slika border transition-colors duration-300 ${
+                    aktivna
+                      ? "border-bakar"
+                      : "border-linija-tamna hover:border-mist-3"
+                  }`}
+                >
+                  <div className="relative aspect-[4/3]">
+                    <Image
+                      src={minijatura.src}
+                      alt=""
+                      width={minijatura.width}
+                      height={minijatura.height}
+                      sizes="140px"
+                      className="h-full w-full object-cover"
+                    />
+                    <div
+                      className={`absolute inset-0 transition-colors duration-300 ${
+                        aktivna
+                          ? "bg-ugljen/0"
+                          : "bg-ugljen/45 group-hover:bg-ugljen/20"
+                      }`}
+                    />
+                  </div>
+                  <span className="absolute inset-x-0 bottom-0 bg-ugljen/80 px-2 py-1.5 text-left text-[0.72rem] font-semibold text-platno">
+                    {proj.shortTitle}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         )}
       </div>

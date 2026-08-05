@@ -53,7 +53,8 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="sr-Latn-RS" className={`${display.variable} ${body.variable}`}>
-      <body className="bez-js">
+      {/* suppressHydrationWarning: className se namerno menja inline skriptom ispod pre hidratacije */}
+      <body className="bez-js" suppressHydrationWarning>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
