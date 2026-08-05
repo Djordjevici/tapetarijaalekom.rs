@@ -3,46 +3,105 @@
 **Ništa od ovoga nije izvršeno.** DNS nije menjan i produkcioni deploy nije
 rađen — čeka se odobrenje.
 
+Sajt se hostuje samostalno, na Hetzner VM-u (Linux), ne na Vercelu.
+
 ---
 
-## 1. Vercel
+## 1. Server: Hetzner VM (Docker + Caddy)
+
+Pretpostavka: Ubuntu 22.04/24.04 VM na Hetzneru, SSH pristup sa `sudo`.
+
+### Jednokratno podešavanje servera
 
 ```bash
-npm i -g vercel
-vercel link
-vercel        # preview
-vercel --prod # produkcija, tek po odobrenju
+# na serveru
+sudo apt update && sudo apt upgrade -y
+curl -fsSL https://get.docker.com | sudo sh
+sudo usermod -aG docker $USER   # ponovo se ulogovati posle ovoga
+
+sudo apt install -y ufw
+sudo ufw allow OpenSSH
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw enable
 ```
 
-Ili preko Vercel dashboarda: import GitHub repozitorijuma, framework se
-prepoznaje sam (Next.js), bez dodatnih podešavanja build komande.
+### Prvi deploy
 
-## 2. Domen: Loopia → Vercel
+```bash
+# na serveru
+git clone https://github.com/Djordjevici/tapetarijaalekom.rs.git
+cd tapetarijaalekom.rs
+cp .env.example .env.production
+nano .env.production   # popuniti prave vrednosti — vidi odeljke 3 i 4 ispod
 
-Domen `tapetarijaalekom.rs` je registrovan preko Loopia. Sajt ne mora biti
-hostovan tamo — dovoljno je usmeriti DNS na Vercel.
+docker compose build
+docker compose up -d
+```
+
+`docker-compose.yml` pokreće dva kontejnera:
+
+- **`sajt`** — Next.js u samostalnom (`standalone`) režimu, sluša interno na
+  portu 3000, nije direktno izložen internetu
+- **`caddy`** — reverse proxy na portovima 80/443, sam izdaje i obnavlja
+  Let's Encrypt sertifikat za `tapetarijaalekom.rs` i `www.tapetarijaalekom.rs`
+  (domeni su već upisani u `Caddyfile`)
+
+### Ažuriranje posle izmena u kodu
+
+```bash
+cd tapetarijaalekom.rs
+git pull
+docker compose build
+docker compose up -d
+docker image prune -f   # briše stare slojeve slike
+```
+
+Kratak prekid u radu je moguć u trenutku zamene kontejnera (par sekundi);
+za deploy bez prekida trebalo bi dodati drugi `sajt` kontejner i preusmeriti
+Caddy tek kad je zdrav (van obima ovog dokumenta dok sajt ne dobije značajniji
+saobraćaj).
+
+### Provera da je sve živo
+
+```bash
+docker compose ps
+docker compose logs -f sajt
+curl -I https://tapetarijaalekom.rs
+```
+
+### Alternativa bez Dockera
+
+Ako se ipak ne koristi Docker: `npm ci && npm run build`, pa pokrenuti
+`.next/standalone/server.js` (posle kopiranja `public/` i `.next/static/` u
+taj folder — tačno ono što `Dockerfile` radi) pod `systemd` servisom, i
+staviti `nginx` ili `caddy` ispred njega kao reverse proxy sa TLS-om.
+`Dockerfile` je referenca za tačan redosled koraka builda.
+
+## 2. Domen: Loopia → Hetzner
+
+Domen `tapetarijaalekom.rs` je registrovan preko Loopia.
 
 **Postojeća „Uskoro" strana ostaje aktivna sve do prebacivanja.**
 
 ### Koraci
 
-1. U Vercelu: Project → Settings → Domains → dodaj `tapetarijaalekom.rs` i
-   `www.tapetarijaalekom.rs`. Vercel prikaže tačne vrednosti zapisa.
-2. U Loopia panelu (DNS zapisi za domen):
+1. U Loopia panelu (DNS zapisi za domen), usmeriti oba zapisa direktno na IP
+   Hetzner servera:
 
    | Tip | Ime | Vrednost |
    |---|---|---|
-   | `A` | `@` | `76.76.21.21` |
-   | `CNAME` | `www` | `cname.vercel-dns.com` |
+   | `A` | `@` | `<javni IP Hetzner servera>` |
+   | `A` | `www` | `<javni IP Hetzner servera>` |
 
-   Vrednosti **uvek proveriti u Vercel panelu** — Vercel ih može promeniti.
-3. Ako Loopia već ima `A` ili `CNAME` za `@` i `www` (stara coming-soon
+   (Ako se koristi Hetzner IPv6, dodati i odgovarajuće `AAAA` zapise.)
+2. Ako Loopia već ima `A`/`CNAME` zapise za `@` i `www` (stara coming-soon
    strana), te zapise treba zameniti, ne dodavati uz postojeće.
-4. Sačekati propagaciju (obično do nekoliko časova) i u Vercelu proveriti da
-   domen ima status *Valid Configuration*.
-5. Vercel sam izdaje SSL sertifikat.
-6. Podesiti preusmerenje `www` → bez `www` (ili obrnuto), da ne postoje dve
-   verzije sajta za Google.
+3. Sačekati propagaciju (obično do nekoliko časova).
+4. Caddy na serveru sam izdaje SSL sertifikat čim DNS pokazuje na njega — nema
+   ručnog koraka za sertifikat.
+5. Redirekcija `www` → bez `www` je već podešena u `Caddyfile`, da ne postoje
+   dve verzije sajta za Google.
 
 ### Posle prebacivanja
 
@@ -53,8 +112,9 @@ hostovan tamo — dovoljno je usmeriti DNS na Vercel.
 ## 3. Forma za upit
 
 Forma je u potpunosti napravljena — validacija, upload sa kompresijom na
-klijentu, stanja slanja, greške i uspeh. **Ne obrađuje lične podatke** dok se
-ne uključi izričito.
+klijentu, stanja slanja, greške i uspeh. Slanje preko Resend-a je **već
+implementirano** u `src/app/api/upit/route.ts`. **Ne obrađuje lične podatke**
+dok se ne uključi izričito.
 
 ### Trenutno stanje
 
@@ -68,7 +128,7 @@ ne uključi izričito.
 
 1. Registruj domen `tapetarijaalekom.rs` u [Resend](https://resend.com) i
    dodaj DKIM/SPF zapise u Loopia
-2. Environment varijable u Vercelu:
+2. U `.env.production` na serveru:
 
    ```
    RESEND_API_KEY=re_…
@@ -76,14 +136,20 @@ ne uključi izričito.
    NEXT_PUBLIC_CONTACT_FORM_ENABLED=true
    ```
 
-3. U `src/app/api/upit/route.ts` implementirati poziv Resend-a na mestu koje je
-   označeno komentarom. Validacija, provera tipa i veličine fajlova su već tu.
+   (`CONTACT_FROM_EMAIL` je opciono — podrazumevano je
+   `Tapetarija Alekom <upiti@tapetarijaalekom.rs>`; ta adresa mora biti na
+   domenu potvrđenom u koraku 1.)
+3. `docker compose up -d` da se izmena env fajla primeni (kontejner mora da se
+   restartuje da pokupi nove vrednosti).
 4. **Pre uključivanja** popuniti politiku privatnosti — vidi
    `PODACI-ZA-POTVRDU.md`, tačke 2–7.
 
-### Fotografije u poruci
+Ruta validira polja, tip i veličinu fajlova, šalje email preko Resend-a sa
+fotografijama kao prilozima, i postavlja `replyTo` na email upitioca ako ga je
+ostavio. Greške Resend-a se beleže u server log **bez** ličnih podataka iz
+upita (samo poruka o grešci).
 
-Ograničenja su usklađena sa serverless rutom:
+### Fotografije u poruci
 
 - najviše 5 fotografija
 - do 4 MB po fotografiji **posle** kompresije na klijentu
@@ -91,15 +157,13 @@ Ograničenja su usklađena sa serverless rutom:
 - dozvoljeno: JPG, PNG, WebP
 
 Fotografije sa telefona se automatski smanjuju na 1600 px duže strane pre
-slanja, jer bi originali od 8–12 MB probili limit.
+slanja, jer bi originali od 8–12 MB probili limit. Resend prihvata priloge do
+40 MB po emailu, tako da 12 MB ukupno ostaje sa velikom rezervom.
 
 **HEIC nije podržan.** Da bi radio, treba proveriti ceo tok — izbor fajla,
 validaciju, preview, upload i otvaranje priloga kod primaoca — pa se dodaje
 kasnije kao posebno testirana funkcija. iPhone po podrazumevanim
 podešavanjima deli fotografije kao JPEG, pa u praksi ovo retko pravi problem.
-
-Ako prilozi budu problem za email, alternativa je upload na storage
-(Vercel Blob ili S3) i slanje linkova u poruci.
 
 ## 4. Analitika
 
@@ -148,3 +212,6 @@ Ručno proveriti:
 - [ ] Nijedan demonstracioni projekat nije javno vidljiv
 - [ ] Google Business profil dopunjen — vidi `GOOGLE-PROFIL.md`
 - [ ] Telefon, adresa i naziv identični na sajtu, Google profilu i imenicima
+- [ ] `.env.production` na serveru ima prave vrednosti, ne primere iz
+      `.env.example`
+- [ ] `docker compose ps` pokazuje oba kontejnera zdrava (`healthy`/`Up`)

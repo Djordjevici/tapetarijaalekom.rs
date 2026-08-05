@@ -2,7 +2,7 @@
 
 Sajt Tapetarije Alekom — tapetarska radionica u Petrovaradinu, Novi Sad.
 
-**Stack:** Next.js 15 (App Router) · TypeScript · Tailwind CSS · Vercel
+**Stack:** Next.js 15 (App Router) · TypeScript · Tailwind CSS · Docker + Caddy na Hetzner VM-u
 
 ---
 
@@ -173,7 +173,7 @@ Za oba treba pokrenut server (`npm run start` na portu 3210, odnosno
 
 ## Dalje
 
-- `DEPLOY.md` — domen, Vercel, forma, analitika
+- `DEPLOY.md` — domen, Hetzner server, forma, analitika
 - `PODACI-ZA-POTVRDU.md` — sve što klijent mora da potvrdi pre lansiranja
 - `GOOGLE-PROFIL.md` — preporuke za Google Business profil
 - `DIZAJN.md` — vizuelni sistem, tokeni, animacije

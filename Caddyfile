@@ -1,0 +1,9 @@
+# Caddy sam izdaje i obnavlja Let's Encrypt sertifikate za oba domena.
+
+www.tapetarijaalekom.rs {
+	redir https://tapetarijaalekom.rs{uri} 308
+}
+
+tapetarijaalekom.rs {
+	reverse_proxy sajt:3000
+}
