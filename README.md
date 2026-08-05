@@ -80,8 +80,8 @@ export const flags = {
   extendedServiceArea: false, // šire područje rada
   showPrices: false,     // prikaz cena
   reviews: false,        // sekcija recenzija
-  beforeAfter: false,    // sekcija pre/posle
-  worksInNav: false,     // link /radovi u navigaciji i sitemap-u
+  beforeAfter: true,     // sekcija pre/posle (demo dok nema pravih foto)
+  worksInNav: true,      // link „Pre i posle" u navigaciji
 };
 ```
 
@@ -116,8 +116,9 @@ Komponente se pri tome ne diraju.
 }
 ```
 
-Kada bude **najmanje 2–3 prava para**, uključi `flags.beforeAfter` i
-`flags.worksInNav`.
+Kada stignu **najmanje 2–3 prava para**, stavi `isPlaceholder: false`,
+isključi `flags.showPlaceholderProjects`, a `beforeAfter` / `worksInNav`
+ostavi uključene.
 
 ### Dodavanje recenzije
 

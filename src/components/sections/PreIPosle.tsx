@@ -7,14 +7,13 @@ import { visibleProjects } from "@/data/projects";
 /**
  * Pre i posle.
  *
- * Sekcija se ne renderuje dok nema autentičnih parova fotografija — bez
- * praznog prostora i bez linka u navigaciji. Uključuje se flags.beforeAfter
- * kada bude najmanje 2–3 prava para.
+ * Sekcija se renderuje kada je flags.beforeAfter uključen i postoje vidljivi
+ * projekti (pravi ili demonstracioni preko showPlaceholderProjects).
+ * Link u navigaciji: „Pre i posle" → /#radovi.
  */
 export default function PreIPosle() {
   const projekti = visibleProjects(flags.showPlaceholderProjects);
-  if (!projekti.length) return null;
-  if (!flags.beforeAfter && !flags.showPlaceholderProjects) return null;
+  if (!projekti.length || !flags.beforeAfter) return null;
 
   return (
     <Sekcija id="radovi" podloga="ugljen">

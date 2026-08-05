@@ -14,7 +14,7 @@
   html {
     scroll-behavior: smooth;
     /* fiksni header ne sme da prekrije odredište kotve */
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 7.5rem;
     -webkit-text-size-adjust: 100%;
     /* clip, ne hidden: hidden bi napravio scroll kontejner i pokvario sticky */
     overflow-x: clip;

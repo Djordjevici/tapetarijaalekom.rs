@@ -29,7 +29,7 @@ export default function Header() {
             : "border-b border-transparent bg-gradient-to-b from-ugljen/60 to-transparent"
         }`}
       >
-        <div className="sadrzaj flex items-center justify-between gap-4 py-3.5">
+        <div className="sadrzaj flex items-center justify-between gap-5 py-4 lg:py-5">
           <Link
             href="/"
             aria-label={`${site.name} — početna`}
@@ -39,28 +39,28 @@ export default function Header() {
             <Image
               src="/logo/alekom-lockup-dark.svg"
               alt={site.name}
-              width={196}
-              height={62}
+              width={248}
+              height={78}
               priority
-              className="hidden h-9 w-auto sm:block"
+              className="hidden h-11 w-auto md:h-12 lg:h-[3.35rem] sm:block"
             />
             <Image
               src="/logo/alekom-lockup-compact-dark.svg"
               alt={site.name}
-              width={158}
-              height={42}
+              width={168}
+              height={44}
               priority
-              className="h-7 w-auto sm:hidden"
+              className="h-8 w-auto sm:hidden"
             />
           </Link>
 
           <nav aria-label="Glavna navigacija" className="hidden lg:block">
-            <ul className="flex items-center gap-8 text-malo text-mist-2">
+            <ul className="flex items-center gap-10 text-[0.95rem] tracking-wide text-mist-2">
               {linkovi.map((l) => (
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className="relative py-2 transition-colors duration-300 hover:text-platno"
+                    className="relative py-2.5 transition-colors duration-300 hover:text-platno"
                   >
                     {l.label}
                   </Link>
@@ -69,16 +69,16 @@ export default function Header() {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <a
               href="#procena"
-              className="hidden border border-mist-3 px-5 py-3 text-malo font-semibold text-platno transition-colors duration-300 hover:border-bakar hover:text-bakar-svetli md:inline-flex"
+              className="hidden border border-mist-3 px-5 py-3.5 text-[0.9rem] font-semibold text-platno transition-colors duration-300 hover:border-bakar hover:text-bakar-svetli md:inline-flex"
             >
               Pošaljite fotografiju
             </a>
             <a
               href={telLink}
-              className="inline-flex min-h-[44px] items-center bg-bakar-dugme px-4 py-3 text-malo font-semibold text-white transition-colors duration-300 hover:bg-bakar-dugme-hover sm:px-5"
+              className="inline-flex min-h-[48px] items-center bg-bakar-dugme px-4 py-3.5 text-[0.9rem] font-semibold text-white transition-colors duration-300 hover:bg-bakar-dugme-hover sm:px-5"
             >
               <span className="sm:hidden">Pozovite</span>
               <span className="hidden sm:inline">{site.phone.display}</span>
@@ -88,7 +88,7 @@ export default function Header() {
               onClick={() => setOtvoren(true)}
               aria-label="Otvorite meni"
               aria-expanded={otvoren}
-              className="ml-1 grid h-11 w-11 place-items-center text-platno lg:hidden"
+              className="ml-1 grid h-12 w-12 place-items-center text-platno lg:hidden"
             >
               <span aria-hidden className="grid gap-[5px]">
                 <span className="block h-px w-6 bg-current" />

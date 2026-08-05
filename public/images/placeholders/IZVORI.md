@@ -39,10 +39,10 @@ a dva odvojena snimka se nikada ne poklapaju piksel u piksel.
 
 - Svaki projekat u `src/data/projects.ts` ima `isPlaceholder: true`
 - U produkciji se takvi projekti **ne prikazuju** —
-  `flags.showPlaceholderProjects` je aktivan samo van produkcije
-- U internom pregledu nose vidljivu oznaku **„Demonstracioni sadržaj"**
-- Cela sekcija pre/posle je iza `flags.beforeAfter`, koji ostaje isključen do
-  najmanje 2–3 autentična para
+  `flags.showPlaceholderProjects` je trenutno uključen radi pregleda dizajna
+- Nose vidljivu oznaku **„Demonstracioni sadržaj"**
+- Sekcija pre/posle (`flags.beforeAfter`) je uključena za pregled — pred
+  lansiranje sa pravim fotografijama isključiti demo projekte
 - Nigde ne postoji natpis koji tvrdi da je nešto izveden rad
 
 ## Zamena pravim fotografijama

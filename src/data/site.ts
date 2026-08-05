@@ -92,11 +92,16 @@ export const flags = {
 
   // sekcije
   reviews: false,
-  beforeAfter: false,
-  worksInNav: false,
+  /** Uključeno radi pregleda — isključiti pred lansiranje ako nema pravih fotografija. */
+  beforeAfter: true,
+  worksInNav: true,
 
-  /** Demonstracioni projekti se u produkciji nikada ne prikazuju. */
-  showPlaceholderProjects: process.env.NODE_ENV !== "production",
+  /**
+   * Demonstracioni projekti (označeni „Demonstracioni sadržaj").
+   * Uključeno dok stignu prave fotografije iz radionice — tada staviti false
+   * i flags.beforeAfter ostaviti true samo sa pravim parovima.
+   */
+  showPlaceholderProjects: true,
 } as const;
 
 /** Forma obrađuje lične podatke samo kada je izričito uključena. */
@@ -113,7 +118,7 @@ export const mailLink = `mailto:${site.email}`;
 
 export const nav = [
   { label: "Usluge", href: "/usluge" },
-  { label: "Radovi", href: "/radovi", flag: "worksInNav" as const },
+  { label: "Pre i posle", href: "/#radovi", flag: "worksInNav" as const },
   { label: "Kontakt", href: "/kontakt" },
 ] as const;
 
