@@ -38,13 +38,13 @@ src/
   lib/                 SEO i schema
   types/               tipovi
 public/
-  logo/                logotip, sve varijante + preview.html
+  logo/                logotip, sve varijante (SVG + PNG ikone)
+  icons/               rasterizovane app ikone (apple-touch, manifest)
   images/placeholders/ PRIVREMENE fotografije
 tools/
-  logo/                skript za generisanje logotipa
+  logo/                skript za generisanje logotipa, preview.html, reference/
   snimci.py            full-page snimci sajta
   provera-klizaca.py   provera klizača pre/posle
-landing-page/          stara „Uskoro" strana, zadržana kao referenca
 ```
 
 ## Gde se šta menja
@@ -143,7 +143,8 @@ ostavi uključene.
 
 ## Logotip
 
-Sve varijante su u `public/logo/`. Pregled: otvori `public/logo/preview.html`.
+Sve varijante su u `public/logo/`. Pregled (dev-only, nije deo sajta): otvori
+`tools/logo/preview.html`.
 
 | Fajl | Kada |
 |---|---|

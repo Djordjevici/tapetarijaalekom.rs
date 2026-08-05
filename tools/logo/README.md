@@ -41,7 +41,9 @@ python3 tools/logo/build-logo.py
 | `favicon-tiny.svg` | Samo prsten i monogram, za 16 px |
 | `favicon-tiny-dark.svg` | Isto, za tamnu podlogu |
 
-`reference/` sadrži originalne PNG fajlove kao referencu za poređenje.
+`tools/logo/reference/` sadrži originalne PNG fajlove kao referencu za
+poređenje. Svesno nisu u `public/` — to su interni radni fajlovi, ne treba da
+budu javno dostupni na sajtu.
 
 ## Podešavanje
 
@@ -70,8 +72,9 @@ fontu. Petlja se može docrtati ručno ako se tako odluči.
 
 ## Pregled
 
-`public/logo/preview.html` — poređenje sa originalom, svetla i tamna podloga,
-jednobojna verzija, favicon veličine, i simulacija headera.
+`tools/logo/preview.html` — poređenje sa originalom, svetla i tamna podloga,
+jednobojna verzija, favicon veličine, i simulacija headera. Otvoriti direktno
+u pregledaču (`open tools/logo/preview.html`); nije deo sajta.
 
 ## Rasterizovane app ikone
 
