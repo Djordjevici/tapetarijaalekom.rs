@@ -7,7 +7,7 @@ import { services } from "@/data/services";
 
 const MAX_SLIKA = 5;
 const MAX_PO_SLICI = 4 * 1024 * 1024; // 4 MB posle kompresije na klijentu
-const MAX_UKUPNO = 12 * 1024 * 1024; // ograničenje serverless zahteva
+const MAX_UKUPNO = 12 * 1024 * 1024; // mora se poklapati sa ograničenjem u src/app/api/upit/route.ts
 const TIPOVI = ["image/jpeg", "image/png", "image/webp"];
 
 type Stanje = "mirno" | "slanje" | "uspeh" | "greska";
