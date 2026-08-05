@@ -72,3 +72,18 @@ fontu. Petlja se može docrtati ručno ako se tako odluči.
 
 `public/logo/preview.html` — poređenje sa originalom, svetla i tamna podloga,
 jednobojna verzija, favicon veličine, i simulacija headera.
+
+## Rasterizovane app ikone
+
+iOS Safari ne rasterizuje SVG za `apple-touch-icon`, a deo Android/Chromium
+implementacija web manifesta i dalje očekuje PNG. Zato pored SVG-ova postoje i
+rasterizovane verzije, generisane iz `alekom-mark.svg`:
+
+```bash
+node tools/logo/gen-app-icons.js
+```
+
+Piše u `public/icons/`: `apple-touch-icon.png` (180×180), `icon-192.png`,
+`icon-512.png` (manifest, `purpose: any`) i `icon-maskable-512.png` (manifest,
+`purpose: maskable`, monogram uvučen u bezbednu zonu). Pokrenuti ponovo ako se
+`alekom-mark.svg` promeni.

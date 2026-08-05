@@ -7,7 +7,7 @@ import FloatingContact from "@/components/layout/FloatingContact";
 import MobileActionBar from "@/components/layout/MobileActionBar";
 import CookieConsent from "@/components/layout/CookieConsent";
 import { site } from "@/data/site";
-import { localBusinessSchema, meta } from "@/lib/seo";
+import { localBusinessSchema, meta, websiteSchema } from "@/lib/seo";
 
 import "./globals.css";
 
@@ -30,14 +30,17 @@ export const metadata: Metadata = {
   ...meta({
     title: "Tapetarija Alekom — presvlačenje nameštaja, Novi Sad",
     description:
-      "Tapetarska radionica u Petrovaradinu od 2006. Presvlačenje kauča, fotelja i stolica, restauracija stilskog nameštaja i šivenje po meri. Pošaljite fotografiju i zatražite procenu.",
+      "Tapetarska radionica u Petrovaradinu od 2006. Presvlačenje kauča, fotelja i stolica, restauracija i šivenje po meri. Pošaljite fotografiju i zatražite procenu.",
   }),
   icons: {
     icon: [
       { url: "/logo/alekom-mark-16.svg", sizes: "16x16", type: "image/svg+xml" },
       { url: "/logo/favicon.svg", type: "image/svg+xml" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
-    apple: "/logo/alekom-mark.svg",
+    // Safari na iOS ne rasterizuje SVG za apple-touch-icon — mora PNG.
+    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   manifest: "/manifest.webmanifest",
   robots: { index: true, follow: true },
@@ -58,7 +61,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(localBusinessSchema()),
+            __html: JSON.stringify([localBusinessSchema(), websiteSchema()]),
           }}
         />
         {/* Skida oznaku bez-js pre prvog slikanja, da reveal ne bljesne. */}

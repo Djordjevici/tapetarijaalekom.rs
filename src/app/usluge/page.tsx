@@ -9,9 +9,9 @@ import { services } from "@/data/services";
 import { breadcrumbSchema, meta, serviceSchema } from "@/lib/seo";
 
 export const metadata: Metadata = meta({
-  title: "Usluge — presvlačenje i tapaciranje nameštaja | Tapetarija Alekom",
+  title: "Usluge presvlačenja i tapaciranja nameštaja | Tapetarija Alekom",
   description:
-    "Presvlačenje kauča, fotelja i stolica, kožni nameštaj, restauracija stilskih komada, tapaciranje za kafiće i restorane, baštenski program i šivenje po meri. Novi Sad i Petrovaradin.",
+    "Presvlačenje kauča, fotelja i stolica, kožni i stilski nameštaj, tapaciranje za kafiće, baštenski program i šivenje po meri. Novi Sad i Petrovaradin.",
   path: "/usluge",
 });
 

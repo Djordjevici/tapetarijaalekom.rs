@@ -14,8 +14,15 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#1C2F2A",
     lang: "sr-Latn-RS",
     icons: [
-      { src: "/logo/favicon.svg", sizes: "any", type: "image/svg+xml" },
-      { src: "/logo/alekom-mark.svg", sizes: "512x512", type: "image/svg+xml" },
+      { src: "/logo/favicon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
+      { src: "/icons/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: "/icons/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+      {
+        src: "/icons/icon-maskable-512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "maskable",
+      },
     ],
   };
 }

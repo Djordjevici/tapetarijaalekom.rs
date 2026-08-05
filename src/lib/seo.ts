@@ -91,6 +91,19 @@ export function localBusinessSchema() {
   return schema;
 }
 
+/** WebSite entitet, odvojen od LocalBusiness — pomaže Google-u da poveže naziv sajta sa domenom. */
+export function websiteSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${site.url}#sajt`,
+    name: site.name,
+    url: site.url,
+    inLanguage: "sr-RS",
+    publisher: { "@id": `${site.url}#radnja` },
+  };
+}
+
 export function faqSchema(items: readonly { question: string; answer: string }[]) {
   return {
     "@context": "https://schema.org",
