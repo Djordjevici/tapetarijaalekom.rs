@@ -17,9 +17,8 @@ export const metadata: Metadata = {
 /**
  * NACRT politike privatnosti.
  *
- * Tekst mora biti pravno pregledan i sva mesta u uglastim zagradama popunjena
- * pre nego što se forma uključi u produkciji. Napomena o tome je namerno u
- * dokumentaciji (PODACI-ZA-POTVRDU.md), ne na javnoj stranici.
+ * Poslovni podaci i tok obrade su popunjeni. Tekst i predloženi rok čuvanja od
+ * 12 meseci mora pravno da se pregleda pre produkcionog uključivanja forme.
  */
 export default function PolitikaPrivatnosti() {
   return (
@@ -28,18 +27,24 @@ export default function PolitikaPrivatnosti() {
         <div className="max-w-2xl">
           <h1 className="text-h2">Politika privatnosti</h1>
           <p className="mt-4 text-malo text-ink-3">
-            Poslednje ažuriranje: [DATUM AŽURIRANJA]
+            Poslednje ažuriranje: 19. avgust 2026.
           </p>
 
           <div className="mt-10 grid gap-9 text-body text-ink-2 [&_h2]:text-[1.14rem] [&_h2]:text-ink [&_p]:mt-2.5 [&_ul]:mt-2.5 [&_ul]:grid [&_ul]:gap-1.5 [&_ul]:pl-5 [&_li]:list-disc">
             <section>
               <h2>Ko upravlja vašim podacima</h2>
               <p>
-                Podacima upravlja [PUNI NAZIV PREDUZETNIKA ILI FIRME], sa
-                sedištem na adresi {site.address.full}, PIB [PIB], matični broj
-                [MATIČNI BROJ]. Za sva pitanja u vezi sa obradom podataka možete
-                nas kontaktirati na [EMAIL ZA PRIVATNOST] ili telefonom na{" "}
-                {site.phone.display}.
+                Podacima upravlja {site.legal.registeredName}, sa sedištem na
+                adresi {site.address.full}, PIB {site.legal.taxId}, matični broj{" "}
+                {site.legal.registrationNumber}. Za sva pitanja u vezi sa
+                obradom podataka možete nas kontaktirati na{" "}
+                <a
+                  href={`mailto:${site.privacyEmail}`}
+                  className="underline decoration-bakar underline-offset-2"
+                >
+                  {site.privacyEmail}
+                </a>{" "}
+                ili telefonom na {site.phone.display}.
               </p>
             </section>
 
@@ -51,6 +56,7 @@ export default function PolitikaPrivatnosti() {
                 <li>broj telefona;</li>
                 <li>email adresu, ako je unesete;</li>
                 <li>izabranu uslugu i opis komada koji ste napisali;</li>
+                <li>približne dimenzije, lokaciju i željeni rok, ako ih unesete;</li>
                 <li>željeni način kontakta;</li>
                 <li>fotografije koje priložite uz upit.</li>
               </ul>
@@ -67,8 +73,8 @@ export default function PolitikaPrivatnosti() {
                 procenili stanje komada i pripremili odgovor. Fotografije mogu
                 sadržati i podatke o okruženju u kom je komad snimljen, kao i
                 tehničke podatke zapisane u samom fajlu. Ne objavljujemo
-                priložene fotografije i ne koristimo ih za promociju bez vaše
-                izričite saglasnosti.
+                priložene fotografije i ne koristimo ih za portfolio, društvene
+                mreže ili marketing bez vaše posebne, dodatne saglasnosti.
               </p>
             </section>
 
@@ -98,9 +104,11 @@ export default function PolitikaPrivatnosti() {
                 marketinške svrhe. U tehničkoj obradi nam pomažu:
               </p>
               <ul>
-                <li>[HOSTING I EMAIL SERVISI] — smeštaj sajta i dostava poruka;</li>
+                <li>Vercel — hosting i tehnička isporuka sajta;</li>
+                <li>Resend — dostava upita na poslovnu email adresu;</li>
                 <li>
-                  [ANALITIKA — ako se aktivira] — anonimna statistika posećenosti.
+                  Google Analytics 4 — statistika posećenosti, samo ako je
+                  aktivirana i ako korisnik prethodno pristane.
                 </li>
               </ul>
               <p>
@@ -112,9 +120,10 @@ export default function PolitikaPrivatnosti() {
             <section>
               <h2>Koliko dugo čuvamo podatke</h2>
               <p>
-                Upite i priložene fotografije čuvamo [ROK ČUVANJA PODATAKA],
-                nakon čega ih brišemo. Ako od upita nastane posao, podatke
-                potrebne za evidenciju čuvamo u rokovima propisanim zakonom.
+                Upite i priložene fotografije čuvamo najduže{" "}
+                {site.privacyRetentionMonths} meseci, nakon čega ih brišemo. Ako
+                od upita nastane posao, podatke potrebne za evidenciju čuvamo u
+                rokovima propisanim zakonom.
               </p>
             </section>
 
@@ -133,7 +142,7 @@ export default function PolitikaPrivatnosti() {
                 </li>
               </ul>
               <p>
-                Zahtev nam pošaljite na [EMAIL ZA PRIVATNOST]. Odgovaramo u roku
+                Zahtev nam pošaljite na {site.privacyEmail}. Odgovaramo u roku
                 propisanom zakonom.
               </p>
             </section>

@@ -51,7 +51,7 @@ gtag('js',new Date());gtag('config','${analyticsId}',{anonymize_ip:true});`}
         <div
           role="region"
           aria-label="Obaveštenje o kolačićima"
-          className="fixed inset-x-3 bottom-3 z-[70] border border-linija-tamna bg-sumrak p-5 text-platno shadow-2xl md:inset-x-auto md:right-5 md:max-w-md"
+          className="fixed inset-x-3 bottom-20 z-[70] border border-linija-tamna bg-sumrak p-5 text-platno shadow-2xl md:inset-x-auto md:bottom-3 md:right-5 md:max-w-md"
         >
           <p className="text-malo leading-relaxed text-mist-2">
             Koristimo kolačiće za anonimnu statistiku posećenosti. Možete

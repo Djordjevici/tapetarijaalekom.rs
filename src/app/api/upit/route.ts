@@ -2,18 +2,58 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
 import { contactFormEnabled, site } from "@/data/site";
+import { services } from "@/data/services";
+
+export const runtime = "nodejs";
 
 const MAX_SLIKA = 5;
-const MAX_PO_SLICI = 4 * 1024 * 1024; // 4 MB po fotografiji, posle kompresije na klijentu
-const MAX_UKUPNO = 12 * 1024 * 1024; // razumna gornja granica zahteva, ispod Resend limita za priloge
+const MAX_PO_SLICI = 2 * 1024 * 1024;
+const MAX_UKUPNO = 4 * 1024 * 1024;
 const TIPOVI = new Set(["image/jpeg", "image/png", "image/webp"]);
+const KONTAKTI = new Set(["poziv", "sms", "viber", "email"]);
+const USLUGE = new Set([
+  ...services.map((s) => s.title),
+  "Drugo / nisam siguran",
+]);
 
 const NAZIVI_KONTAKTA: Record<string, string> = {
-  telefon: "Telefon",
+  poziv: "Poziv",
+  sms: "SMS",
   viber: "Viber",
-  whatsapp: "WhatsApp",
   email: "Email",
 };
+
+// Best-effort zaštita po instanci funkcije. Za stroži limit uključiti Vercel
+// Firewall/Rate Limiting, jer serverless instance ne dele memoriju.
+const zahtevi = new Map<string, { broj: number; reset: number }>();
+function previseZahteva(ip: string): boolean {
+  const sada = Date.now();
+  const prethodni = zahtevi.get(ip);
+  if (!prethodni || prethodni.reset < sada) {
+    zahtevi.set(ip, { broj: 1, reset: sada + 15 * 60 * 1000 });
+    return false;
+  }
+  prethodni.broj += 1;
+  return prethodni.broj > 5;
+}
+
+function potpisOdgovara(tip: string, bytes: Uint8Array): boolean {
+  if (tip === "image/jpeg")
+    return bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
+  if (tip === "image/png")
+    return (
+      bytes[0] === 0x89 &&
+      bytes[1] === 0x50 &&
+      bytes[2] === 0x4e &&
+      bytes[3] === 0x47
+    );
+  if (tip === "image/webp")
+    return (
+      String.fromCharCode(...bytes.slice(0, 4)) === "RIFF" &&
+      String.fromCharCode(...bytes.slice(8, 12)) === "WEBP"
+    );
+  return false;
+}
 
 /**
  * Prijem upita.
@@ -43,6 +83,26 @@ export async function POST(request: Request) {
     );
   }
 
+  const origin = request.headers.get("origin");
+  if (origin) {
+    try {
+      if (new URL(origin).host !== new URL(request.url).host) {
+        return NextResponse.json({ ok: false }, { status: 403 });
+      }
+    } catch {
+      return NextResponse.json({ ok: false }, { status: 403 });
+    }
+  }
+
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  if (previseZahteva(ip)) {
+    return NextResponse.json(
+      { ok: false, razlog: "previse-zahteva" },
+      { status: 429 },
+    );
+  }
+
   let forma: FormData;
   try {
     forma = await request.formData();
@@ -60,13 +120,35 @@ export async function POST(request: Request) {
   const email = String(forma.get("email") ?? "").trim();
   const usluga = String(forma.get("usluga") ?? "").trim();
   const opis = String(forma.get("opis") ?? "").trim();
+  const dimenzije = String(forma.get("dimenzije") ?? "").trim();
+  const lokacija = String(forma.get("lokacija") ?? "").trim();
+  const rok = String(forma.get("rok") ?? "").trim();
   const kontakt = String(forma.get("kontakt") ?? "").trim();
+  const pristanak = forma.get("pristanak") === "da";
 
-  if (ime.length < 2 || telefon.length < 8 || opis.length < 10) {
+  if (
+    ime.length < 2 ||
+    ime.length > 100 ||
+    !/^[+\d][\d\s/()-]{7,}$/.test(telefon) ||
+    telefon.length > 40 ||
+    (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) ||
+    !USLUGE.has(usluga) ||
+    opis.length < 10 ||
+    opis.length > 3000 ||
+    dimenzije.length > 200 ||
+    lokacija.length > 200 ||
+    rok.length > 200 ||
+    !KONTAKTI.has(kontakt) ||
+    (kontakt === "email" && !email) ||
+    !pristanak
+  ) {
     return NextResponse.json({ ok: false }, { status: 422 });
   }
 
   const slike = forma.getAll("slike").filter((v): v is File => v instanceof File);
+  if (slike.length < 1 || slike.length > MAX_SLIKA) {
+    return NextResponse.json({ ok: false }, { status: 422 });
+  }
   let ukupno = 0;
   for (const s of slike) {
     if (!TIPOVI.has(s.type)) {
@@ -75,9 +157,13 @@ export async function POST(request: Request) {
     if (s.size > MAX_PO_SLICI) {
       return NextResponse.json({ ok: false }, { status: 413 });
     }
+    const potpis = new Uint8Array(await s.slice(0, 12).arrayBuffer());
+    if (!potpisOdgovara(s.type, potpis)) {
+      return NextResponse.json({ ok: false }, { status: 415 });
+    }
     ukupno += s.size;
   }
-  if (slike.length > MAX_SLIKA || ukupno > MAX_UKUPNO) {
+  if (ukupno > MAX_UKUPNO) {
     return NextResponse.json({ ok: false }, { status: 413 });
   }
 
@@ -99,8 +185,11 @@ export async function POST(request: Request) {
       `Ime i prezime: ${ime}`,
       `Telefon: ${telefon}`,
       email ? `Email: ${email}` : null,
-      usluga ? `Usluga: ${usluga}` : null,
-      kontakt ? `Željeni kontakt: ${NAZIVI_KONTAKTA[kontakt] ?? kontakt}` : null,
+      `Usluga: ${usluga}`,
+      dimenzije ? `Približne dimenzije: ${dimenzije}` : null,
+      lokacija ? `Lokacija: ${lokacija}` : null,
+      rok ? `Željeni rok: ${rok}` : null,
+      `Željeni kontakt: ${NAZIVI_KONTAKTA[kontakt]}`,
       "",
       "Opis:",
       opis,
@@ -112,7 +201,7 @@ export async function POST(request: Request) {
       from: posiljalac,
       to: primalac,
       replyTo: email || undefined,
-      subject: `Novi upit sa sajta — ${ime}`,
+      subject: "Novi upit sa sajta",
       text: telo,
       attachments: prilozi.length ? prilozi : undefined,
     });

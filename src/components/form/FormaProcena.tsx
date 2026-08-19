@@ -2,12 +2,20 @@
 
 import { useRef, useState } from "react";
 
-import { contactFormEnabled, site, telLink, viberLink, whatsappLink, flags } from "@/data/site";
+import {
+  contactFormEnabled,
+  flags,
+  site,
+  telLink,
+  viberLink,
+  whatsappLink,
+} from "@/data/site";
 import { services } from "@/data/services";
 
 const MAX_SLIKA = 5;
-const MAX_PO_SLICI = 4 * 1024 * 1024; // 4 MB posle kompresije na klijentu
-const MAX_UKUPNO = 12 * 1024 * 1024; // mora se poklapati sa ograničenjem u src/app/api/upit/route.ts
+const MAX_PO_SLICI = 2 * 1024 * 1024;
+// Vercel Functions ima hard limit zahteva oko 4.5 MB; ostavljamo rezervu za multipart overhead.
+const MAX_UKUPNO = 4 * 1024 * 1024;
 const TIPOVI = ["image/jpeg", "image/png", "image/webp"];
 
 type Stanje = "mirno" | "slanje" | "uspeh" | "greska";
@@ -16,8 +24,10 @@ interface Greske {
   ime?: string;
   telefon?: string;
   email?: string;
+  usluga?: string;
   opis?: string;
   slike?: string;
+  kontakt?: string;
   pristanak?: string;
 }
 
@@ -47,7 +57,7 @@ async function kompresuj(file: File): Promise<File> {
     bitmap.close();
 
     const blob = await new Promise<Blob | null>((res) =>
-      canvas.toBlob(res, "image/jpeg", 0.82),
+      canvas.toBlob(res, "image/jpeg", 0.78),
     );
     if (!blob || blob.size >= file.size) return file;
     return new File([blob], file.name.replace(/\.\w+$/, "") + ".jpg", {
@@ -119,7 +129,9 @@ export default function FormaProcena() {
     const ime = String(fd.get("ime") ?? "").trim();
     const telefon = String(fd.get("telefon") ?? "").trim();
     const email = String(fd.get("email") ?? "").trim();
+    const usluga = String(fd.get("usluga") ?? "").trim();
     const opis = String(fd.get("opis") ?? "").trim();
+    const kontakt = String(fd.get("kontakt") ?? "").trim();
     const pristanak = fd.get("pristanak") === "on";
 
     const g: Greske = {};
@@ -128,15 +140,25 @@ export default function FormaProcena() {
       g.telefon = "Unesite broj telefona na koji možemo da vas dobijemo.";
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email))
       g.email = "Proverite email adresu.";
+    if (!usluga) g.usluga = "Izaberite vrstu usluge.";
     if (opis.length < 10)
       g.opis = "Napišite u nekoliko reči o kom komadu je reč.";
+    if (prilozi.length < 1)
+      g.slike = "Dodajte najmanje jednu fotografiju komada.";
+    if (!["poziv", "sms", "viber", "email"].includes(kontakt))
+      g.kontakt = "Izaberite kako želite da vam odgovorimo.";
+    if (kontakt === "email" && !email)
+      g.email = "Unesite email adresu ako želite odgovor emailom.";
     if (!pristanak)
       g.pristanak = "Potrebna je saglasnost da bismo mogli da vas kontaktiramo.";
 
     setGreske(g);
     if (Object.keys(g).length) {
-      const prvo = forma.current?.querySelector<HTMLElement>("[aria-invalid='true']");
-      prvo?.focus();
+      requestAnimationFrame(() => {
+        const prvo =
+          forma.current?.querySelector<HTMLElement>("[aria-invalid='true']");
+        prvo?.focus();
+      });
       return;
     }
 
@@ -152,9 +174,13 @@ export default function FormaProcena() {
       telo.set("ime", ime);
       telo.set("telefon", telefon);
       telo.set("email", email);
-      telo.set("usluga", String(fd.get("usluga") ?? ""));
+      telo.set("usluga", usluga);
       telo.set("opis", opis);
-      telo.set("kontakt", String(fd.get("kontakt") ?? ""));
+      telo.set("dimenzije", String(fd.get("dimenzije") ?? "").trim());
+      telo.set("lokacija", String(fd.get("lokacija") ?? "").trim());
+      telo.set("rok", String(fd.get("rok") ?? "").trim());
+      telo.set("kontakt", kontakt);
+      telo.set("pristanak", pristanak ? "da" : "");
       telo.set("zamka", String(fd.get("zamka") ?? ""));
       prilozi.forEach((p) => telo.append("slike", p.file));
 
@@ -220,6 +246,7 @@ export default function FormaProcena() {
             id="ime"
             name="ime"
             autoComplete="name"
+            maxLength={100}
             required
             aria-invalid={Boolean(greske.ime)}
             aria-describedby={greske.ime ? "greska-ime" : undefined}
@@ -243,6 +270,7 @@ export default function FormaProcena() {
             type="tel"
             inputMode="tel"
             autoComplete="tel"
+            maxLength={40}
             required
             aria-invalid={Boolean(greske.telefon)}
             aria-describedby={greske.telefon ? "greska-telefon" : undefined}
@@ -267,6 +295,7 @@ export default function FormaProcena() {
             name="email"
             type="email"
             autoComplete="email"
+            maxLength={254}
             aria-invalid={Boolean(greske.email)}
             aria-describedby={greske.email ? "greska-email" : undefined}
             className={polje}
@@ -281,18 +310,34 @@ export default function FormaProcena() {
 
         <div>
           <label htmlFor="usluga" className="mb-2 block text-malo text-mist-2">
-            Usluga
+            Vrsta usluge <span className="text-bakar">*</span>
           </label>
-          <select id="usluga" name="usluga" className={polje} defaultValue="">
-            <option value="" className="bg-sumrak">
-              Nisam siguran / drugo
+          <select
+            id="usluga"
+            name="usluga"
+            required
+            className={polje}
+            defaultValue=""
+            aria-invalid={Boolean(greske.usluga)}
+            aria-describedby={greske.usluga ? "greska-usluga" : undefined}
+          >
+            <option value="" disabled className="bg-sumrak">
+              Izaberite uslugu
             </option>
             {services.map((s) => (
               <option key={s.slug} value={s.title} className="bg-sumrak">
                 {s.title}
               </option>
             ))}
+            <option value="Drugo / nisam siguran" className="bg-sumrak">
+              Drugo / nisam siguran
+            </option>
           </select>
+          {greske.usluga && (
+            <p id="greska-usluga" className="mt-2 text-malo text-bakar-svetli">
+              {greske.usluga}
+            </p>
+          )}
         </div>
       </div>
 
@@ -304,6 +349,7 @@ export default function FormaProcena() {
           id="opis"
           name="opis"
           rows={4}
+          maxLength={3000}
           required
           aria-invalid={Boolean(greske.opis)}
           aria-describedby={greske.opis ? "greska-opis" : "pomoc-opis"}
@@ -321,9 +367,54 @@ export default function FormaProcena() {
         )}
       </div>
 
+      <div className="grid gap-5 sm:grid-cols-3">
+        <div>
+          <label
+            htmlFor="dimenzije"
+            className="mb-2 block text-malo text-mist-2"
+          >
+            Približne dimenzije{" "}
+            <span className="text-mist-3">(opciono)</span>
+          </label>
+          <input
+            id="dimenzije"
+            name="dimenzije"
+            maxLength={200}
+            className={polje}
+            placeholder="npr. 220 × 90 cm"
+          />
+        </div>
+        <div>
+          <label htmlFor="lokacija" className="mb-2 block text-malo text-mist-2">
+            Lokacija <span className="text-mist-3">(opciono)</span>
+          </label>
+          <input
+            id="lokacija"
+            name="lokacija"
+            autoComplete="address-level2"
+            maxLength={200}
+            className={polje}
+            placeholder="npr. Novi Sad"
+          />
+        </div>
+        <div>
+          <label htmlFor="rok" className="mb-2 block text-malo text-mist-2">
+            Željeni rok <span className="text-mist-3">(opciono)</span>
+          </label>
+          <input
+            id="rok"
+            name="rok"
+            maxLength={200}
+            className={polje}
+            placeholder="npr. tokom septembra"
+          />
+        </div>
+      </div>
+
       <div>
-        <span className="mb-2 block text-malo text-mist-2">
-          Fotografije <span className="text-mist-3">(do {MAX_SLIKA})</span>
+        <span id="naslov-slike" className="mb-2 block text-malo text-mist-2">
+          Fotografije <span className="text-bakar">*</span>{" "}
+          <span className="text-mist-3">(preporučene 3, najviše {MAX_SLIKA})</span>
         </span>
         <label
           htmlFor="slike"
@@ -353,6 +444,9 @@ export default function FormaProcena() {
             e.target.value = "";
           }}
           aria-describedby={greske.slike ? "greska-slike" : undefined}
+          aria-labelledby="naslov-slike"
+          aria-invalid={Boolean(greske.slike)}
+          required
           className="sr-only"
         />
         {greske.slike && (
@@ -375,7 +469,7 @@ export default function FormaProcena() {
                   type="button"
                   onClick={() => ukloni(i)}
                   aria-label={`Uklonite fotografiju ${i + 1}`}
-                  className="absolute -right-2 -top-2 grid h-7 w-7 place-items-center rounded-full border border-linija-tamna bg-ugljen text-platno"
+                  className="absolute -right-3 -top-3 grid h-11 w-11 place-items-center rounded-full border border-linija-tamna bg-ugljen text-platno"
                 >
                   <span aria-hidden>×</span>
                 </button>
@@ -385,15 +479,15 @@ export default function FormaProcena() {
         )}
       </div>
 
-      <div>
-        <span className="mb-2 block text-malo text-mist-2">
+      <fieldset>
+        <legend className="mb-2 block text-malo text-mist-2">
           Kako želite da vas kontaktiramo
-        </span>
+        </legend>
         <div className="flex flex-wrap gap-x-6 gap-y-2.5">
           {[
-            { v: "telefon", l: "Telefon", prikazi: true },
+            { v: "poziv", l: "Poziv", prikazi: true },
+            { v: "sms", l: "SMS", prikazi: true },
             { v: "viber", l: "Viber", prikazi: flags.viber },
-            { v: "whatsapp", l: "WhatsApp", prikazi: flags.whatsapp },
             { v: "email", l: "Email", prikazi: true },
           ]
             .filter((o) => o.prikazi)
@@ -407,13 +501,22 @@ export default function FormaProcena() {
                   name="kontakt"
                   value={o.v}
                   defaultChecked={i === 0}
+                  aria-invalid={Boolean(greske.kontakt)}
+                  aria-describedby={
+                    greske.kontakt ? "greska-kontakt" : undefined
+                  }
                   className="h-5 w-5 accent-bakar"
                 />
                 {o.l}
               </label>
             ))}
         </div>
-      </div>
+        {greske.kontakt && (
+          <p id="greska-kontakt" className="mt-2 text-malo text-bakar-svetli">
+            {greske.kontakt}
+          </p>
+        )}
+      </fieldset>
 
       <div>
         <label className="flex min-h-[44px] cursor-pointer items-start gap-3 py-2 text-malo text-mist-2">
@@ -446,11 +549,23 @@ export default function FormaProcena() {
       {/* Bez konfigurisanog servisa za slanje ne obrađujemo lične podatke. */}
       {!contactFormEnabled && (
         <p className="border-l-2 border-bakar bg-sumrak/40 px-4 py-3 text-malo text-mist-2">
-          Slanje sa sajta još nije aktivno. Pozovite{" "}
+          Online slanje još nije aktivno. Pozovite{" "}
           <a href={telLink} className="font-semibold text-platno underline">
             {site.phone.display}
-          </a>{" "}
-          i pošaljite fotografije direktno — javljamo se odmah.
+          </a>
+          {flags.viber && (
+            <>
+              {" "}
+              ili pošaljite fotografije putem{" "}
+              <a
+                href={viberLink}
+                className="font-semibold text-platno underline"
+              >
+                Vibera
+              </a>
+            </>
+          )}
+          .
         </p>
       )}
 
@@ -483,7 +598,7 @@ export default function FormaProcena() {
         )}
         {flags.whatsapp && (
           <a href={whatsappLink} className="text-malo text-mist-2 underline">
-            WhatsApp
+            WhatsApp (direktan kontakt)
           </a>
         )}
       </div>

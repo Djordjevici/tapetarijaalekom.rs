@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import Sekcija from "@/components/ui/Sekcija";
+import { site } from "@/data/site";
 import { meta } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -23,7 +24,7 @@ export default function PolitikaKolacica() {
         <div className="max-w-2xl">
           <h1 className="text-h2">Politika kolačića</h1>
           <p className="mt-4 text-malo text-ink-3">
-            Poslednje ažuriranje: [DATUM AŽURIRANJA]
+            Poslednje ažuriranje: 19. avgust 2026.
           </p>
 
           <div className="mt-10 grid gap-9 text-body text-ink-2 [&_h2]:text-[1.14rem] [&_h2]:text-ink [&_p]:mt-2.5 [&_ul]:mt-2.5 [&_ul]:grid [&_ul]:gap-1.5 [&_ul]:pl-5 [&_li]:list-disc">
@@ -40,13 +41,13 @@ export default function PolitikaKolacica() {
               <ul>
                 <li>
                   <strong>Neophodni</strong> — pamte vaš izbor u vezi sa
-                  kolačićima, da vas ne pitamo pri svakoj poseti. Bez njih sajt
-                  ne može ispravno da radi.
+                  analitikom u lokalnom skladištu pregledača (
+                  <code>localStorage</code>), da vas ne pitamo pri svakoj poseti.
                 </li>
                 <li>
-                  <strong>Statistika</strong> — [ANALITIKA — ako se aktivira]
-                  anonimna statistika posećenosti, isključivo ako je prihvatite.
-                  Ne učitavamo je pre vašeg pristanka.
+                  <strong>Statistika</strong> — Google Analytics 4, isključivo
+                  kada postoji validan Measurement ID i kada je prihvatite. Ne
+                  učitavamo analitiku pre vašeg pristanka.
                 </li>
               </ul>
               <p>
@@ -74,7 +75,7 @@ export default function PolitikaKolacica() {
                 >
                   politici privatnosti
                 </a>
-                . Za pitanja nas kontaktirajte na [EMAIL ZA PRIVATNOST].
+                . Za pitanja nas kontaktirajte na {site.privacyEmail}.
               </p>
             </section>
           </div>
