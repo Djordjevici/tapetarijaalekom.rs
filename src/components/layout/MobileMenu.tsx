@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
 import {
   flags,
@@ -24,6 +24,11 @@ export default function MobileMenu({
   zatvori: () => void;
 }) {
   const panel = useRef<HTMLDivElement>(null);
+  const dugmeZaZatvaranje = useRef<HTMLButtonElement>(null);
+
+  useLayoutEffect(() => {
+    if (otvoren) dugmeZaZatvaranje.current?.focus();
+  }, [otvoren]);
 
   useEffect(() => {
     if (!otvoren) return;
@@ -37,9 +42,6 @@ export default function MobileMenu({
           'a[href], button:not([disabled])',
         ) ?? [],
       );
-
-    // Sačekaj sledeći frejm da browser prvo ukloni `inert` sa panela.
-    const okvirFokusa = requestAnimationFrame(() => fokusabilni()[0]?.focus());
 
     const naTipku = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -62,7 +64,6 @@ export default function MobileMenu({
 
     document.addEventListener("keydown", naTipku);
     return () => {
-      cancelAnimationFrame(okvirFokusa);
       document.removeEventListener("keydown", naTipku);
       document.body.style.overflow = "";
       prethodni?.focus();
@@ -92,6 +93,7 @@ export default function MobileMenu({
             Meni
           </span>
           <button
+            ref={dugmeZaZatvaranje}
             type="button"
             onClick={zatvori}
             aria-label="Zatvorite meni"
