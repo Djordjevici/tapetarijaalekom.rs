@@ -174,6 +174,22 @@ export default function Footer() {
           </nav>
         </div>
       </div>
+
+      <div className="sadrzaj relative z-[1] mt-7 flex justify-center">
+        <a
+          href="mailto:luka.djordjevic7017@gmail.com"
+          aria-label="Website by Luka Djordjevic — pošaljite email"
+          className="group relative inline-flex text-[0.6875rem] tracking-[0.03em] text-mist-3/60 transition-colors duration-300 hover:text-mist-2 focus-visible:text-mist-2 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-bakar-svetli/60 focus-visible:ring-offset-4 focus-visible:ring-offset-ugljen"
+        >
+          Website by Luka Djordjevic
+          <span
+            role="tooltip"
+            className="pointer-events-none invisible absolute bottom-full left-1/2 mb-2 -translate-x-1/2 whitespace-nowrap rounded border border-linija-tamna bg-sumrak px-2.5 py-1.5 text-[0.625rem] tracking-normal text-mist-2 opacity-0 shadow-lg transition-opacity duration-200 group-hover:visible group-hover:opacity-100 group-focus-visible:visible group-focus-visible:opacity-100 motion-reduce:transition-none"
+          >
+            luka.djordjevic7017@gmail.com
+          </span>
+        </a>
+      </div>
     </footer>
   );
 }
