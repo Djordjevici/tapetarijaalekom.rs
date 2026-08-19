@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import MobileMenu from "./MobileMenu";
 import { flags, nav, telLink, site } from "@/data/site";
@@ -10,6 +10,7 @@ import { flags, nav, telLink, site } from "@/data/site";
 export default function Header() {
   const [skrolovan, setSkrolovan] = useState(false);
   const [otvoren, setOtvoren] = useState(false);
+  const zatvoriMenu = useCallback(() => setOtvoren(false), []);
 
   useEffect(() => {
     const naSkrol = () => setSkrolovan(window.scrollY > 24);
@@ -101,7 +102,7 @@ export default function Header() {
         </div>
       </header>
 
-      <MobileMenu otvoren={otvoren} zatvori={() => setOtvoren(false)} />
+      <MobileMenu otvoren={otvoren} zatvori={zatvoriMenu} />
     </>
   );
 }
