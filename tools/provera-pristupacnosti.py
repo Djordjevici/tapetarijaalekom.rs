@@ -5,6 +5,7 @@ veličinu polja za dodir, focus stilove i pomeranje layouta pri učitavanju.
 """
 
 import json
+import os
 import re
 import subprocess
 import time
@@ -13,7 +14,7 @@ import urllib.request
 import websocket
 
 PORT = 9370
-BASE = "http://127.0.0.1:3210"
+BASE = os.environ.get("SITE_BASE", "http://127.0.0.1:3210")
 
 BOJE = {
     "sumrak": "#1C2F2A",

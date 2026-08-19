@@ -7,6 +7,7 @@ snimak se pravi sa captureBeyondViewport.
 
 import base64
 import json
+import os
 import subprocess
 import sys
 import time
@@ -15,8 +16,8 @@ import urllib.request
 import websocket
 
 PORT = 9350
-BASE = "http://127.0.0.1:3210"
-OUT = "/tmp/shots/site"
+BASE = os.environ.get("SITE_BASE", "http://127.0.0.1:3210")
+OUT = os.environ.get("SHOT_OUT", "/tmp/shots/site")
 
 SNIMCI = [
     ("home-desktop", 1440, 900, "/", True),
@@ -27,6 +28,9 @@ SNIMCI = [
     ("usluge-mobile", 390, 844, "/usluge", True),
     ("radovi-desktop", 1440, 900, "/radovi", True),
     ("kontakt-desktop", 1440, 900, "/kontakt", True),
+    ("kontakt-mobile", 390, 844, "/kontakt", True),
+    ("forma-desktop", 1440, 900, "/kontakt#procena", False),
+    ("forma-mobile", 390, 844, "/kontakt#procena", False),
     ("hero-desktop", 1440, 900, "/", False),
     ("hero-mobile", 390, 844, "/", False),
 ]
@@ -122,6 +126,7 @@ def snap(tab, name, w, h, path, full):
 
 
 def main():
+    os.makedirs(OUT, exist_ok=True)
     if not start_chrome():
         print("Chrome se nije pokrenuo")
         sys.exit(1)

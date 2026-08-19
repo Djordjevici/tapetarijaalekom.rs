@@ -6,6 +6,7 @@ nego i simulacijom stvarnog unosa.
 
 import base64
 import json
+import os
 import subprocess
 import time
 import urllib.request
@@ -13,8 +14,8 @@ import urllib.request
 import websocket
 
 PORT = 9360
-BASE = "http://127.0.0.1:3210"
-OUT = "/tmp/shots/site"
+BASE = os.environ.get("SITE_BASE", "http://127.0.0.1:3210")
+OUT = os.environ.get("SHOT_OUT", "/tmp/shots/site")
 
 
 def start_chrome():
@@ -75,6 +76,7 @@ class Tab:
 
 
 def main():
+    os.makedirs(OUT, exist_ok=True)
     if not start_chrome():
         print("Chrome nije startovao")
         return
