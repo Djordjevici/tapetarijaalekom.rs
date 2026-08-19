@@ -25,6 +25,14 @@ export default function PreIPosle() {
           prigusen="text-mist-2"
         />
 
+        {projekti.every((p) => p.isPlaceholder) && (
+          <p className="mt-7 max-w-2xl border-l-2 border-bakar pl-4 text-malo text-mist-2">
+            Demonstracioni prikaz slidera — fotografije nisu radovi Tapetarije
+            Alekom. Originalni pre/posle parovi mogu se zameniti kroz centralne
+            podatke bez izmene komponente.
+          </p>
+        )}
+
         <Otkrij className="mt-14">
           <IzborProjekta projekti={projekti} />
         </Otkrij>

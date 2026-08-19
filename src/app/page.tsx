@@ -1,4 +1,5 @@
 import Hero from "@/components/sections/Hero";
+import PoslovniProgram from "@/components/sections/PoslovniProgram";
 import PreIPosle from "@/components/sections/PreIPosle";
 import Usluge from "@/components/sections/Usluge";
 import {
@@ -32,6 +33,7 @@ export default function Pocetna() {
       <TrustTraka />
       <Usluge />
       <PreIPosle />
+      <PoslovniProgram />
       <Marquee />
       <Proces />
       <ZastoMi />

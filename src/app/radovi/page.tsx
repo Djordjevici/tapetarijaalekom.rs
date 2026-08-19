@@ -1,25 +1,36 @@
 import type { Metadata } from "next";
 
 import IzborProjekta from "@/components/before-after/IzborProjekta";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import Otkrij from "@/components/ui/Otkrij";
 import Sekcija, { Zaglavlje } from "@/components/ui/Sekcija";
 import Slika from "@/components/ui/Slika";
 import { Procena, ZavrsniCta } from "@/components/sections/Zavrsne";
-import { categoriesOf, visibleProjects } from "@/data/projects";
+import {
+  categoriesOf,
+  hasPublishedRealProjects,
+  visibleProjects,
+} from "@/data/projects";
 import { flags, site, telLink } from "@/data/site";
 import { breadcrumbSchema, meta } from "@/lib/seo";
 
-export const metadata: Metadata = meta({
-  title: "Radovi — pre i posle | Tapetarija Alekom",
-  description:
-    "Primeri presvlačenja i obnove nameštaja. Uporedite stanje pre i posle radova.",
-  path: "/radovi",
-});
+export const metadata: Metadata = {
+  ...meta({
+    title: "Radovi i pre/posle | Tapetarija Alekom Novi Sad",
+    description:
+      "Galerija presvlačenja kauča, fotelja i stolica Tapetarije Alekom. Dok čekamo originalne fotografije, prikazan je jasno označen demonstracioni slider.",
+    path: "/radovi",
+  }),
+  ...(!hasPublishedRealProjects
+    ? { robots: { index: false, follow: true } }
+    : {}),
+};
 
 export default function RadoviStrana() {
   const projekti = visibleProjects(flags.showPlaceholderProjects);
   const kategorije = categoriesOf(projekti);
   const imaSadrzaj = projekti.length > 0;
+  const samoDemo = imaSadrzaj && projekti.every((p) => p.isPlaceholder);
 
   return (
     <>
@@ -37,6 +48,9 @@ export default function RadoviStrana() {
 
       <Sekcija podloga="ugljen" className="pt-40">
         <div className="sadrzaj">
+          <Breadcrumbs
+            items={[{ label: "Početna", href: "/" }, { label: "Radovi" }]}
+          />
           <Zaglavlje
             nadnaslov="Radovi"
             naslov="Pre i posle, na istom komadu."
@@ -67,6 +81,18 @@ export default function RadoviStrana() {
 
           {imaSadrzaj ? (
             <Otkrij className="mt-14">
+              {samoDemo && (
+                <p className="mb-6 max-w-2xl border-l-2 border-bakar pl-4 text-malo text-mist-2">
+                  Demonstracioni prikaz komponente. Fotografije nisu radovi
+                  Tapetarije Alekom i biće zamenjene originalnim pre/posle
+                  materijalom pre javnog predstavljanja portfolija.
+                </p>
+              )}
+              <h2 className="sr-only">
+                {samoDemo
+                  ? "Demonstracioni projekti pre i posle"
+                  : "Projekti pre i posle"}
+              </h2>
               <IzborProjekta projekti={projekti} />
             </Otkrij>
           ) : (
@@ -114,15 +140,31 @@ export default function RadoviStrana() {
               nadnaslov="Iz radionice"
               naslov="Detalji koji se ne vide na gotovom komadu."
             />
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {samoDemo && (
+              <p className="mt-5 max-w-xl text-malo text-ink-3">
+                I fotografije u nastavku su privremeni vizuelni sadržaj za
+                proveru rasporeda.
+              </p>
+            )}
+            <div className="mt-12 grid auto-rows-[9rem] gap-5 sm:grid-cols-2 lg:grid-cols-12">
               {(["radionica-detalj", "servis-sivenje", "materijali"] as const).map(
                 (k, i) => (
-                  <Otkrij key={k} kasnjenje={i * 80}>
+                  <Otkrij
+                    key={k}
+                    kasnjenje={i * 80}
+                    className={`${
+                      i === 0
+                        ? "row-span-3 lg:col-span-7"
+                        : i === 1
+                          ? "row-span-2 lg:col-span-5"
+                          : "row-span-2 lg:col-span-5"
+                    }`}
+                  >
                     <Slika
                       kljuc={k}
-                      odnos="4 / 3"
+                      odnos="auto"
                       sizes="(max-width: 640px) 100vw, 33vw"
-                      className="rounded-slika"
+                      className="h-full rounded-slika"
                       imgClassName="transition-transform duration-[900ms] ease-meko hover:scale-[1.04]"
                     />
                   </Otkrij>

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import PrePosle from "./PrePosle";
 import { img } from "@/data/images";
@@ -17,6 +17,7 @@ export default function IzborProjekta({
   projekti: readonly Project[];
 }) {
   const [aktivan, setAktivan] = useState(0);
+  const tabovi = useRef<HTMLDivElement>(null);
   const p = projekti[aktivan];
   if (!p) return null;
 
@@ -52,7 +53,7 @@ export default function IzborProjekta({
           </div>
           <div>
             <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-mist-3">
-              Izvedeni radovi
+              {demo ? "Demonstracioni koraci" : "Izvedeni radovi"}
             </dt>
             <dd className="mt-1.5">
               <ul className="grid gap-1.5 text-malo text-mist-1">
@@ -77,6 +78,7 @@ export default function IzborProjekta({
 
         {projekti.length > 1 && (
           <div
+            ref={tabovi}
             role="tablist"
             aria-label="Izbor projekta"
             className="mt-8 grid grid-cols-3 gap-2.5"
@@ -90,7 +92,25 @@ export default function IzborProjekta({
                   type="button"
                   role="tab"
                   aria-selected={aktivna}
+                  tabIndex={aktivna ? 0 : -1}
                   onClick={() => setAktivan(i)}
+                  onKeyDown={(e) => {
+                    let sledeci: number | null = null;
+                    if (e.key === "ArrowRight")
+                      sledeci = (i + 1) % projekti.length;
+                    if (e.key === "ArrowLeft")
+                      sledeci = (i - 1 + projekti.length) % projekti.length;
+                    if (e.key === "Home") sledeci = 0;
+                    if (e.key === "End") sledeci = projekti.length - 1;
+                    if (sledeci === null) return;
+                    e.preventDefault();
+                    setAktivan(sledeci);
+                    requestAnimationFrame(() => {
+                      tabovi.current
+                        ?.querySelectorAll<HTMLButtonElement>('[role="tab"]')
+                        [sledeci]?.focus();
+                    });
+                  }}
                   className={`group relative overflow-hidden rounded-slika border transition-colors duration-300 ${
                     aktivna
                       ? "border-bakar"

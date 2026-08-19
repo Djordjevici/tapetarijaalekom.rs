@@ -17,8 +17,12 @@ export default function Faq() {
           <li key={f.question} className="border-b border-linija-svetla">
             <h3>
               <button
+                id={`faq-dugme-${i}`}
                 type="button"
                 onClick={() => setOtvoreno(aktivno ? null : i)}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") setOtvoreno(null);
+                }}
                 aria-expanded={aktivno}
                 aria-controls={`faq-${i}`}
                 className="flex w-full items-start justify-between gap-6 py-6 text-left"
@@ -45,6 +49,8 @@ export default function Faq() {
             </h3>
             <div
               id={`faq-${i}`}
+              role="region"
+              aria-labelledby={`faq-dugme-${i}`}
               hidden={!aktivno}
               className="pb-7 pr-10 text-body text-ink-2"
             >

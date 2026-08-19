@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 
 import { Lokacija, Procena } from "@/components/sections/Zavrsne";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import Sekcija, { Zaglavlje } from "@/components/ui/Sekcija";
 import { breadcrumbSchema, meta } from "@/lib/seo";
 
 export const metadata: Metadata = meta({
-  title: "Kontakt — Tapetarija Alekom, Petrovaradin",
+  title: "Kontakt | Tapetarija Alekom Petrovaradin",
   description:
-    "Tunislava Paunovića 24, Petrovaradin, Novi Sad. Pozovite 064 24 96 345 ili pošaljite fotografije za procenu.",
+    "Pozovite 064 24 96 345, pišite na Viber ili pošaljite fotografije za besplatnu okvirnu procenu. Tunislava Paunovića 24, Petrovaradin, Novi Sad.",
   path: "/kontakt",
 });
 
@@ -28,6 +29,9 @@ export default function KontaktStrana() {
 
       <Sekcija podloga="ugljen" className="pt-40" tesna>
         <div className="sadrzaj">
+          <Breadcrumbs
+            items={[{ label: "Početna", href: "/" }, { label: "Kontakt" }]}
+          />
           <Zaglavlje
             nadnaslov="Kontakt"
             naslov="Javite se — dogovorimo se."

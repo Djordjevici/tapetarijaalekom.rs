@@ -28,9 +28,9 @@ const body = Manrope({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   ...meta({
-    title: "Tapetarija Alekom — presvlačenje nameštaja, Novi Sad",
+    title: "Tapetar Novi Sad | Tapetarija Alekom",
     description:
-      "Tapetarska radionica u Petrovaradinu od 2006. Presvlačenje kauča, fotelja i stolica, restauracija i šivenje po meri. Pošaljite fotografiju i zatražite procenu.",
+      "Porodična tapetarija u Petrovaradinu od 2006. Presvlačenje nameštaja, koža, poslovni enterijeri i šivenje po meri. Besplatna okvirna procena.",
   }),
   icons: {
     icon: [

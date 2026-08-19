@@ -63,6 +63,10 @@ const config: Config = {
         meko: "cubic-bezier(0.22, 1, 0.36, 1)",
       },
       keyframes: {
+        fadeUp: {
+          from: { opacity: "0", transform: "translate3d(0, 10px, 0)" },
+          to: { opacity: "1", transform: "translate3d(0, 0, 0)" },
+        },
         marquee: {
           from: { transform: "translate3d(0, 0, 0)" },
           to: { transform: "translate3d(-50%, 0, 0)" },

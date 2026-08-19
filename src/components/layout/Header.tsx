@@ -42,7 +42,7 @@ export default function Header() {
               width={248}
               height={78}
               priority
-              className="hidden h-11 w-auto md:h-12 lg:h-[3.35rem] sm:block"
+              className="hidden h-11 w-auto md:h-12 xl:h-[3.35rem] sm:block"
             />
             <Image
               src="/logo/alekom-lockup-compact-dark.svg"
@@ -54,8 +54,8 @@ export default function Header() {
             />
           </Link>
 
-          <nav aria-label="Glavna navigacija" className="hidden lg:block">
-            <ul className="flex items-center gap-10 text-[0.95rem] tracking-wide text-mist-2">
+          <nav aria-label="Glavna navigacija" className="hidden xl:block">
+            <ul className="flex items-center gap-7 text-[0.91rem] tracking-wide text-mist-2">
               {linkovi.map((l) => (
                 <li key={l.href}>
                   <Link
@@ -71,14 +71,14 @@ export default function Header() {
 
           <div className="flex items-center gap-2.5">
             <a
-              href="#procena"
-              className="hidden border border-mist-3 px-5 py-3.5 text-[0.9rem] font-semibold text-platno transition-colors duration-300 hover:border-bakar hover:text-bakar-svetli md:inline-flex"
+              href="/kontakt#procena"
+              className="hidden min-h-[48px] items-center bg-bakar-dugme px-5 text-[0.9rem] font-semibold text-white transition-colors duration-300 hover:bg-bakar-dugme-hover xl:inline-flex"
             >
               Pošaljite fotografiju
             </a>
             <a
               href={telLink}
-              className="inline-flex min-h-[48px] items-center bg-bakar-dugme px-4 py-3.5 text-[0.9rem] font-semibold text-white transition-colors duration-300 hover:bg-bakar-dugme-hover sm:px-5"
+              className="inline-flex min-h-[48px] items-center bg-bakar-dugme px-4 py-3.5 text-[0.9rem] font-semibold text-white transition-colors duration-300 hover:bg-bakar-dugme-hover sm:px-5 xl:border xl:border-mist-3 xl:bg-transparent xl:text-platno xl:hover:border-bakar xl:hover:bg-transparent xl:hover:text-bakar-svetli"
             >
               <span className="sm:hidden">Pozovite</span>
               <span className="hidden sm:inline">{site.phone.display}</span>
@@ -88,7 +88,8 @@ export default function Header() {
               onClick={() => setOtvoren(true)}
               aria-label="Otvorite meni"
               aria-expanded={otvoren}
-              className="ml-1 grid h-12 w-12 place-items-center text-platno lg:hidden"
+              aria-controls="mobilni-meni"
+              className="ml-1 grid h-12 w-12 place-items-center text-platno xl:hidden"
             >
               <span aria-hidden className="grid gap-[5px]">
                 <span className="block h-px w-6 bg-current" />

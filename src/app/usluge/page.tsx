@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import Otkrij from "@/components/ui/Otkrij";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import Sekcija, { Zaglavlje } from "@/components/ui/Sekcija";
 import Slika from "@/components/ui/Slika";
 import { Cena, Proces } from "@/components/sections/Blokovi";
@@ -9,9 +10,9 @@ import { services } from "@/data/services";
 import { breadcrumbSchema, meta, serviceSchema } from "@/lib/seo";
 
 export const metadata: Metadata = meta({
-  title: "Usluge presvlačenja i tapaciranja nameštaja | Tapetarija Alekom",
+  title: "Tapetarske usluge Novi Sad | Alekom",
   description:
-    "Presvlačenje kauča, fotelja i stolica, kožni i stilski nameštaj, tapaciranje za kafiće, baštenski program i šivenje po meri. Novi Sad i Petrovaradin.",
+    "Presvlačenje kauča, fotelja i stolica, kožni nameštaj, poslovni enterijeri, IKEA navlake, tende, baštenski, moto i nautički program u Novom Sadu.",
   path: "/usluge",
 });
 
@@ -33,6 +34,9 @@ export default function UslugeStrana() {
 
       <Sekcija podloga="ugljen" className="pt-40">
         <div className="sadrzaj">
+          <Breadcrumbs
+            items={[{ label: "Početna", href: "/" }, { label: "Usluge" }]}
+          />
           <Zaglavlje
             nadnaslov="Usluge"
             naslov="Šta sve radimo i za koga."

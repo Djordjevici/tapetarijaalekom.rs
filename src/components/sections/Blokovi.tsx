@@ -1,6 +1,7 @@
 import Otkrij from "@/components/ui/Otkrij";
 import Sekcija, { Zaglavlje } from "@/components/ui/Sekcija";
 import Slika from "@/components/ui/Slika";
+import { materialGroups, suppliers } from "@/data/business";
 import { activeProcess, materialTopics, priceFactors } from "@/data/content";
 import { site } from "@/data/site";
 
@@ -12,12 +13,12 @@ export function TrustTraka() {
       tekst: "Radionica u Petrovaradinu, u poslovanju od 2006. godine.",
     },
     {
-      naslov: "Rad po meri",
-      tekst: "Krojenje po originalnim delovima komada, a ne po standardnim merama.",
+      naslov: "Porodični posao",
+      tekst: "Lična odgovornost i direktan dogovor sa Aleksandrom Komarovim.",
     },
     {
-      naslov: "Procena po fotografiji",
-      tekst: "Pošaljete slike i opis, pa se dogovaramo o narednim koracima.",
+      naslov: "Besplatna početna procena",
+      tekst: "Pošaljete fotografije i osnovne podatke, a zatim dogovaramo pregled.",
     },
   ];
 
@@ -40,7 +41,7 @@ export function TrustTraka() {
   );
 }
 
-/** Proces rada. Koraci ne obećavaju rok, cenu ni prevoz. */
+/** Realan tok rada, bez obećavanja konačne cene ili roka unapred. */
 export function Proces() {
   return (
     <Sekcija id="proces" podloga="papir">
@@ -49,8 +50,8 @@ export function Proces() {
           <div className="lg:col-span-5">
             <Zaglavlje
               nadnaslov="Kako radimo"
-              naslov="Četiri koraka, bez nepoznanica."
-              uvod="Ovako to obično ide od prve poruke do gotovog komada."
+              naslov="Od fotografije do gotovog komada."
+              uvod="Početna procena je besplatna, a konačan obim, cena i termin potvrđuju se tek nakon pregleda."
             />
             <Otkrij kasnjenje={180}>
               <Slika
@@ -85,40 +86,40 @@ export function Proces() {
   );
 }
 
-/** Zašto Alekom. Poverenje bez statistike koju ne možemo potvrditi. */
+/** O nama i razlozi za poverenje, bez izmišljenih statistika. */
 export function ZastoMi() {
   const razlozi = [
     {
-      naslov: "Prvo konstrukcija, pa tkanina",
+      naslov: "Pouzdanost pre svega",
       tekst:
-        "Ako gurtne i sunđer više ne drže, nova tkanina za godinu izgleda kao stara. Zato se to rešava u istom prolazu, a ne posle.",
+        "Dogovoreni obim posla se jasno definiše, a o toku i završetku komuniciramo direktno i odgovorno.",
     },
     {
-      naslov: "Krojenje po komadu",
+      naslov: "Stručno znanje i zanatsko učenje",
       tekst:
-        "Delovi stare presvlake služe kao šablon, pa novi šav pada tamo gde je i original — bez nabora na mestima gde ih ne treba biti.",
+        "Stručno obrazovanje i kontinuirano usavršavanje primenjujemo kroz precizno krojenje, šivenje i završnu obradu.",
     },
     {
-      naslov: "Stari komadi ostaju stari",
+      naslov: "Savet prema načinu korišćenja",
       tekst:
-        "Kod stilskog nameštaja cilj nije da izgleda kao nov, nego da zadrži karakter. Profili i proporcije se poštuju.",
+        "Materijal i obim obnove ne biraju se samo po izgledu, već prema komadu, prostoru i svakodnevnom opterećenju.",
     },
     {
-      naslov: "Direktan dogovor",
+      naslov: "Ista radionica, ista odgovornost",
       tekst:
-        "Razgovarate sa čovekom koji radi na vašem komadu. Nema posrednika ni prepričavanja.",
+        "Godinama radimo na istoj adresi u Petrovaradinu, a veliki deo poslova i dalje dolazi kroz preporuke.",
     },
   ];
 
   return (
-    <Sekcija podloga="sumrak">
+    <Sekcija id="o-nama" podloga="sumrak">
       <div className="sadrzaj">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <Zaglavlje
-              nadnaslov="Zašto Alekom"
-              naslov="Ono što se ne vidi drži komad."
-              uvod="Presvlaka je vidljivi deo posla. Koliko će trajati zavisi od onoga ispod nje."
+              nadnaslov="O nama"
+              naslov="Aleksandar Komarov. Porodični zanat od 2006."
+              uvod="Ime Alekom nastalo je od ALEksandar + KOMarov. Porodična radionica u Petrovaradinu spaja stručno znanje, kreativnost i ličnu odgovornost prema svakom komadu."
               prigusen="text-mist-2"
             />
           </div>
@@ -138,10 +139,7 @@ export function ZastoMi() {
   );
 }
 
-/**
- * Materijali. Edukativno, bez tvrdnji da postoji katalog, uzorci na stanju
- * ili određeni brendovi — to nije potvrđeno.
- */
+/** Materijali i savetovanje. */
 export function Materijali() {
   return (
     <Sekcija podloga="platno">
@@ -150,8 +148,8 @@ export function Materijali() {
           <div className="lg:col-span-5">
             <Zaglavlje
               nadnaslov="Izbor materijala"
-              naslov="Šta vredi razmotriti pre izbora tkanine."
-              uvod="Nema univerzalno najboljeg materijala — ima onog koji odgovara vašem komadu i načinu na koji ga koristite."
+              naslov="Materijal se bira prema komadu i životu oko njega."
+              uvod="U radionici možete pogledati uzorke i dobiti savet prema načinu korišćenja, održavanju i željenom izgledu."
             />
             <Otkrij kasnjenje={160}>
               <Slika
@@ -161,25 +159,55 @@ export function Materijali() {
                 className="mt-10 rounded-slika"
               />
             </Otkrij>
+            <Otkrij kasnjenje={200}>
+              <p className="mt-7 border-l-2 border-bakar pl-4 text-malo text-ink-2">
+                Ako već imate odabran materijal, možete ga doneti uz prethodnu
+                konsultaciju kako bismo proverili da li odgovara konkretnom
+                komadu i načinu upotrebe.
+              </p>
+            </Otkrij>
           </div>
-          <ul className="grid gap-x-12 gap-y-8 sm:grid-cols-2 lg:col-span-7">
-            {materialTopics.map((m, i) => (
-              <Otkrij as="li" key={m.title} kasnjenje={i * 60}>
-                <span aria-hidden className="mb-4 block h-px w-8 bg-bakar" />
-                <h3 className="font-display text-[1.1rem]">{m.title}</h3>
-                <p className="mt-2 text-malo leading-relaxed text-ink-2">
-                  {m.body}
+          <div className="lg:col-span-7">
+            <ul className="grid gap-x-12 gap-y-8 sm:grid-cols-2">
+              {materialTopics.map((m, i) => (
+                <Otkrij as="li" key={m.title} kasnjenje={i * 60}>
+                  <span aria-hidden className="mb-4 block h-px w-8 bg-bakar" />
+                  <h3 className="font-display text-[1.1rem]">{m.title}</h3>
+                  <p className="mt-2 text-malo leading-relaxed text-ink-2">
+                    {m.body}
+                  </p>
+                </Otkrij>
+              ))}
+            </ul>
+            <Otkrij kasnjenje={240}>
+              <div className="mt-10 border-t border-linija-svetla pt-7">
+                <h3 className="text-eyebrow font-semibold uppercase text-ink-3">
+                  Materijali koje možemo nabaviti
+                </h3>
+                <ul className="mt-4 flex flex-wrap gap-2">
+                  {materialGroups.map((m) => (
+                    <li
+                      key={m}
+                      className="border border-linija-svetla px-3 py-1.5 text-[0.78rem] text-ink-2"
+                    >
+                      {m}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-6 text-malo text-ink-3">
+                  Radimo sa materijalima i ponudom više proverenih dobavljača,
+                  uključujući {suppliers.join(", ")}.
                 </p>
-              </Otkrij>
-            ))}
-          </ul>
+              </div>
+            </Otkrij>
+          </div>
         </div>
       </div>
     </Sekcija>
   );
 }
 
-/** Kako se formira cena. Bez ijedne cifre dok cene nisu potvrđene. */
+/** Kako se formira cena — bez javnog cenovnika i obećanja unapred. */
 export function Cena() {
   return (
     <Sekcija podloga="papir" tesna>
@@ -189,7 +217,7 @@ export function Cena() {
             <Zaglavlje
               nadnaslov="Cena"
               naslov="Kako se formira cena?"
-              uvod="Svaki komad je drugačiji, pa se cena ne može odrediti bez uvida u njegovo stanje. Ovo su faktori koji ulaze u procenu."
+              uvod="Svaki komad je drugačiji. Fotografije su dovoljne za besplatnu okvirnu procenu, dok konačnu cenu definišemo nakon pregleda."
             />
           </div>
           <div className="lg:col-span-7">
@@ -209,7 +237,7 @@ export function Cena() {
             <Otkrij kasnjenje={220}>
               <p className="mt-9 max-w-xl text-lede">
                 Najbrži način da dobijete okvirnu procenu jeste da pošaljete
-                nekoliko fotografija i kratak opis komada.
+                nekoliko fotografija i osnovne informacije o komadu.
               </p>
               <a
                 href="#procena"

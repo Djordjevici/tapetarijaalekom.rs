@@ -3,7 +3,13 @@ import Faq from "@/components/sections/Faq";
 import Otkrij from "@/components/ui/Otkrij";
 import Sekcija, { Zaglavlje } from "@/components/ui/Sekcija";
 import { activeFaq, reviews } from "@/data/content";
-import { flags, site, telLink } from "@/data/site";
+import {
+  flags,
+  site,
+  telLink,
+  viberLink,
+  whatsappLink,
+} from "@/data/site";
 
 /** Glavna konverzija: slanje fotografija za procenu. */
 export function Procena() {
@@ -14,16 +20,16 @@ export function Procena() {
           <div className="lg:col-span-5">
             <Zaglavlje
               nadnaslov="Procena"
-              naslov="Pošaljite fotografiju i zatražite procenu."
-              uvod="Pošaljite nam nekoliko fotografija i kratak opis komada. Javićemo vam se da zajedno prođemo kroz mogućnosti obnove."
+              naslov="Pošaljite fotografije i zatražite besplatnu okvirnu procenu."
+              uvod="Oko tri fotografije i osnovne informacije dovoljne su za početnu procenu. Konačnu ponudu definišemo nakon pregleda komada uživo."
               prigusen="text-mist-2"
             />
             <Otkrij kasnjenje={200}>
               <ul className="mt-9 grid gap-4 border-t border-linija-tamna pt-7">
                 {[
-                  "Fotografije iz više uglova",
+                  "Oko 3 fotografije iz više uglova",
                   "Približne dimenzije komada",
-                  "Šta želite da se promeni",
+                  "Broj komada, lokacija i šta želite da se promeni",
                 ].map((s) => (
                   <li key={s} className="flex gap-3.5 text-malo text-mist-2">
                     <span aria-hidden className="mt-2.5 h-px w-4 shrink-0 bg-bakar" />
@@ -39,6 +45,18 @@ export function Procena() {
                 >
                   {site.phone.display}
                 </a>
+                {flags.viber && (
+                  <>
+                    {" "}
+                    ili{" "}
+                    <a
+                      href={viberLink}
+                      className="font-semibold text-platno underline decoration-bakar underline-offset-4"
+                    >
+                      pišite na Viber
+                    </a>
+                  </>
+                )}
               </p>
             </Otkrij>
           </div>
@@ -116,7 +134,7 @@ export function Recenzije() {
   );
 }
 
-/** Lokacija i mapa. Uputstvo za dolazak izostaje dok ne bude tačno. */
+/** Lokacija, kontakt, radno vreme i područje rada. */
 export function Lokacija() {
   return (
     <Sekcija id="kontakt" podloga="ugljen">
@@ -126,7 +144,7 @@ export function Lokacija() {
             <Zaglavlje
               nadnaslov="Gde smo"
               naslov="Radionica u Petrovaradinu."
-              uvod="Komad možete doneti u radionicu, a za sve ostalo se dogovaramo telefonom."
+              uvod={site.visitNote}
               prigusen="text-mist-2"
             />
             <Otkrij kasnjenje={140}>
@@ -140,6 +158,25 @@ export function Lokacija() {
                     <br />
                     {site.address.postalCode} {site.address.addressLocality},{" "}
                     {site.address.addressRegion}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-mist-3">
+                    Poruke
+                  </dt>
+                  <dd className="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-malo">
+                    <a
+                      href={viberLink}
+                      className="text-platno underline decoration-bakar underline-offset-4"
+                    >
+                      Viber
+                    </a>
+                    <a
+                      href={whatsappLink}
+                      className="text-mist-2 underline decoration-mist-3 underline-offset-4"
+                    >
+                      WhatsApp
+                    </a>
                   </dd>
                 </div>
                 <div>
@@ -159,7 +196,22 @@ export function Lokacija() {
                   <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-mist-3">
                     Radno vreme
                   </dt>
-                  <dd className="mt-1.5 text-body text-mist-2">[RADNO VREME]</dd>
+                  <dd className="mt-1.5 text-body text-mist-2">
+                    {site.hours.weekdays}
+                    <br />
+                    {site.hours.weekend}
+                    <span className="mt-1 block text-malo text-mist-3">
+                      {site.hours.holidayNote}
+                    </span>
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-mist-3">
+                    Područje rada
+                  </dt>
+                  <dd className="mt-1.5 text-body text-mist-2">
+                    {site.serviceArea}
+                  </dd>
                 </div>
               </dl>
               <a

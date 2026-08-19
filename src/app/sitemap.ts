@@ -1,9 +1,11 @@
 import type { MetadataRoute } from "next";
 
+import { hasPublishedRealProjects } from "@/data/projects";
 import { flags, site } from "@/data/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const sada = new Date();
+  // Ažurirati kada se sadržaj promeni; ne koristiti vreme svakog builda kao lažni signal.
+  const sada = new Date("2026-08-19");
   const strane: MetadataRoute.Sitemap = [
     { url: site.url, lastModified: sada, changeFrequency: "monthly", priority: 1 },
     {
@@ -20,8 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // /radovi ulazi u sitemap tek kad ima pravog sadržaja
-  if (flags.worksInNav) {
+  // Demo projekti nisu portfolio i ne smeju u indeks pre originalnih radova.
+  if (flags.worksInNav && hasPublishedRealProjects) {
     strane.push({
       url: `${site.url}/radovi`,
       lastModified: sada,

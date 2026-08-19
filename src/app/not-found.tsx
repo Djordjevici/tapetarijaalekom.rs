@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import Sekcija from "@/components/ui/Sekcija";
 import { site, telLink } from "@/data/site";
+
+export const metadata: Metadata = {
+  title: "Stranica nije pronađena | Tapetarija Alekom",
+  robots: { index: false, follow: true },
+};
 
 export default function NijeNadjeno() {
   return (

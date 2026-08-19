@@ -45,12 +45,28 @@ export function localBusinessSchema() {
     "@type": "HomeAndConstructionBusiness",
     "@id": `${site.url}#radnja`,
     name: site.name,
+    legalName: site.legal.registeredName,
     description:
-      "Tapetarska radionica u Petrovaradinu. Presvlačenje i tapaciranje nameštaja, restauracija stilskih komada i šivenje po meri.",
+      "Porodična tapetarska radionica Aleksandra Komarova u Petrovaradinu. Presvlačenje i tapaciranje nameštaja, kožni nameštaj, poslovni enterijeri i šivenje po meri.",
     url: site.url,
     telephone: site.phone.e164,
-    email: site.email,
-    foundingDate: String(site.foundedYear),
+    foundingDate: site.foundedDate,
+    founder: {
+      "@type": "Person",
+      name: site.owner,
+    },
+    identifier: [
+      {
+        "@type": "PropertyValue",
+        name: "PIB",
+        value: site.legal.taxId,
+      },
+      {
+        "@type": "PropertyValue",
+        name: "Matični broj",
+        value: site.legal.registrationNumber,
+      },
+    ],
     address: {
       "@type": "PostalAddress",
       streetAddress: site.address.streetAddress,
@@ -62,23 +78,22 @@ export function localBusinessSchema() {
     areaServed: [
       { "@type": "City", name: "Novi Sad" },
       { "@type": "Place", name: "Petrovaradin" },
+      { "@type": "Place", name: "Okolina Novog Sada" },
     ],
-    image: `${site.url}/images/placeholders/hero-radionica.jpg`,
     logo: `${site.url}/logo/alekom-seal.svg`,
-  };
-
-  const sameAs = [site.social.instagram, flags.facebook ? site.social.facebook : null]
-    .filter((v): v is string => Boolean(v));
-  if (sameAs.length) schema.sameAs = sameAs;
-
-  if (site.hours) {
-    schema.openingHoursSpecification = site.hours.map((h) => ({
+    openingHoursSpecification: site.hours.specifications.map((h) => ({
       "@type": "OpeningHoursSpecification",
       dayOfWeek: h.days,
       opens: h.opens,
       closes: h.closes,
-    }));
-  }
+    })),
+  };
+
+  if (flags.publicEmail) schema.email = site.email;
+
+  const sameAs = [site.social.instagram, flags.facebook ? site.social.facebook : null]
+    .filter((v): v is string => Boolean(v));
+  if (sameAs.length) schema.sameAs = sameAs;
 
   if (site.maps.coordinates) {
     schema.geo = {
@@ -125,8 +140,12 @@ export function serviceSchema(
     name: s.title,
     description: s.body,
     serviceType: s.title,
+    url: `${site.url}/usluge#${s.slug}`,
     provider: { "@id": `${site.url}#radnja` },
-    areaServed: { "@type": "City", name: "Novi Sad" },
+    areaServed: [
+      { "@type": "City", name: "Novi Sad" },
+      { "@type": "Place", name: "Petrovaradin" },
+    ],
   }));
 }
 

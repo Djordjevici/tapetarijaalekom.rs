@@ -141,6 +141,7 @@ export default function PrePosle({
       style={{ aspectRatio: odnos, touchAction: "pan-y" }}
       onPointerDown={(e) => {
         prekiniDemo();
+        e.currentTarget.setPointerCapture(e.pointerId);
         setVuce(true);
         postavi(e.clientX);
       }}

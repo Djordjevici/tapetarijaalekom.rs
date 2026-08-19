@@ -33,7 +33,7 @@ export default function MobileActionBar() {
         <span className="sr-only">{site.phone.display}</span>
       </a>
       <a
-        href="#procena"
+        href="/kontakt#procena"
         className="flex min-h-[56px] items-center justify-center border-l border-linija-tamna text-malo font-semibold text-platno"
       >
         Pošaljite fotografiju

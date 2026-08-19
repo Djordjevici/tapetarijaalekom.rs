@@ -71,13 +71,17 @@ export default function MobileMenu({
 
   return (
     <div
+      id="mobilni-meni"
       ref={panel}
       role="dialog"
       aria-modal="true"
       aria-label="Meni"
       aria-hidden={!otvoren}
-      className={`fixed inset-0 z-[60] bg-ugljen text-platno transition-[opacity,visibility] duration-400 ease-meko lg:hidden ${
-        otvoren ? "visible opacity-100" : "invisible opacity-0"
+      inert={!otvoren}
+      className={`fixed inset-0 z-[60] bg-ugljen text-platno transition-[opacity,visibility] duration-400 ease-meko xl:hidden ${
+        otvoren
+          ? "visible opacity-100"
+          : "invisible pointer-events-none opacity-0"
       }`}
     >
       <div className="flex h-full flex-col">
@@ -142,7 +146,7 @@ export default function MobileMenu({
               Pozovite {site.phone.display}
             </a>
             <a
-              href="#procena"
+              href="/kontakt#procena"
               onClick={zatvori}
               className="flex min-h-[52px] items-center justify-center border border-mist-3 font-semibold"
             >

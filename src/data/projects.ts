@@ -108,3 +108,8 @@ export function categoriesOf(list: readonly Project[]): readonly string[] {
   for (const p of list) seen.set(p.category, (seen.get(p.category) ?? 0) + 1);
   return seen.size > 1 && list.length >= 4 ? [...seen.keys()] : [];
 }
+
+/** Koristi se za sitemap/noindex: demo projekti nisu javni portfolio. */
+export const hasPublishedRealProjects = projects.some(
+  (p) => p.published && !p.isPlaceholder,
+);

@@ -15,9 +15,20 @@ export const site = {
   slogan: "Zanat koji traje.",
   url: "https://tapetarijaalekom.rs",
 
-  /** Potvrđeno iz APR-a. Broj godina se ne prikazuje automatski. */
+  owner: "Aleksandar Komarov",
+  nameOrigin: "ALEksandar + KOMarov",
+
+  legal: {
+    registeredName:
+      "ZANATSKA RADNJA ALEKOM ALEKSANDAR KOMAROV PR PETROVARADIN",
+    taxId: "104376153",
+    registrationNumber: "60138257",
+    activityCode: "3101",
+    activityName: "Proizvodnja nameštaja za poslovne i prodajne prostore",
+  },
+
   foundedYear: 2006,
-  /** Ručno kontrolisan tekst, da se izbegne računanje godina bez datuma. */
+  foundedDate: "2006-06-01",
   foundedLabel: "od 2006.",
 
   phone: {
@@ -25,13 +36,18 @@ export const site = {
     display: "064 24 96 345",
   },
 
-  /** [FIKSNI TELEFON] — postoji u imenicima, nije na Google profilu. */
+  /** Potvrđeno aktivan, ali se u v1 ne prikazuje javno. */
   landline: {
     e164: "+38121643362",
     display: "021 64 33 621",
   },
 
-  email: "info@tapetarijaalekom.rs",
+  /**
+   * PRIVREMENA profesionalna adresa. Zameniti konačnom adresom na domenu pre
+   * produkcionog uključivanja forme i potvrditi je u Resend-u.
+   */
+  email: "kontakt@tapetarijaalekom.rs",
+  privacyEmail: "kontakt@tapetarijaalekom.rs",
 
   address: {
     streetAddress: "Tunislava Paunovića 24",
@@ -40,16 +56,30 @@ export const site = {
     addressLocality: "Petrovaradin",
     addressRegion: "Novi Sad",
     addressCountry: "RS",
+    countryName: "Srbija",
     /** Pomoćni podatak za mapu, ne ulazi u LocalBusiness schema. */
     plusCode: "6VRH+QC",
-    full: "Tunislava Paunovića 24, 21132 Petrovaradin, Novi Sad",
+    full: "Tunislava Paunovića 24, 21132 Petrovaradin, Novi Sad, Srbija",
   },
 
-  /**
-   * [RADNO VREME] — na Google profilu je unet samo ponedeljak (08:00–16:00).
-   * Dok nije potvrđeno za sve dane, izostaje iz LocalBusiness schema.
-   */
-  hours: null as ReadonlyArray<{ days: string; opens: string; closes: string }> | null,
+  hours: {
+    weekdays: "Pon–Pet 08:00–17:00",
+    weekend: "Sub–Ned zatvoreno",
+    holidayNote: "Ne radimo državnim i verskim praznicima.",
+    specifications: [
+      {
+        days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "08:00",
+        closes: "17:00",
+      },
+    ],
+  },
+
+  serviceArea: "Novi Sad i okolina, a ostale lokacije po dogovoru.",
+  visitNote: "U radionicu možete doći direktno, bez zakazivanja.",
+  transportNote:
+    "Preuzimanje i povrat nameštaja možemo organizovati po dogovoru, u zavisnosti od lokacije, količine i vrste komada.",
+  privacyRetentionMonths: 12,
 
   social: {
     instagram: "https://www.instagram.com/tapetarijaalekom/",
@@ -70,24 +100,23 @@ export const site = {
   },
 } as const;
 
-/**
- * Sve što nije potvrđeno stoji na false. Uključivanje je jedna linija.
- */
+/** Potvrđene mogućnosti i kontrole javnog prikaza. */
 export const flags = {
   // kanali kontakta
-  viber: false,
-  whatsapp: false,
+  viber: true,
+  whatsapp: true,
+  publicEmail: false,
   facebook: false,
   landline: false,
 
   // tvrdnje o uslugama
-  pickupDelivery: false,
+  pickupDelivery: true,
   warranty: false,
-  freeEstimate: false,
-  ownFabric: false,
-  materialSamples: false,
-  ikeaCovers: false,
-  extendedServiceArea: false,
+  freeEstimate: true,
+  ownFabric: true,
+  materialSamples: true,
+  ikeaCovers: true,
+  extendedServiceArea: true,
   showPrices: false,
 
   // sekcije
@@ -101,15 +130,19 @@ export const flags = {
    * Uključeno dok stignu prave fotografije iz radionice — tada staviti false
    * i flags.beforeAfter ostaviti true samo sa pravim parovima.
    */
-  showPlaceholderProjects: true,
+  showPlaceholderProjects:
+    process.env.NEXT_PUBLIC_SHOW_DEMO_PROJECTS !== "false",
 } as const;
 
 /** Forma obrađuje lične podatke samo kada je izričito uključena. */
 export const contactFormEnabled =
   process.env.NEXT_PUBLIC_CONTACT_FORM_ENABLED === "true";
 
-/** GA4 se ne učitava bez pravog ID-a, a bez GA nema ni cookie bannera. */
-export const analyticsId = process.env.NEXT_PUBLIC_GA_ID ?? null;
+/** GA4 se ne učitava bez validnog Measurement ID-a. */
+const configuredAnalyticsId = process.env.NEXT_PUBLIC_GA_ID ?? "";
+export const analyticsId = /^G-[A-Z0-9]+$/i.test(configuredAnalyticsId)
+  ? configuredAnalyticsId
+  : null;
 
 export const viberLink = `viber://chat?number=${encodeURIComponent(site.phone.e164)}`;
 export const whatsappLink = `https://wa.me/${site.phone.e164.replace("+", "")}`;
@@ -118,7 +151,8 @@ export const mailLink = `mailto:${site.email}`;
 
 export const nav = [
   { label: "Usluge", href: "/usluge" },
-  { label: "Pre i posle", href: "/#radovi", flag: "worksInNav" as const },
+  { label: "Radovi", href: "/radovi", flag: "worksInNav" as const },
+  { label: "O nama", href: "/#o-nama" },
   { label: "Kontakt", href: "/kontakt" },
 ] as const;
 
@@ -127,6 +161,7 @@ export const homeSections = [
   { id: "usluge", label: "Usluge" },
   { id: "radovi", label: "Radovi" },
   { id: "proces", label: "Kako radimo" },
+  { id: "o-nama", label: "O nama" },
   { id: "procena", label: "Procena" },
   { id: "kontakt", label: "Kontakt" },
 ] as const;

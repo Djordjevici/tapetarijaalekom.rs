@@ -1,9 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { flags, mailLink, nav, site, telLink } from "@/data/site";
+import {
+  flags,
+  mailLink,
+  nav,
+  site,
+  telLink,
+  viberLink,
+  whatsappLink,
+} from "@/data/site";
 import { services } from "@/data/services";
-import { contactFormEnabled } from "@/data/site";
 
 export default function Footer() {
   const linkovi = nav.filter((n) => !("flag" in n) || flags[n.flag]);
@@ -21,8 +28,8 @@ export default function Footer() {
               className="h-11 w-auto"
             />
             <p className="mt-6 max-w-xs text-malo leading-relaxed text-mist-2">
-              Tapetarska radionica u Petrovaradinu. Presvlačenje i tapaciranje
-              nameštaja, restauracija i šivenje po meri.
+              Porodična tapetarska radionica Aleksandra Komarova u
+              Petrovaradinu. Presvlačenje, tapaciranje i šivenje po meri.
             </p>
             <p className="mt-5 font-display text-[1.05rem] italic text-bakar-svetli">
               {site.slogan}
@@ -37,7 +44,7 @@ export default function Footer() {
               {services.map((s) => (
                 <li key={s.slug}>
                   <Link
-                    href="/usluge"
+                    href={`/usluge#${s.slug}`}
                     className="transition-colors duration-300 hover:text-platno"
                   >
                     {s.title}
@@ -60,7 +67,7 @@ export default function Footer() {
                   {site.phone.display}
                 </a>
               </li>
-              {/* Fiksni telefon čeka potvrdu da je aktivan. */}
+              {/* Fiksni telefon je aktivan, ali se namerno ne prikazuje u v1. */}
               {flags.landline && (
                 <li>
                   <a href={`tel:${site.landline.e164}`}>
@@ -68,20 +75,37 @@ export default function Footer() {
                   </a>
                 </li>
               )}
-              <li>
-                <a
-                  href={mailLink}
-                  className="transition-colors duration-300 hover:text-platno"
-                >
-                  {site.email}
-                </a>
-              </li>
+              {flags.publicEmail && (
+                <li>
+                  <a
+                    href={mailLink}
+                    className="transition-colors duration-300 hover:text-platno"
+                  >
+                    {site.email}
+                  </a>
+                </li>
+              )}
               <li className="pt-1">{site.address.streetAddress}</li>
               <li>
                 {site.address.postalCode} {site.address.addressLocality},{" "}
                 {site.address.addressRegion}
               </li>
               <li className="pt-3">
+                <a
+                  href={viberLink}
+                  className="transition-colors duration-300 hover:text-platno"
+                >
+                  Viber
+                </a>
+                {" · "}
+                <a
+                  href={whatsappLink}
+                  className="transition-colors duration-300 hover:text-platno"
+                >
+                  WhatsApp
+                </a>
+              </li>
+              <li className="pt-1">
                 <a
                   href={site.social.instagram}
                   target="_blank"
@@ -105,7 +129,10 @@ export default function Footer() {
                 )}
               </li>
               <li className="pt-1 text-mist-3">
-                Radno vreme: [RADNO VREME]
+                {site.hours.weekdays} · {site.hours.weekend}
+              </li>
+              <li className="text-mist-3">
+                {site.hours.holidayNote}
               </li>
             </ul>
           </div>
@@ -127,17 +154,22 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
-              {/* Link na politiku privatnosti stoji čim forma radi. */}
-              {contactFormEnabled && (
-                <li>
-                  <Link
-                    href="/politika-privatnosti"
-                    className="transition-colors duration-300 hover:text-platno"
-                  >
-                    Politika privatnosti
-                  </Link>
-                </li>
-              )}
+              <li>
+                <Link
+                  href="/politika-privatnosti"
+                  className="transition-colors duration-300 hover:text-platno"
+                >
+                  Privatnost
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/politika-kolacica"
+                  className="transition-colors duration-300 hover:text-platno"
+                >
+                  Kolačići
+                </Link>
+              </li>
             </ul>
           </nav>
         </div>

@@ -19,12 +19,12 @@ export default function Usluge() {
           nadnaslov="Šta radimo"
           naslov={
             <>
-              Od kauča u dnevnoj sobi
+              Od kućnog i kožnog nameštaja
               <br />
-              do komada sa istorijom.
+              do poslovnog enterijera.
             </>
           }
-          uvod="Radi se na svemu što se tapacira — od svakodnevnog kućnog nameštaja, preko kože, do stilskih komada i prostora koji rade svaki dan."
+          uvod="Presvlačenje, tapaciranje i šivenje po meri za domove i poslovne prostore — uz poseban fokus na kožni nameštaj i preciznu završnu obradu."
         />
 
         <div className="mt-16 grid gap-16 sm:mt-20 sm:gap-24">
@@ -56,7 +56,14 @@ export default function Usluge() {
                   <span className="font-display text-[0.95rem] italic text-bakar">
                     0{i + 1}
                   </span>
-                  <h3 className="mt-3 text-h3">{s.title}</h3>
+                  <h3 className="mt-3 text-h3">
+                    <Link
+                      href={`/usluge#${s.slug}`}
+                      className="transition-colors hover:text-bakar-tekst"
+                    >
+                      {s.title}
+                    </Link>
+                  </h3>
                   <p className="mt-1 text-malo text-ink-3">{s.lead}</p>
                   <p className="mt-5 text-body text-ink-2">{s.body}</p>
                   <p className="mt-4 border-l-2 border-bakar pl-4 text-malo text-ink-2">
@@ -85,7 +92,12 @@ export default function Usluge() {
               <ul className="grid gap-x-10 gap-y-5 sm:grid-cols-3">
                 {ostale.map((s) => (
                   <li key={s.slug}>
-                    <span className="font-display text-[1.05rem]">{s.title}</span>
+                    <Link
+                      href={`/usluge#${s.slug}`}
+                      className="font-display text-[1.05rem] transition-colors hover:text-bakar-tekst"
+                    >
+                      {s.title}
+                    </Link>
                     <p className="mt-1.5 text-malo text-ink-3">{s.lead}</p>
                   </li>
                 ))}

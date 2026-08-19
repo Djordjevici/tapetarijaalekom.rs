@@ -46,7 +46,11 @@ export default function FloatingContact() {
     { label: `Pozovite ${site.phone.display}`, href: telLink, prikazi: true },
     { label: "Viber", href: viberLink, prikazi: flags.viber },
     { label: "WhatsApp", href: whatsappLink, prikazi: flags.whatsapp },
-    { label: "Pošaljite fotografiju", href: "#procena", prikazi: true },
+    {
+      label: "Pošaljite fotografiju",
+      href: "/kontakt#procena",
+      prikazi: true,
+    },
   ].filter((s) => s.prikazi);
 
   return (

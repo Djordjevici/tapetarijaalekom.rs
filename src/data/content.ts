@@ -1,14 +1,11 @@
 import type { FaqItem, ProcessStep, Review } from "@/types";
 
-/**
- * Prikazuju se samo pitanja čiji odgovor ne zahteva podatak koji nemamo.
- * Ostala čekaju potvrdu klijenta i stoje na enabled: false.
- */
+/** Potvrđeni odgovori koji se prikazuju i ulaze u FAQ schema. */
 export const faq: readonly FaqItem[] = [
   {
-    question: "Kako mogu da dobijem okvirnu procenu?",
+    question: "Kako mogu da dobijem procenu?",
     answer:
-      "Najbrže je da pošaljete nekoliko jasnih fotografija komada, njegove približne dimenzije i kratak opis željenih radova. Kada pregledamo te informacije, dogovaramo naredne korake.",
+      "Pošaljite oko tri jasne fotografije, približne dimenzije, broj komada, opis oštećenja, lokaciju i željeni rok. Na osnovu toga dobijate besplatnu okvirnu procenu. Konačnu ponudu definišemo nakon pregleda komada uživo — u radionici ili na vašoj lokaciji, u zavisnosti od posla.",
     enabled: true,
   },
   {
@@ -18,87 +15,93 @@ export const faq: readonly FaqItem[] = [
     enabled: true,
   },
   {
-    question: "Da li se isplati presvući stari nameštaj?",
+    question: "Koliko traje presvlačenje?",
     answer:
-      "Kvalitetan komad sa dobrom konstrukcijom često vredi obnoviti. Odluka zavisi od stanja konstrukcije, potrebnih popravki, emotivne ili materijalne vrednosti komada i željenog krajnjeg izgleda.",
+      "Rok zavisi od obima posla, stanja komada, složenosti krojenja i dostupnosti izabranog materijala. Precizniji termin definišemo nakon pregleda i ne obećavamo fiksan rok pre nego što vidimo komad.",
     enabled: true,
   },
   {
-    question: "Koje informacije treba da pošaljem uz fotografije?",
+    question: "Da li mogu da donesem svoj materijal?",
     answer:
-      "Poželjno je poslati fotografije iz više uglova, približne dimenzije, opis oštećenja i informaciju o tome kakav rezultat želite.",
+      "Da. Ako već imate odabran materijal, možete ga doneti uz prethodnu konsultaciju kako bismo proverili da li odgovara konkretnom komadu i načinu upotrebe.",
+    enabled: true,
+  },
+  {
+    question: "Da li dolazite po nameštaj i vraćate gotov komad?",
+    answer:
+      "Preuzimanje i povrat nameštaja možemo organizovati po dogovoru, u zavisnosti od lokacije, količine i vrste komada. Komad možete i sami doneti i preuzeti u radionici.",
     enabled: true,
   },
   {
     question: "Da li radite stilski i antikvarni nameštaj?",
     answer:
-      "Da. Radimo tapaciranje stilskog nameštaja i restauraciju antikvarnih komada, kao i kožnu galanteriju.",
+      "Da, po dogovoru i nakon pregleda konkretnog komada. Kod stilskog i antikvarnog nameštaja prvo procenjujemo konstrukciju, detalje i obim intervencije.",
     enabled: true,
   },
-  // --- Čeka potvrdu klijenta ---
   {
-    question: "Koliko traje presvlačenje kauča?",
-    answer: "[ROK — potvrditi sa klijentom]",
-    enabled: false,
+    question: "Da li popravljate konstrukciju, sunđer i opruge?",
+    answer:
+      "Sunđer, opruge, gurtne i trake menjamo ili popravljamo u sklopu tapetarskih radova. Popravka drvene konstrukcije i veoma oštećenih komada zavisi od stanja i dogovara se nakon pregleda. Mehanizme ne popravljamo.",
+    enabled: true,
   },
   {
-    question: "Mogu li da donesem svoju tkaninu?",
-    answer: "[POTVRDITI]",
-    enabled: false,
-  },
-  {
-    question: "Da li dolazite po nameštaj?",
-    answer: "[POTVRDITI — preuzimanje i dostava]",
-    enabled: false,
+    question: "Da li je početna procena besplatna?",
+    answer:
+      "Da. Početna okvirna procena na osnovu fotografija i osnovnih informacija je besplatna. Konačna ponuda se definiše tek nakon pregleda komada uživo.",
+    enabled: true,
   },
   {
     question: "Koja područja pokrivate?",
-    answer: "[POTVRDITI — šire područje rada]",
-    enabled: false,
+    answer:
+      "Radimo u Novom Sadu i okolini, a ostale lokacije prihvatamo po dogovoru. Izlazak na teren zavisi od vrste i obima posla.",
+    enabled: true,
   },
   {
-    question: "Da li postoji garancija na radove?",
-    answer: "[POTVRDITI — šta pokriva i koliko traje]",
-    enabled: false,
+    question: "Da li radite poslovne prostore?",
+    answer:
+      "Da. Sarađujemo sa restoranima, kafićima, hotelima, kancelarijama, dizajnerima enterijera i arhitektama na pojedinačnim komadima i serijama prema projektu.",
+    enabled: true,
   },
 ];
 
 export const activeFaq = faq.filter((f) => f.enabled);
 
-/**
- * Koraci su formulisani neutralno. Ne obećavaju rok, cenu, besplatnu procenu
- * ni prevoz, jer to još nije potvrđeno.
- */
 export const processSteps: readonly ProcessStep[] = [
   {
-    title: "Pošaljete fotografije i kratak opis",
+    title: "Pošaljete fotografije",
     body:
-      "Putem forme, Vibera, WhatsAppa ili direktnim pozivom. Korisno je više uglova i približne dimenzije komada.",
+      "Za početnu procenu idealne su oko tri fotografije, dimenzije, broj komada, opis oštećenja, lokacija i željeni rok.",
     enabled: true,
   },
   {
-    title: "Razgovor i okvirna procena",
+    title: "Dobijate besplatnu okvirnu procenu",
     body:
-      "Na osnovu fotografija i informacija definišemo naredne korake. Ako je potreban pregled uživo, termin se dogovara naknadno.",
+      "Fotografije su dovoljne za početnu okvirnu cenu i razgovor o mogućnostima, bez obaveze i bez obećavanja konačne ponude unapred.",
     enabled: true,
   },
   {
-    title: "Izbor materijala i detalja",
+    title: "Pregled uživo",
     body:
-      "Dogovaramo izgled, namenu, vrstu materijala i radove koje treba izvesti na konstrukciji i sedištu.",
+      "Konačnu ponudu definišemo nakon pregleda komada u radionici ili na vašoj lokaciji, u zavisnosti od posla.",
+    enabled: true,
+  },
+  {
+    title: "Izbor materijala i pisana ponuda",
+    body:
+      "Biramo materijal u radionici ili kod vas, savetujemo prema nameni i potvrđujemo dogovoreni obim radova. Nakon prihvatanja ponude dogovara se avans od 30–50%, u zavisnosti od posla.",
     enabled: true,
   },
   {
     title: "Izrada i završna obrada",
     body:
-      "Komad prolazi kroz dogovorene tapetarske radove i priprema se za preuzimanje ili predaju.",
+      "Radimo prema dogovorenom obimu, uz pažnju na konstrukciju, preciznost krojenja, šav i završnu obradu.",
     enabled: true,
   },
   {
-    // Uključuje se samo ako klijent potvrdi uslugu — vidi flags.pickupDelivery
-    title: "Preuzimanje i dostava",
-    body: "[POTVRDITI — uslovi preuzimanja i dostave]",
-    enabled: false,
+    title: "Završetak i predaja",
+    body:
+      "O završetku vas obaveštavamo telefonom. Preuzimanje i povrat nameštaja organizujemo prema dogovoru.",
+    enabled: true,
   },
 ];
 
@@ -126,15 +129,16 @@ export const reviews: readonly Review[] = [];
 export const priceFactors: readonly string[] = [
   "Vrsta i veličina komada",
   "Stanje noseće konstrukcije",
-  "Stanje sunđera, gurtni i mehanizama",
+  "Stanje sunđera, opruga, gurtni i traka",
   "Izbor materijala",
   "Složenost krojenja i šivenja",
-  "Dodatne popravke na komadu",
+  "Broj komada i obim radova",
+  "Transport i organizacija posla",
+  "Željeni termin, kada je hitnost moguća",
 ];
 
 /**
- * Edukativna sekcija o materijalima. Ne tvrdi da radionica ima katalog,
- * uzorke na stanju ni određene brendove — to nije potvrđeno.
+ * Edukativna sekcija o materijalima, bez univerzalnih tvrdnji.
  */
 export const materialTopics: readonly { title: string; body: string }[] = [
   {
@@ -145,7 +149,7 @@ export const materialTopics: readonly { title: string; body: string }[] = [
   {
     title: "Deca i kućni ljubimci",
     body:
-      "Ako u kući ima mačke, tkanine sa izvučenim petljama nisu dobra ideja. Za takve prostore biraju se čvršća, zatvorena tkanja i materijali koji se lakše čiste.",
+      "Pri izboru uzimamo u obzir održavanje, intenzitet korišćenja i svakodnevne potrebe domaćinstva. Za kućne ljubimce postoje pet-friendly meblovi; konkretan uzorak biramo prema načinu korišćenja.",
   },
   {
     title: "Tkanina ili koža",
@@ -158,9 +162,9 @@ export const materialTopics: readonly { title: string; body: string }[] = [
       "Ista tkanina drugačije izgleda pored prozora i u dubini sobe. Zato se uzorak uvek gleda u prostoru u kom će komad stajati, i to u toku dana.",
   },
   {
-    title: "Komadi za spolja",
+    title: "Spolja i intenzivno korišćenje",
     body:
-      "Za tende, ljuljaške i ležaljke koriste se materijali otporni na sunce i vlagu. Obična tkanina u tim uslovima za nekoliko sezona izgubi boju.",
+      "Za tende, ljuljaške, ležaljke i ugostiteljske objekte biraju se materijali prema suncu, vlazi, čišćenju i intenzitetu korišćenja — bez tvrdnji o sertifikatima koje konkretan materijal nema.",
   },
   {
     title: "Šta ide ispod presvlake",
