@@ -479,7 +479,10 @@ export default function FormaProcena() {
         )}
       </div>
 
-      <fieldset>
+      <fieldset
+        aria-invalid={Boolean(greske.kontakt)}
+        aria-describedby={greske.kontakt ? "greska-kontakt" : undefined}
+      >
         <legend className="mb-2 block text-malo text-mist-2">
           Kako želite da vas kontaktiramo
         </legend>
@@ -501,10 +504,6 @@ export default function FormaProcena() {
                   name="kontakt"
                   value={o.v}
                   defaultChecked={i === 0}
-                  aria-invalid={Boolean(greske.kontakt)}
-                  aria-describedby={
-                    greske.kontakt ? "greska-kontakt" : undefined
-                  }
                   className="h-5 w-5 accent-bakar"
                 />
                 {o.l}

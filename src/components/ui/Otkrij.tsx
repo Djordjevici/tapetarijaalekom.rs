@@ -28,8 +28,8 @@ export default function Otkrij({
     if (!el) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setVidljivo(true);
-      return;
+      const okvir = requestAnimationFrame(() => setVidljivo(true));
+      return () => cancelAnimationFrame(okvir);
     }
 
     const obs = new IntersectionObserver(

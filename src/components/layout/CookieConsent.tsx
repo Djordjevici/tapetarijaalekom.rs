@@ -21,7 +21,8 @@ export default function CookieConsent() {
     if (!analyticsId) return;
     const sacuvano = localStorage.getItem(KLJUC);
     if (sacuvano === "prihvaceno" || sacuvano === "odbijeno") {
-      setStanje(sacuvano);
+      const okvir = requestAnimationFrame(() => setStanje(sacuvano));
+      return () => cancelAnimationFrame(okvir);
     }
   }, []);
 
