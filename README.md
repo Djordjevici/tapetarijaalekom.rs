@@ -2,7 +2,7 @@
 
 Sajt Tapetarije Alekom — tapetarska radionica u Petrovaradinu, Novi Sad.
 
-**Stack:** Next.js 15 (App Router) · TypeScript · Tailwind CSS · Docker + Caddy na Hetzner VM-u
+**Stack:** Next.js 16 (App Router) · React 19 · TypeScript strict · Tailwind CSS · Vercel · Resend
 
 ---
 
@@ -27,7 +27,7 @@ Node 20 ili noviji.
 ```
 src/
   app/                 rute, layout, sitemap, robots, manifest, OG slika
-    api/upit/          prijem forme (trenutno ne šalje — vidi DEPLOY.md)
+    api/upit/          validacija i slanje forme preko Resend-a
   components/
     layout/            header, mobilni meni, footer, plutajući kontakt
     sections/          sekcije strana
@@ -38,13 +38,13 @@ src/
   lib/                 SEO i schema
   types/               tipovi
 public/
-  logo/                logotip, sve varijante + preview.html
+  logo/                odobrene SVG varijante logotipa
+  icons/               PNG app i touch ikone
   images/placeholders/ PRIVREMENE fotografije
 tools/
-  logo/                skript za generisanje logotipa
+  logo/                skripte i interni pregled logotipa
   snimci.py            full-page snimci sajta
   provera-klizaca.py   provera klizača pre/posle
-landing-page/          stara „Uskoro" strana, zadržana kao referenca
 ```
 
 ## Gde se šta menja
@@ -55,6 +55,7 @@ Sve ide iz `src/data/`:
 | Fajl | Šta sadrži |
 |---|---|
 | `data/site.ts` | telefon, adresa, email, mreže, radno vreme, **feature flagovi** |
+| `data/business.ts` | reference, B2B segmenti, dobavljači i vrste materijala |
 | `data/services.ts` | usluge, opisi, tipični komadi |
 | `data/projects.ts` | projekti za pre/posle i galeriju |
 | `data/content.ts` | FAQ, koraci procesa, faktori cene, materijali, recenzije |
@@ -62,26 +63,27 @@ Sve ide iz `src/data/`:
 
 ### Feature flagovi
 
-U `data/site.ts`. Sve što klijent nije potvrdio stoji na `false` i **ne prikazuje se**.
-Uključivanje je jedna linija:
+U `data/site.ts`. Potvrđene funkcije su uključene, dok se nepotvrđene ne
+renderuju:
 
 ```ts
 export const flags = {
-  viber: false,          // Viber na mobilnom broju
-  whatsapp: false,       // WhatsApp na mobilnom broju
+  viber: true,           // Viber na mobilnom broju
+  whatsapp: true,        // direktna WhatsApp prečica, ne izbor u formi
+  publicEmail: false,    // privremeni email se ne ističe javno
   facebook: false,       // uz to popuniti site.social.facebook
-  landline: false,       // fiksni 021
-  pickupDelivery: false, // preuzimanje i dostava
-  warranty: false,       // garancija
-  freeEstimate: false,   // besplatna procena
-  ownFabric: false,      // kupac donosi svoju tkaninu
-  materialSamples: false,// uzorci materijala
-  ikeaCovers: false,     // navlake za IKEA nameštaj
-  extendedServiceArea: false, // šire područje rada
+  landline: false,       // aktivan, ali namerno skriven u v1
+  pickupDelivery: true,  // po dogovoru
+  warranty: false,       // ne promoviše se javno
+  freeEstimate: true,    // početna okvirna procena
+  ownFabric: true,
+  materialSamples: true,
+  ikeaCovers: true,
+  extendedServiceArea: true,
   showPrices: false,     // prikaz cena
   reviews: false,        // sekcija recenzija
   beforeAfter: true,     // sekcija pre/posle (demo dok nema pravih foto)
-  worksInNav: true,      // link „Pre i posle" u navigaciji
+  worksInNav: true,      // link /radovi u navigaciji
 };
 ```
 
@@ -116,9 +118,10 @@ Komponente se pri tome ne diraju.
 }
 ```
 
-Kada stignu **najmanje 2–3 prava para**, stavi `isPlaceholder: false`,
-isključi `flags.showPlaceholderProjects`, a `beforeAfter` / `worksInNav`
-ostavi uključene.
+Kada stignu pravi parovi, stavi `isPlaceholder: false`. Do tada je demo jasno
+označen i `/radovi` ima `noindex`; uz
+`NEXT_PUBLIC_SHOW_DEMO_PROJECTS=false` demo se potpuno skriva. Sitemap dodaje
+`/radovi` tek kada postoji bar jedan objavljen pravi projekat.
 
 ### Dodavanje recenzije
 
@@ -143,7 +146,7 @@ ostavi uključene.
 
 ## Logotip
 
-Sve varijante su u `public/logo/`. Pregled: otvori `public/logo/preview.html`.
+Sve varijante su u `public/logo/`. Interni pregled: `tools/logo/preview.html`.
 
 | Fajl | Kada |
 |---|---|
@@ -168,12 +171,25 @@ python3 tools/snimci.py           # full-page snimci, desktop i mobilni
 python3 tools/provera-klizaca.py  # klizač pre/posle + vodoravno prelivanje
 ```
 
-Za oba treba pokrenut server (`npm run start` na portu 3210, odnosno
-`npm run dev` na 3211).
+Za provere treba pokrenuti odgovarajući lokalni server; portovi su navedeni u
+samim alatima.
+
+## Obavezno pre produkcije
+
+- `site.email` i `site.privacyEmail` su trenutno privremeno
+  `kontakt@tapetarijaalekom.rs`; zameniti konačnim poslovnim emailom.
+- U Vercelu uneti pravi `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` i
+  `RESEND_API_KEY`, pa testirati formu sa prilozima.
+- Zameniti privremene fotografije originalnim radovima i fotografijama
+  radionice.
+- Pravno pregledati politiku privatnosti i potvrditi predloženi rok čuvanja od
+  12 meseci.
+- Uneti GA4 Measurement ID tek kada je spreman; bez njega se analitika i banner
+  ne učitavaju.
 
 ## Dalje
 
-- `DEPLOY.md` — domen, Hetzner server, forma, analitika
+- `DEPLOY.md` — Vercel, Loopia DNS, Resend i analitika
 - `PODACI-ZA-POTVRDU.md` — sve što klijent mora da potvrdi pre lansiranja
 - `GOOGLE-PROFIL.md` — preporuke za Google Business profil
 - `DIZAJN.md` — vizuelni sistem, tokeni, animacije

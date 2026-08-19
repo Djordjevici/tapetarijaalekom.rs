@@ -3,7 +3,7 @@
 **Profil nije menjan.** Ovo je checklista za klijenta ili za rad uz njegovo
 odobrenje.
 
-## Stanje profila (provereno)
+## Podaci koje treba uskladiti
 
 | Podatak | Vrednost |
 |---|---|
@@ -13,11 +13,9 @@ odobrenje.
 | Plus Code | 6VRH+QC |
 | Telefon | +381 64 2496345 — jedini na profilu |
 | Sajt | tapetarijaalekom.rs — već povezan |
-| Radno vreme | samo ponedeljak 08:00–16:00 |
-| Ocena | prikazano 5,0 |
-| Recenzije | nema vidljivog broja; profil poziva na dodavanje recenzije |
-| Fotografije | jedna |
-| Objava vlasnika | „Šivenje tende za ljuljašku", 17.05.2026. |
+| Radno vreme | Pon–Pet 08:00–17:00; Sub–Ned zatvoreno |
+| Praznici | Ne radi državnim i verskim praznicima |
+| Područje rada | Novi Sad i okolina; ostale lokacije po dogovoru |
 
 Godina osnivanja, opis biznisa i područje rada nisu postavljeni.
 
@@ -25,9 +23,8 @@ Godina osnivanja, opis biznisa i područje rada nisu postavljeni.
 
 ### 1. Radno vreme za sve dane
 
-Unet je samo ponedeljak, pa Google prikazuje poziv da se predloži novo radno
-vreme. Radnja zbog toga ispada iz pretraga tipa „otvoreno sada", a to je
-upravo trenutak kada ljudi zovu majstora.
+Uneti potvrđeno vreme: ponedeljak–petak 08:00–17:00, subota i nedelja
+zatvoreno, uz posebno praznično radno vreme kada je potrebno.
 
 ### 2. Recenzije
 
@@ -68,8 +65,8 @@ profilu i u imenicima.
 
 ### 8. Fiksni telefon
 
-021 64 33 621 postoji u imenicima, ali nije na profilu. Ako je aktivan, dodati
-ga i uključiti `flags.landline` na sajtu.
+021 64 33 621 je aktivan, ali se u v1 namerno ne prikazuje javno. Glavni broj
+na sajtu i profilu ostaje 064 24 96 345.
 
 ### 9. Područje rada
 
@@ -91,8 +88,8 @@ Sajt sam nosi tapetarske ključne reči, jer ih Google profil trenutno ne
 komunicira: presvlačenje kauča Novi Sad, tapaciranje fotelja, tapetar Novi Sad,
 restauracija stilskog nameštaja, presvlačenje stolica, tende i ljuljaške.
 
-LocalBusiness schema je postavljena, ali:
+LocalBusiness schema je postavljena:
 
-- `openingHours` **izostaje** dok radno vreme nije potvrđeno za sve dane
+- `openingHoursSpecification` koristi potvrđeno radno vreme
 - `aggregateRating` **izostaje** dok nema autentičnih recenzija
 - `geo` **izostaje** dok nemamo proverene koordinate
