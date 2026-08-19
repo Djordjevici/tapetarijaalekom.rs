@@ -38,7 +38,8 @@ export default function MobileMenu({
         ) ?? [],
       );
 
-    fokusabilni()[0]?.focus();
+    // Sačekaj sledeći frejm da browser prvo ukloni `inert` sa panela.
+    const okvirFokusa = requestAnimationFrame(() => fokusabilni()[0]?.focus());
 
     const naTipku = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -61,6 +62,7 @@ export default function MobileMenu({
 
     document.addEventListener("keydown", naTipku);
     return () => {
+      cancelAnimationFrame(okvirFokusa);
       document.removeEventListener("keydown", naTipku);
       document.body.style.overflow = "";
       prethodni?.focus();
