@@ -11,6 +11,13 @@ export default function Header() {
   const [skrolovan, setSkrolovan] = useState(false);
   const [otvoren, setOtvoren] = useState(false);
   const zatvoriMenu = useCallback(() => setOtvoren(false), []);
+  const otvoriMenu = useCallback(() => {
+    setOtvoren(true);
+    window.setTimeout(
+      () => document.getElementById("zatvori-mobilni-meni")?.focus(),
+      0,
+    );
+  }, []);
 
   useEffect(() => {
     const naSkrol = () => setSkrolovan(window.scrollY > 24);
@@ -86,7 +93,7 @@ export default function Header() {
             </a>
             <button
               type="button"
-              onClick={() => setOtvoren(true)}
+              onClick={otvoriMenu}
               aria-label="Otvorite meni"
               aria-expanded={otvoren}
               aria-controls="mobilni-meni"

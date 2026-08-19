@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import {
   flags,
@@ -24,11 +24,6 @@ export default function MobileMenu({
   zatvori: () => void;
 }) {
   const panel = useRef<HTMLDivElement>(null);
-  const dugmeZaZatvaranje = useRef<HTMLButtonElement>(null);
-
-  useLayoutEffect(() => {
-    if (otvoren) dugmeZaZatvaranje.current?.focus();
-  }, [otvoren]);
 
   useEffect(() => {
     if (!otvoren) return;
@@ -93,7 +88,7 @@ export default function MobileMenu({
             Meni
           </span>
           <button
-            ref={dugmeZaZatvaranje}
+            id="zatvori-mobilni-meni"
             type="button"
             onClick={zatvori}
             aria-label="Zatvorite meni"
