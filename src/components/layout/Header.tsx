@@ -13,9 +13,11 @@ export default function Header() {
   const zatvoriMenu = useCallback(() => setOtvoren(false), []);
   const otvoriMenu = useCallback(() => {
     setOtvoren(true);
-    window.setTimeout(
-      () => document.getElementById("zatvori-mobilni-meni")?.focus(),
-      0,
+    // Dva frejma ostavljaju React-u vreme da ukloni `inert` pre fokusiranja.
+    window.requestAnimationFrame(() =>
+      window.requestAnimationFrame(() =>
+        document.getElementById("zatvori-mobilni-meni")?.focus(),
+      ),
     );
   }, []);
 
