@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="sr-Latn-RS">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alekom — provera logotipa</title>
+<style>
+  :root {
+    --sumrak: #1C2F2A;
+    --ugljen: #12151A;
+    --platno: #E7E6E0;
+    --papir: #F2F1EB;
+    --bakar: #BE7242;
+    --line: #D8D4CB;
+    --muted: #5A635C;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font: 14px/1.5 ui-sans-serif, system-ui, sans-serif;
+    background: var(--papir);
+    color: #1A1C1A;
+    padding: 40px 24px 80px;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; }
+  h1 { font-size: 24px; font-weight: 600; letter-spacing: -.01em; }
+  .sub { color: var(--muted); margin: 6px 0 36px; max-width: 620px; }
+  h2 {
+    font-size: 12px; text-transform: uppercase; letter-spacing: .12em;
+    color: var(--muted); font-weight: 600;
+    padding-bottom: 8px; border-bottom: 1px solid var(--line);
+    margin: 44px 0 20px;
+  }
+  .row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+  .cell {
+    background: #fff; border: 1px solid var(--line);
+    padding: 20px; text-align: center; flex: 0 0 auto;
+  }
+  .cell.dark { background: var(--sumrak); border-color: var(--sumrak); }
+  .cell.coal { background: var(--ugljen); border-color: var(--ugljen); }
+  .cell.canvas { background: var(--platno); }
+  .cap {
+    display: block; margin-top: 12px; font-size: 11px;
+    color: var(--muted); letter-spacing: .04em;
+  }
+  .cell.dark .cap, .cell.coal .cap { color: rgba(231,230,224,.62); }
+  img { display: block; margin: 0 auto; }
+
+  /* simulacija headera */
+  .header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 22px; border: 1px solid var(--line); margin-bottom: 12px;
+    background: #fff;
+  }
+  .header.dark { background: var(--sumrak); border-color: var(--sumrak); }
+  .header nav {
+    display: flex; gap: 22px; font-size: 13px; color: var(--muted);
+  }
+  .header.dark nav { color: rgba(231,230,224,.7); }
+  .cta {
+    font-size: 12px; font-weight: 600; padding: 9px 16px;
+    border: 1px solid var(--bakar); color: var(--bakar);
+  }
+  .note {
+    font-size: 12px; color: var(--muted); margin-top: 8px;
+    padding-left: 10px; border-left: 2px solid var(--bakar);
+  }
+  .mono-demo { color: var(--sumrak); }
+  .mono-demo.on-copper { color: var(--bakar); }
+  .mono-demo.on-canvas { color: var(--platno); }
+  .mono-demo svg { width: 100%; height: auto; display: block; }
+  code {
+    font-family: ui-monospace, monospace; font-size: .92em;
+    background: rgba(0,0,0,.05); padding: 1px 4px;
+  }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .grid2 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Rekonstrukcija logotipa — za odobrenje</h1>
+  <p class="sub">
+    Slova nisu trasirana iz PNG-a. Krive su izvučene iz Fraunces fonta i svaki
+    glif je pojedinačno pozicioniran i rotiran po luku, pa logo ne zavisi od
+    prisustva fonta na sistemu. Ukupno 21 kriva, bez rasterskih delova.
+  </p>
+
+  <h2>1 · Original kao referenca</h2>
+  <div class="row">
+    <div class="cell">
+      <img src="reference/original-monogram.png" width="230" height="230"
+           alt="Originalni PNG logo, referenca">
+      <span class="cap">PNG original (generisan)</span>
+    </div>
+    <div class="cell">
+      <img src="alekom-seal.svg" width="230" height="230" alt="Rekonstruisani vektor">
+      <span class="cap">Rekonstruisani SVG</span>
+    </div>
+  </div>
+  <p class="note">
+    Zadržani su svi elementi originala: spoljašnji prsten, ALEKOM po gornjem luku,
+    TAPETARIJA po donjem, kurzivni monogram A, bakarni isprekidani šav i dve tačke
+    na 3 i 9 sati.
+  </p>
+
+  <h2>2 · Svetla i tamna podloga</h2>
+  <div class="row">
+    <div class="cell canvas">
+      <img src="alekom-seal.svg" width="200" height="200" alt="Logo na platnu">
+      <span class="cap">platno #E7E6E0</span>
+    </div>
+    <div class="cell">
+      <img src="alekom-seal.svg" width="200" height="200" alt="Logo na beloj">
+      <span class="cap">bela</span>
+    </div>
+    <div class="cell dark">
+      <img src="alekom-seal-dark.svg" width="200" height="200" alt="Logo na sumraku">
+      <span class="cap">sumrak #1C2F2A</span>
+    </div>
+    <div class="cell coal">
+      <img src="alekom-seal-dark.svg" width="200" height="200" alt="Logo na ugljenu">
+      <span class="cap">ugljen #12151A</span>
+    </div>
+  </div>
+
+  <h2>3 · Jednobojna verzija</h2>
+  <div class="row" id="mono-row">
+    <div class="cell">
+      <div class="mono-demo" data-mono="alekom-seal-mono.svg" style="width:170px"></div>
+      <span class="cap">nasleđuje sumrak</span>
+    </div>
+    <div class="cell">
+      <div class="mono-demo on-copper" data-mono="alekom-seal-mono.svg" style="width:170px"></div>
+      <span class="cap">nasleđuje bakar</span>
+    </div>
+    <div class="cell coal">
+      <div class="mono-demo on-canvas" data-mono="alekom-seal-mono.svg" style="width:170px"></div>
+      <span class="cap">nasleđuje platno</span>
+    </div>
+    <div class="cell">
+      <div class="mono-demo" data-mono="alekom-mark-mono.svg" style="width:110px"></div>
+      <span class="cap">znak, jednobojno</span>
+    </div>
+  </div>
+  <p class="note">
+    Jednobojna verzija koristi <code>currentColor</code>, pa nasleđuje boju teksta —
+    radi za žig, gravuru i štampu u jednoj boji. Zato se na sajtu ubacuje kao
+    ugrađeni SVG, a ne kroz <code>&lt;img&gt;</code>, jer kroz <code>&lt;img&gt;</code>
+    boja ne može da se nasledi.
+  </p>
+
+  <h2>4 · Favicon i mali znak</h2>
+  <div class="row">
+    <div class="cell"><img src="favicon.svg" width="24" height="24" alt="24 px"><span class="cap">znak · 24 px</span></div>
+    <div class="cell"><img src="favicon.svg" width="32" height="32" alt="32 px"><span class="cap">znak · 32 px</span></div>
+    <div class="cell"><img src="favicon.svg" width="48" height="48" alt="48 px"><span class="cap">znak · 48 px</span></div>
+    <div class="cell"><img src="favicon.svg" width="64" height="64" alt="64 px"><span class="cap">znak · 64 px</span></div>
+    <div class="cell"><img src="favicon-tiny.svg" width="16" height="16" alt="16 px"><span class="cap">tiny · 16 px</span></div>
+    <div class="cell"><img src="favicon-tiny.svg" width="32" height="32" alt="32 px"><span class="cap">tiny · 32 px</span></div>
+    <div class="cell dark"><img src="favicon-tiny-dark.svg" width="32" height="32" alt="32 px tamno"><span class="cap">tiny · tamno</span></div>
+  </div>
+  <div class="row">
+    <div class="cell"><img src="favicon.svg" style="width:160px;height:160px;image-rendering:pixelated" alt="Znak uvećan"><span class="cap">znak · 32 px uvećan 5x</span></div>
+    <div class="cell"><img src="favicon-tiny.svg" style="width:160px;height:160px;image-rendering:pixelated" alt="Tiny uvećan"><span class="cap">tiny · 16 px uvećan 10x</span></div>
+  </div>
+  <p class="note">
+    Dve veličine: <b>znak</b> (prsten, monogram, tačkasti šav) za 24 px i više, i
+    <b>tiny</b> (samo debeo prsten i monogram) za 16 px, gde se tačke šava ionako
+    stapaju. Kružni tekst je izostavljen u oba jer je ispod 64 px nečitljiv.
+  </p>
+
+  <h2>5 · Header — najmanje realne veličine</h2>
+  <div class="header">
+    <img src="alekom-lockup.svg" height="34" alt="Tapetarija Alekom">
+    <nav><span>Usluge</span><span>Radovi</span><span>Kontakt</span></nav>
+    <span class="cta">Pošaljite fotografiju</span>
+  </div>
+  <div class="header dark">
+    <img src="alekom-lockup-dark.svg" height="34" alt="Tapetarija Alekom">
+    <nav><span>Usluge</span><span>Radovi</span><span>Kontakt</span></nav>
+    <span class="cta">Pošaljite fotografiju</span>
+  </div>
+  <div class="header">
+    <img src="alekom-lockup.svg" height="28" alt="Tapetarija Alekom">
+    <nav><span>Usluge</span><span>Radovi</span></nav>
+    <span class="cta">Pozovite</span>
+  </div>
+  <p class="note">
+    Lockup: uprošćen znak + naziv u dva reda, sa bakarnim šavom kao razdelnikom.
+    Ovo je verzija za header, jer pun pečat na 34 px postaje nečitljiv — poređenje ispod.
+  </p>
+
+  <div class="grid2" style="margin-top:20px">
+    <div class="cell">
+      <img src="alekom-seal.svg" width="34" height="34" alt="Pečat na 34 px">
+      <span class="cap">pun pečat na 34 px — tekst se gubi</span>
+    </div>
+    <div class="cell">
+      <img src="alekom-lockup.svg" height="34" alt="Lockup na 34 px">
+      <span class="cap">lockup na 34 px — čitljivo</span>
+    </div>
+  </div>
+
+  <h2>6 · Monogram — dve opcije</h2>
+  <div class="row">
+    <div class="cell">
+      <img src="alekom-seal.svg" width="200" height="200" alt="Opcija A1">
+      <span class="cap">A1 · Fraunces kurziv, WONK uključen</span>
+    </div>
+    <div class="cell">
+      <img src="alekom-seal-alt-a.svg" width="200" height="200" alt="Opcija A2">
+      <span class="cap">A2 · Fraunces kurziv, WONK isključen</span>
+    </div>
+  </div>
+  <p class="note">
+    Razlika je u karakteru poteza kurzivnog A. A1 je nešto izraženiji i bliži
+    dekorativnom A iz originala; A2 je mirniji i klasičniji. Treba izabrati jedan.
+  </p>
+  <p class="note">
+    <b>Jedna svesna razlika od originala:</b> na PNG-u A ima dekorativnu petlju na
+    donjem kraju leve noge. Fraunces kurziv nema taj zavijutak, pa je noga prava.
+    Zadržan je isti karakter — elegantan kurzivni serif — ali bez izmišljanja poteza
+    koji ne postoji u brend fontu. Ako želite petlju, mogu je docrtati ručno kao
+    poseban potez koji nastavlja levu nogu.
+  </p>
+
+  <h2>7 · Provera na fotografiji</h2>
+  <div class="row">
+    <div class="cell coal" style="flex:1 1 320px">
+      <img src="alekom-lockup-dark.svg" height="40" alt="Lockup na tamnoj podlozi">
+      <span class="cap">na tamnoj sekciji sajta</span>
+    </div>
+    <div class="cell canvas" style="flex:1 1 320px">
+      <img src="alekom-lockup.svg" height="40" alt="Lockup na svetloj podlozi">
+      <span class="cap">na svetloj sekciji sajta</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Jednobojne verzije ubacujemo ugrađeno, da currentColor može da se nasledi.
+  document.querySelectorAll("[data-mono]").forEach(async (host) => {
+    const res = await fetch(host.dataset.mono);
+    host.innerHTML = await res.text();
+  });
+</script>
+</body>
+</html>

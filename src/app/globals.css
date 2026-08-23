@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --sumrak: #1c2f2a;
+    --ugljen: #12151a;
+    --platno: #e7e6e0;
+    --papir: #f2f1eb;
+    --bakar: #be7242;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* fiksni header ne sme da prekrije odredište kotve */
+    scroll-padding-top: 7.5rem;
+    -webkit-text-size-adjust: 100%;
+    /* clip, ne hidden: hidden bi napravio scroll kontejner i pokvario sticky */
+    overflow-x: clip;
+  }
+
+  body {
+    @apply bg-papir font-body text-body text-ink antialiased;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-medium;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--bakar);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Uklanja plavi blesak na dodir na Androidu */
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::selection {
+    background: var(--bakar);
+    color: #fff;
+  }
+}
+
+@layer components {
+  .sadrzaj {
+    @apply mx-auto w-full max-w-sadrzaj px-5 sm:px-7 lg:px-10;
+  }
+
+  /* Tanka bakarna nit koja se ponavlja kao motiv šava */
+  .sav {
+    @apply block h-px w-full border-0;
+    background-image: linear-gradient(
+      to right,
+      var(--bakar) 0 6px,
+      transparent 6px 16px
+    );
+    background-size: 16px 1px;
+    background-repeat: repeat-x;
+  }
+
+  /* Zrnasta tekstura preko tamnih sekcija */
+  .zrno::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.16;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 170px 170px;
+  }
+}
+
+@layer utilities {
+  /* Reveal na skrol. Sadržaj je uvek u DOM-u i čitljiv i bez JS-a. */
+  .otkrij {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--kasnjenje, 0ms);
+    will-change: opacity, transform;
+  }
+
+  .otkrij[data-vidljivo="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Ako JS ne radi, ništa ne sme da ostane skriveno. */
+  .bez-js .otkrij {
+    opacity: 1;
+    transform: none;
+  }
+
+  .maskirano-dole {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Bez animacija: sve odmah vidljivo, parallax i marquee ugašeni. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .otkrij {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
