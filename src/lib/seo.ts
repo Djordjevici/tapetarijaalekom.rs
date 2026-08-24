@@ -1,6 +1,10 @@
-import { site, flags, analyticsId } from "@/data/site";
+import { site, flags, analyticsId, allowIndexing } from "@/data/site";
 
 const OG = `${site.url}/opengraph-image`;
+
+export const robotsMetadata = allowIndexing
+  ? { index: true, follow: true }
+  : { index: false, follow: false, nocache: true };
 
 interface MetaArgs {
   title: string;
@@ -13,6 +17,7 @@ export function meta({ title, description, path = "/" }: MetaArgs) {
   return {
     title,
     description,
+    robots: robotsMetadata,
     alternates: { canonical: url },
     openGraph: {
       title,

@@ -14,7 +14,7 @@ import { services } from "@/data/services";
 
 const MAX_SLIKA = 5;
 const MAX_PO_SLICI = 2 * 1024 * 1024;
-// Vercel Functions ima hard limit zahteva oko 4.5 MB; ostavljamo rezervu za multipart overhead.
+// Ograničavamo opterećenje servera i email priloge; ostavljamo rezervu za multipart overhead.
 const MAX_UKUPNO = 4 * 1024 * 1024;
 const TIPOVI = ["image/jpeg", "image/png", "image/webp"];
 

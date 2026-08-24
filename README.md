@@ -2,7 +2,7 @@
 
 Sajt Tapetarije Alekom — tapetarska radionica u Petrovaradinu, Novi Sad.
 
-**Stack:** Next.js 16 (App Router) · React 19 · TypeScript strict · Tailwind CSS · Vercel · Resend
+**Stack:** Next.js 16 (App Router) · React 19 · TypeScript strict · Tailwind CSS · Docker · Coolify · Resend
 
 ---
 
@@ -20,7 +20,18 @@ npm run lint       # eslint
 npm run typecheck  # tsc --noEmit
 ```
 
-Node 20 ili noviji.
+Node 24 je produkcioni target u Docker slici.
+
+Oba servisa mogu lokalno da se pokrenu istovremeno:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.local.yml up --build
+# landing: http://localhost:8080
+# website: http://localhost:3000
+```
+
+Osnovni `docker-compose.yml` nema objavljene host portove i namenjen je
+Coolify proxy-ju. Lokalni portovi se dodaju eksplicitnim override fajlom.
 
 ## Struktura
 
@@ -178,8 +189,8 @@ samim alatima.
 
 - `site.email` i `site.privacyEmail` su trenutno privremeno
   `kontakt@tapetarijaalekom.rs`; zameniti konačnim poslovnim emailom.
-- U Vercelu uneti pravi `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` i
-  `RESEND_API_KEY`, pa testirati formu sa prilozima.
+- U budućem produkcionom Next.js okruženju uneti pravi `CONTACT_TO_EMAIL`,
+  `CONTACT_FROM_EMAIL` i `RESEND_API_KEY`, pa testirati formu sa prilozima.
 - Zameniti privremene fotografije originalnim radovima i fotografijama
   radionice.
 - Pravno pregledati politiku privatnosti i potvrditi predloženi rok čuvanja od
@@ -189,7 +200,7 @@ samim alatima.
 
 ## Dalje
 
-- `DEPLOY.md` — Vercel, Loopia DNS, Resend i analitika
+- `DEPLOY.md` — Coolify Compose, domeni, DNS, Resend i post-deploy provere
 - `PODACI-ZA-POTVRDU.md` — sve što klijent mora da potvrdi pre lansiranja
 - `GOOGLE-PROFIL.md` — preporuke za Google Business profil
 - `DIZAJN.md` — vizuelni sistem, tokeni, animacije

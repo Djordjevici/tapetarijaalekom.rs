@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { site } from "@/data/site";
+import { allowIndexing, site } from "@/data/site";
 
 /**
  * Politika privatnosti i kolačića imaju `robots: { index: false }` u svom
@@ -10,6 +10,14 @@ import { site } from "@/data/site";
  * bez sadržaja, jer robot nikad ne stigne do meta taga).
  */
 export default function robots(): MetadataRoute.Robots {
+  if (!allowIndexing) {
+    return {
+      rules: { userAgent: "*", disallow: "/" },
+      sitemap: `${site.url}/sitemap.xml`,
+      host: site.url,
+    };
+  }
+
   return {
     rules: {
       userAgent: "*",

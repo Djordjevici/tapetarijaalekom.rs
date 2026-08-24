@@ -11,7 +11,7 @@ import {
   hasPublishedRealProjects,
   visibleProjects,
 } from "@/data/projects";
-import { flags, site, telLink } from "@/data/site";
+import { allowIndexing, flags, site, telLink } from "@/data/site";
 import { breadcrumbSchema, meta } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     path: "/radovi",
   }),
   ...(!hasPublishedRealProjects
-    ? { robots: { index: false, follow: true } }
+    ? { robots: { index: false, follow: allowIndexing } }
     : {}),
 };
 

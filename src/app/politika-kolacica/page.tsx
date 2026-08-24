@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import Sekcija from "@/components/ui/Sekcija";
-import { site } from "@/data/site";
+import { allowIndexing, site } from "@/data/site";
 import { meta } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     description: "Koje kolačiće sajt koristi i kako ih možete odbiti.",
     path: "/politika-kolacica",
   }),
-  robots: { index: false, follow: true },
+  robots: { index: false, follow: allowIndexing },
 };
 
 /**

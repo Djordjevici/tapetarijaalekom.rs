@@ -7,7 +7,12 @@ import FloatingContact from "@/components/layout/FloatingContact";
 import MobileActionBar from "@/components/layout/MobileActionBar";
 import CookieConsent from "@/components/layout/CookieConsent";
 import { site } from "@/data/site";
-import { localBusinessSchema, meta, websiteSchema } from "@/lib/seo";
+import {
+  localBusinessSchema,
+  meta,
+  robotsMetadata,
+  websiteSchema,
+} from "@/lib/seo";
 
 import "./globals.css";
 
@@ -43,7 +48,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   manifest: "/manifest.webmanifest",
-  robots: { index: true, follow: true },
+  robots: robotsMetadata,
 };
 
 export const viewport: Viewport = {
