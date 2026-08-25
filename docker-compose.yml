@@ -24,7 +24,8 @@ services:
         NEXT_PUBLIC_SHOW_DEMO_PROJECTS: ${NEXT_PUBLIC_SHOW_DEMO_PROJECTS:-true}
         NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
     labels:
-      - "traefik.http.middlewares.alekom-website-auth.basicauth.users=alekom2026:$$2y$$12$$XV/iEEasm.NTZrC7wc7CMu5gBlUZd9n840SRpbMOEylKZPEsA4wMW"
+      # Coolify escapes each dollar once before Docker Compose resolves the hash.
+      - 'traefik.http.middlewares.alekom-website-auth.basicauth.users=alekom2026:$2y$12$4ysT3axdkunsNI4XdJ23qepm2mnJy3KTxeHQL1tqjUtaY0unUq3da'
       - "coolify.traefik.middlewares=alekom-website-auth"
     environment:
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://dev.tapetarijaalekom.rs}
