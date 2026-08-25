@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import Sekcija from "@/components/ui/Sekcija";
-import { site } from "@/data/site";
+import { allowIndexing, site } from "@/data/site";
 import { meta } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
       "Kako Tapetarija Alekom obrađuje podatke iz upita i priloženih fotografija.",
     path: "/politika-privatnosti",
   }),
-  robots: { index: false, follow: true },
+  robots: { index: false, follow: allowIndexing },
 };
 
 /**
@@ -104,7 +104,10 @@ export default function PolitikaPrivatnosti() {
                 marketinške svrhe. U tehničkoj obradi nam pomažu:
               </p>
               <ul>
-                <li>Vercel — hosting i tehnička isporuka sajta;</li>
+                <li>
+                  naš hosting provajder — infrastruktura i tehnička isporuka
+                  sajta preko naše Coolify instalacije;
+                </li>
                 <li>Resend — dostava upita na poslovnu email adresu;</li>
                 <li>
                   Google Analytics 4 — statistika posećenosti, samo ako je

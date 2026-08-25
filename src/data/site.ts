@@ -9,11 +9,14 @@
  * Vidi PODACI-ZA-POTVRDU.md.
  */
 
+const defaultSiteUrl = "https://tapetarijaalekom.rs";
+const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+
 export const site = {
   name: "Tapetarija Alekom",
   shortName: "Alekom",
   slogan: "Zanat koji traje.",
-  url: "https://tapetarijaalekom.rs",
+  url: (configuredSiteUrl || defaultSiteUrl).replace(/\/+$/, ""),
 
   owner: "Aleksandar Komarov",
   nameOrigin: "ALEksandar + KOMarov",
@@ -137,6 +140,10 @@ export const flags = {
 /** Forma obrađuje lične podatke samo kada je izričito uključena. */
 export const contactFormEnabled =
   process.env.NEXT_PUBLIC_CONTACT_FORM_ENABLED === "true";
+
+/** Dev/staging okruženja moraju ovo izričito postaviti na false. */
+export const allowIndexing =
+  process.env.NEXT_PUBLIC_ALLOW_INDEXING !== "false";
 
 /** GA4 se ne učitava bez validnog Measurement ID-a. */
 const configuredAnalyticsId = process.env.NEXT_PUBLIC_GA_ID ?? "";

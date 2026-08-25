@@ -1,7 +1,13 @@
-# Produkcioni deploy — Vercel + Loopia
+# Deploy — Coolify Docker Compose
 
-Produkcioni target je **Vercel**, domen je `tapetarijaalekom.rs`, a DNS ostaje
-u Loopia panelu. Ovaj dokument ne menja DNS automatski.
+Jedan Coolify resurs gradi dve odvojene slike iz ovog repozitorijuma:
+
+- `landing`: statična „Uskoro” stranica iz `landing-page/`, Nginx na portu `80`;
+- `website`: Next.js aplikacija iz korena, Node na portu `3000`.
+
+Javni domeni `tapetarijaalekom.rs` i `www.tapetarijaalekom.rs` vode na landing.
+Razvojni sajt je na `dev.tapetarijaalekom.rs`, javan je radi pregleda, ali ima
+`noindex, nofollow`, blokirajući `robots.txt` i isključenu kontakt formu.
 
 ## 1. Provera pre deploya
 
@@ -10,118 +16,133 @@ npm ci
 npm run lint
 npm run typecheck
 npm run build
+docker compose config
+docker compose -f docker-compose.yml -f docker-compose.local.yml config
+docker compose -f docker-compose.yml -f docker-compose.local.yml build
 ```
 
-Pre javnog lansiranja:
+Lokalno pokretanje obe slike:
 
-- zameniti privremeni `kontakt@tapetarijaalekom.rs` konačnom adresom u
-  `src/data/site.ts`, `.env.example` i Vercel env varijablama;
-- dodati originalne fotografije;
-- postaviti `NEXT_PUBLIC_SHOW_DEMO_PROJECTS=false` ako demo projekti još nisu
-  zamenjeni;
-- pravno pregledati politiku privatnosti i potvrditi rok čuvanja od 12 meseci;
-- testirati stvarnu isporuku forme i priloga.
+```bash
+docker compose -f docker-compose.yml -f docker-compose.local.yml up --build
+```
 
-## 2. Povezivanje Git repozitorijuma sa Vercelom
+Landing je na `http://localhost:8080`, a Next.js na
+`http://localhost:3000`. Zaustavljanje:
 
-1. U Vercel dashboardu izabrati **Add New → Project**.
-2. Povezati GitHub repozitorijum `tapetarijaalekom.rs`.
-3. Izabrati produkcionu granu.
-4. Framework preset: **Next.js**.
-5. Build command: podrazumevani `next build`.
-6. Install command: podrazumevani `npm install` / `npm ci`.
-7. Node.js: 20 ili noviji.
-8. Pokrenuti prvi Preview deploy pre povezivanja domena.
+```bash
+docker compose -f docker-compose.yml -f docker-compose.local.yml down
+```
 
-Vercel automatski hostuje App Router rute i `/api/upit` kao Function.
+## 2. Coolify resurs
+
+U Coolify-ju napraviti jednu aplikaciju iz Git repozitorijuma i podesiti:
+
+| Podešavanje | Vrednost |
+|---|---|
+| Build pack | **Docker Compose** |
+| Base directory | `/` |
+| Compose location | `/docker-compose.yml` |
+
+`docker-compose.yml` namerno nema host portove ni sopstvenu mrežu. Coolify
+povezuje servise sa svojim reverse proxy-jem. Posle učitavanja Compose fajla,
+u podešavanjima pojedinačnih servisa dodeliti:
+
+| Servis | Domen u Coolify-ju | Container port |
+|---|---|---|
+| `landing` | `https://tapetarijaalekom.rs` | `80` |
+| `landing` | `https://www.tapetarijaalekom.rs` | `80` |
+| `website` | `https://dev.tapetarijaalekom.rs:3000` | `3000` |
+
+Sufiks `:3000` govori Coolify-ju na koji port kontejnera prosleđuje zahtev;
+posetioci i dalje koriste normalan `https://dev.tapetarijaalekom.rs` URL bez
+porta. Nginx u `landing` servisu trajno preusmerava `www` na apex domen.
 
 ## 3. Environment promenljive
 
-U **Project → Settings → Environment Variables** dodati:
+Compose ima bezbedne podrazumevane vrednosti za dev sajt:
 
 ```env
-# Forma ostaje bezbedno isključena dok Resend i pravna provera nisu gotovi.
+NEXT_PUBLIC_SITE_URL=https://dev.tapetarijaalekom.rs
+NEXT_PUBLIC_ALLOW_INDEXING=false
 NEXT_PUBLIC_CONTACT_FORM_ENABLED=false
-
-# Privremeno prikazuje jasno označen demo slider; false pre javnog lansiranja
-# ako nema originalnih radova.
 NEXT_PUBLIC_SHOW_DEMO_PROJECTS=true
+NEXT_PUBLIC_GA_ID=
+```
 
-# Resend — samo server, nikada NEXT_PUBLIC_.
+`NEXT_PUBLIC_SITE_URL` se koristi za canonical, Open Graph, sitemap i
+strukturirane podatke. `NEXT_PUBLIC_ALLOW_INDEXING=false` dodaje robots
+metadata, `X-Robots-Tag` zaglavlje i `Disallow: /` u `robots.txt`.
+
+`NEXT_PUBLIC_*` vrednosti se ugrađuju tokom `next build`, zato posle svake
+promene treba uraditi **Redeploy**, ne samo restart kontejnera. Za ovaj dev
+resurs vrednosti za indeksiranje i formu su u Compose fajlu namerno fiksirane
+na `false`.
+
+`website` je dodatno zaštićen HTTP Basic Auth prijavom na Traefik nivou.
+Compose definiše bcrypt korisnika i Coolify shorthand labelu koja middleware
+automatski dodaje generisanom HTTPS routeru. Kredencijali su korisničko ime
+`alekom2026` i lozinka `alekom2026`; u Git-u je samo bcrypt hash lozinke.
+
+Resend promenljive su ostavljene kao opcione za kasnije aktiviranje na
+budućem produkcionom Next.js resursu:
+
+```env
 RESEND_API_KEY=re_...
 CONTACT_TO_EMAIL=KONACNI_EMAIL_NA_DOMENU
 CONTACT_FROM_EMAIL=Tapetarija Alekom <upiti@tapetarijaalekom.rs>
-
-# Opciono. Bez validnog ID-a nema GA skripte ni consent bannera.
-NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 ```
 
-Za formu prvo uneti prave Resend vrednosti i testirati Preview, a tek zatim
-prebaciti `NEXT_PUBLIC_CONTACT_FORM_ENABLED=true` u Production okruženju.
+Pre uključivanja forme treba potvrditi domen u Resend-u, pravno pregledati
+politiku privatnosti, testirati priloge, pa promeniti
+`NEXT_PUBLIC_CONTACT_FORM_ENABLED` i u build args i u runtime environment-u.
+Dok je vrednost `false`, `/api/upit` odmah vraća `503` i ne obrađuje lične
+podatke.
 
-Forma preporučuje 3, prima najviše 5 JPG/PNG/WebP fotografija i kompresuje ih
-pre slanja. Ukupni limit je 4 MB kako bi zahtev ostao ispod Vercel Function
-payload limita.
+## 4. DNS i TLS
 
-## 4. Resend
+Kod DNS provajdera usmeriti web zapise ka Coolify serveru:
 
-1. U Resend-u dodati domen `tapetarijaalekom.rs`.
-2. DKIM/SPF zapise koje Resend prikaže uneti u Loopia DNS.
-3. Sačekati status **Verified**.
-4. Kreirati API ključ samo za ovaj projekat.
-5. Uneti env promenljive iz prethodnog odeljka.
-6. Na Preview deployu poslati test sa 1, 3 i 5 fotografija.
-7. Proveriti: sadržaj poruke, priloge, Reply-To, grešku i uspešno stanje forme.
+- apex (`@`) — `A`/`AAAA` vrednost servera;
+- `www` — `CNAME` ka apexu ili odgovarajući `A`/`AAAA`;
+- `dev` — `A`/`AAAA` vrednost servera.
 
-Nema CC primaoca. API ne loguje sadržaj upita ni lične podatke.
+Ne menjati MX, SPF, DKIM, DMARC niti druge zapise za email. Tačne IP vrednosti
+uzima administrator Coolify servera; ne upisivati primer IP adresu. Kada DNS
+propagira, Coolify proxy izdaje TLS sertifikate za sva tri hosta.
 
-## 5. Custom domen i Loopia DNS
-
-1. U Vercelu: **Project → Settings → Domains**.
-2. Dodati:
-   - `tapetarijaalekom.rs`
-   - `www.tapetarijaalekom.rs`
-3. Kao primarni postaviti domen bez `www`; `www` preusmeriti na primarni.
-4. Vercel prikazuje tačne DNS vrednosti. Njih koristiti kao izvor istine.
-   Uobičajeno su:
-
-   | Tip | Host | Vrednost |
-   |---|---|---|
-   | A | `@` | `76.76.21.21` |
-   | CNAME | `www` | `cname.vercel-dns.com` |
-
-5. U Loopia panelu zameniti stare `@` / `www` zapise, ne ostavljati paralelne
-   zapise ka starom hostingu.
-6. Ne dirati email/DKIM/SPF zapise prilikom promene web hostinga.
-7. Sačekati propagaciju i status **Valid Configuration** u Vercelu.
-8. Vercel automatski izdaje i obnavlja TLS sertifikat.
-
-## 6. Provera posle propagacije
+## 5. Provera posle deploya
 
 ```bash
 curl -I https://tapetarijaalekom.rs
 curl -I https://www.tapetarijaalekom.rs
-curl https://tapetarijaalekom.rs/robots.txt
-curl https://tapetarijaalekom.rs/sitemap.xml
+curl -I https://dev.tapetarijaalekom.rs
+curl -u alekom2026:alekom2026 -I https://dev.tapetarijaalekom.rs
+curl -u alekom2026:alekom2026 https://dev.tapetarijaalekom.rs/robots.txt
+curl -u alekom2026:alekom2026 https://dev.tapetarijaalekom.rs/sitemap.xml
+curl -u alekom2026:alekom2026 -i -X POST https://dev.tapetarijaalekom.rs/api/upit
 ```
 
-Ručno proveriti:
+Potvrditi sledeće:
 
-- `www` preusmerava na domen bez `www`;
-- `/`, `/usluge`, `/radovi`, `/kontakt` i pravne stranice rade;
-- forma šalje stvaran email sa fotografijama;
-- poziv, Viber i WhatsApp linkovi rade na telefonu;
-- mapa i Instagram se otvaraju;
-- nema demo projekata u sitemapu (dok ne postoje pravi);
-- Search Console prihvata `/sitemap.xml`;
-- Google Business profil vodi na novi HTTPS domen;
-- NAP (naziv, adresa, telefon) je isti na sajtu i Google profilu.
+- apex prikazuje landing, a `www` vraća trajni redirect na apex;
+- oba servisa imaju status **healthy**;
+- dev domen bez kredencijala vraća `401`, a sa kredencijalima učitava sajt;
+- `/`, `/usluge`, `/radovi`, `/kontakt` i pravne stranice rade na dev domenu;
+- HTML dev sajta ima canonical i Open Graph URL-ove sa `dev` domenom;
+- dev odgovori imaju `X-Robots-Tag: noindex, nofollow`;
+- dev HTML ima `noindex, nofollow`, a `robots.txt` sadrži `Disallow: /`;
+- sitemap i JSON-LD koriste `https://dev.tapetarijaalekom.rs`;
+- `/api/upit` vraća `503` sa razlogom `slanje-nije-konfigurisano`;
+- landing i Next.js statički/optimizovani resursi se učitavaju bez grešaka.
 
-## 7. Analytics i budući Meta Pixel
+## 6. Napomene
 
-Bez `NEXT_PUBLIC_GA_ID` GA4 se ne učitava i banner se ne prikazuje. Sa validnim
-ID-em GA4 se učitava tek nakon pristanka korisnika.
-
-Meta Pixel nije uključen. Ako se kasnije doda, mora koristiti isti consent
-mehanizam i politika kolačića mora biti dopunjena pre aktivacije.
-
+- Coolify gradi direktno iz Git repozitorijuma; nema registry workflow-a.
+- Landing namerno i dalje koristi Google Fonts i Unsplash resurse sa interneta.
+- `Dockerfile` pravi Next.js standalone runtime i izvršava ga kao non-root
+  korisnik.
+- Lokalni portovi postoje samo u `docker-compose.local.yml`.
+- Ograničenje priloga od 4 MB štiti Node proces i email isporuku. Za jaču
+  zaštitu forme dodati rate limiting na Coolify reverse proxy-ju ili deljeno
+  skladište između replika.

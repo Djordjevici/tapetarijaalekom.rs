@@ -6,8 +6,8 @@ PIB i matični broj već su uneti u centralne podatke.
 ## Obavezno
 
 - [ ] **Konačan poslovni email na domenu** — zameniti privremeni
-      `kontakt@tapetarijaalekom.rs` u `src/data/site.ts`, `.env.example` i Vercel
-      env promenljivama.
+      `kontakt@tapetarijaalekom.rs` u `src/data/site.ts`, `.env.example` i
+      Coolify env promenljivama budućeg produkcionog Next.js resursa.
 - [ ] **Resend produkcija** — potvrditi domen, uneti `RESEND_API_KEY`,
       `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`, testirati 1/3/5 fotografija, pa
       tek onda uključiti `NEXT_PUBLIC_CONTACT_FORM_ENABLED=true`.
@@ -16,7 +16,7 @@ PIB i matični broj već su uneti u centralne podatke.
 - [ ] **Prava pre/posle galerija** — svaki objavljeni projekat mora imati
       `isPlaceholder: false`; dok toga nema, `/radovi` ostaje `noindex`.
 - [ ] **Pravna provera privatnosti** — pravnik treba da potvrdi finalni tekst,
-      Vercel/Resend procesore i predloženi rok čuvanja upita od 12 meseci.
+      hosting/Resend procesore i predloženi rok čuvanja upita od 12 meseci.
 
 ## Kada podaci stignu
 
@@ -41,4 +41,3 @@ PIB i matični broj već su uneti u centralne podatke.
 - [ ] Održavati NAP identičnim sajtu.
 - [ ] Dodati Instagram, redovne objave i legalan link/QR za prikupljanje
       recenzija.
-

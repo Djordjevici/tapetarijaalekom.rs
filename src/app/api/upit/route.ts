@@ -23,8 +23,8 @@ const NAZIVI_KONTAKTA: Record<string, string> = {
   email: "Email",
 };
 
-// Best-effort zaštita po instanci funkcije. Za stroži limit uključiti Vercel
-// Firewall/Rate Limiting, jer serverless instance ne dele memoriju.
+// Best-effort zaštita po Node procesu. Za stroži limit podesiti rate limiting
+// na reverse proxy-ju ili u deljenom skladištu; replike ne dele ovu memoriju.
 const zahtevi = new Map<string, { broj: number; reset: number }>();
 function previseZahteva(ip: string): boolean {
   const sada = Date.now();

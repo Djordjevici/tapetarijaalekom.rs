@@ -1,0 +1,47 @@
+services:
+  landing:
+    build:
+      context: ./landing-page
+      dockerfile: Dockerfile
+    expose:
+      - "80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/healthz >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+
+  website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://dev.tapetarijaalekom.rs}
+        NEXT_PUBLIC_ALLOW_INDEXING: "false"
+        NEXT_PUBLIC_CONTACT_FORM_ENABLED: "false"
+        NEXT_PUBLIC_SHOW_DEMO_PROJECTS: ${NEXT_PUBLIC_SHOW_DEMO_PROJECTS:-true}
+        NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
+    labels:
+      # Coolify escapes each dollar once before Docker Compose resolves the hash.
+      - 'traefik.http.middlewares.alekom-website-auth.basicauth.users=alekom2026:$2y$12$4ysT3axdkunsNI4XdJ23qepm2mnJy3KTxeHQL1tqjUtaY0unUq3da'
+      - "coolify.traefik.middlewares=alekom-website-auth"
+    environment:
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://dev.tapetarijaalekom.rs}
+      NEXT_PUBLIC_ALLOW_INDEXING: "false"
+      NEXT_PUBLIC_CONTACT_FORM_ENABLED: "false"
+      NEXT_PUBLIC_SHOW_DEMO_PROJECTS: ${NEXT_PUBLIC_SHOW_DEMO_PROJECTS:-true}
+      NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      CONTACT_TO_EMAIL: ${CONTACT_TO_EMAIL:-}
+      CONTACT_FROM_EMAIL: ${CONTACT_FROM_EMAIL:-}
+    expose:
+      - "3000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/ >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
