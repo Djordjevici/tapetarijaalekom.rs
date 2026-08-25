@@ -79,6 +79,11 @@ promene treba uraditi **Redeploy**, ne samo restart kontejnera. Za ovaj dev
 resurs vrednosti za indeksiranje i formu su u Compose fajlu namerno fiksirane
 na `false`.
 
+`website` je dodatno zaštićen HTTP Basic Auth prijavom na Traefik nivou.
+Compose definiše bcrypt korisnika i Coolify shorthand labelu koja middleware
+automatski dodaje generisanom HTTPS routeru. Kredencijali su korisničko ime
+`alekom2026` i lozinka `alekom2026`; u Git-u je samo bcrypt hash lozinke.
+
 Resend promenljive su ostavljene kao opcione za kasnije aktiviranje na
 budućem produkcionom Next.js resursu:
 
@@ -112,15 +117,17 @@ propagira, Coolify proxy izdaje TLS sertifikate za sva tri hosta.
 curl -I https://tapetarijaalekom.rs
 curl -I https://www.tapetarijaalekom.rs
 curl -I https://dev.tapetarijaalekom.rs
-curl https://dev.tapetarijaalekom.rs/robots.txt
-curl https://dev.tapetarijaalekom.rs/sitemap.xml
-curl -i -X POST https://dev.tapetarijaalekom.rs/api/upit
+curl -u alekom2026:alekom2026 -I https://dev.tapetarijaalekom.rs
+curl -u alekom2026:alekom2026 https://dev.tapetarijaalekom.rs/robots.txt
+curl -u alekom2026:alekom2026 https://dev.tapetarijaalekom.rs/sitemap.xml
+curl -u alekom2026:alekom2026 -i -X POST https://dev.tapetarijaalekom.rs/api/upit
 ```
 
 Potvrditi sledeće:
 
 - apex prikazuje landing, a `www` vraća trajni redirect na apex;
 - oba servisa imaju status **healthy**;
+- dev domen bez kredencijala vraća `401`, a sa kredencijalima učitava sajt;
 - `/`, `/usluge`, `/radovi`, `/kontakt` i pravne stranice rade na dev domenu;
 - HTML dev sajta ima canonical i Open Graph URL-ove sa `dev` domenom;
 - dev odgovori imaju `X-Robots-Tag: noindex, nofollow`;
