@@ -126,9 +126,8 @@ export const flags = {
   worksInNav: true,
 
   /**
-   * Demonstracioni projekti (označeni „Demonstracioni sadržaj").
-   * Uključeno dok stignu prave fotografije iz radionice — tada staviti false
-   * i flags.beforeAfter ostaviti true samo sa pravim parovima.
+   * Omogućava prikaz demo projekata u razvojnom okruženju ako se ponovo dodaju.
+   * Trenutni portfolio koristi stvarne fotografije i ne zavisi od ove zastavice.
    */
   showPlaceholderProjects:
     process.env.NEXT_PUBLIC_SHOW_DEMO_PROJECTS !== "false",

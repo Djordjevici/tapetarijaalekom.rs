@@ -4,7 +4,7 @@ import type { ImageKey } from "@/types";
 
 /**
  * Slika u fiksnom odnosu strana, da ne postoji pomeranje layouta.
- * Sve slike su privremene — vidi src/data/images.ts.
+ * Putanje, dimenzije i alt tekstovi dolaze iz src/data/images.ts.
  */
 export default function Slika({
   kljuc,

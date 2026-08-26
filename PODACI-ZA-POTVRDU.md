@@ -11,10 +11,8 @@ PIB i matični broj već su uneti u centralne podatke.
 - [ ] **Resend produkcija** — potvrditi domen, uneti `RESEND_API_KEY`,
       `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`, testirati 1/3/5 fotografija, pa
       tek onda uključiti `NEXT_PUBLIC_CONTACT_FORM_ENABLED=true`.
-- [ ] **Originalne fotografije** — zameniti hero, usluge, radionicu i demo
-      pre/posle sadržaj; ažurirati `src/data/images.ts` i `src/data/projects.ts`.
-- [ ] **Prava pre/posle galerija** — svaki objavljeni projekat mora imati
-      `isPlaceholder: false`; dok toga nema, `/radovi` ostaje `noindex`.
+- [ ] **Hero fotografija** — po zahtevu je ostala postojeća privremena hero slika; zameniti je samo ako klijent naknadno odobri novu.
+- [x] **Originalne fotografije radova** — usluge, radionica i pre/posle galerija koriste dostavljene fotografije; objavljeni projekti imaju `isPlaceholder: false`.
 - [ ] **Pravna provera privatnosti** — pravnik treba da potvrdi finalni tekst,
       Vercel/Resend procesore i predloženi rok čuvanja upita od 12 meseci.
 

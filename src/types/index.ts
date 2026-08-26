@@ -8,8 +8,6 @@ export type ImageKey =
   | "servis-ugostiteljstvo"
   | "servis-bastenski"
   | "servis-sivenje"
-  | "trosed-pre"
-  | "trosed-posle"
   | "fotelja-pre"
   | "fotelja-posle"
   | "stolice-pre"
@@ -20,7 +18,7 @@ export interface Slika {
   width: number;
   height: number;
   alt: string;
-  /** Sve privremene slike su označene, da se lako nađu i zamene. */
+  /** Privremeni vizueli su označeni da se lako pronađu i zamene. */
   privremena: boolean;
 }
 

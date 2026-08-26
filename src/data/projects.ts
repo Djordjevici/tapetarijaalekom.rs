@@ -1,96 +1,63 @@
 import type { Project } from "@/types";
 
 /**
- * Projekti za sekciju „Pre i posle" i stranicu /radovi.
+ * Stvarni projekti za sekciju „Pre i posle" i stranicu /radovi.
  *
- * SVI projekti su trenutno demonstracioni (isPlaceholder: true) i služe samo
- * razvoju dizajna i animacija. U produkciji se ne prikazuju — vidi
- * flags.showPlaceholderProjects i flags.beforeAfter.
- *
- * Kako dodati pravi projekat:
- *   1. Ubaci fotografije u public/images/ i upiši ih u src/data/images.ts
- *   2. Dodaj unos ovde sa isPlaceholder: false i published: true
- *   3. Kad postoje najmanje 2–3 prava para, uključi flags.beforeAfter
- * Komponente se pri tome ne menjaju.
+ * Fotografije potiču iz materijala Tapetarije Alekom. Parovi nisu snimani iz
+ * potpuno istog ugla, pa služe kao poređenje stanja komada pre i nakon rada,
+ * bez tvrdnje da su kadrovi piksel-po-piksel poravnati.
  */
 export const projects: readonly Project[] = [
   {
-    slug: "trosed-tamnozelena-tkanina",
-    title: "Trosed u tamnozelenoj tkanini",
-    shortTitle: "Trosed",
-    category: "Presvlačenje nameštaja",
-    summary:
-      "Konstrukcija je bila zdrava, ali je tkanina izbledela i sedište se ulegnulo. Zamenjen je sunđer u sedištu i presvučeno u gustu tkaninu.",
-    beforeImage: "trosed-pre",
-    afterImage: "trosed-posle",
-    gallery: ["trosed-posle"],
-    materials: ["Tkanina tamnozelene boje", "Novi sunđer u sedištu"],
-    workPerformed: [
-      "Rasklapanje do konstrukcije",
-      "Zamena sunđera u sedištu",
-      "Krojenje i šivenje nove presvlake",
-      "Završna obrada ivica",
-    ],
-    duration: null,
-    isPlaceholder: true,
-    featured: true,
-    published: true,
-    seo: {
-      title: "Presvlačenje troseda — Tapetarija Alekom",
-      description:
-        "Trosed presvučen u tamnozelenu tkaninu, sa zamenom sunđera u sedištu.",
-    },
-  },
-  {
-    slug: "fotelja-boja-gline",
-    title: "Fotelja u boji gline",
+    slug: "obnova-fotelje-zelena-tkanina",
+    title: "Obnova fotelje sa drvenim rukonaslonima",
     shortTitle: "Fotelja",
     category: "Presvlačenje nameštaja",
     summary:
-      "Fotelja sa drvenim nogama, obnovljena bez menjanja originalnog oblika. Drvo je očišćeno, presvlaka zamenjena.",
+      "Fotelja sa drvenim ramom fotografisana je pre i nakon obnove. Završni komad je presvučen zelenom tkaninom uz zadržan karakter postojećeg drvenog rama.",
     beforeImage: "fotelja-pre",
     afterImage: "fotelja-posle",
     gallery: ["fotelja-posle"],
-    materials: ["Tkanina boje gline", "Nove gurtne"],
+    materials: ["Zelena tkanina"],
     workPerformed: [
-      "Skidanje stare presvlake",
-      "Zamena gurtni",
-      "Krojenje po originalnim delovima",
-      "Obnova drvenih nogu",
+      "Obnova tapaciranih površina",
+      "Nova presvlaka sedišta i naslona",
+      "Završno zatezanje i obrada",
     ],
     duration: null,
-    isPlaceholder: true,
+    isPlaceholder: false,
     featured: true,
     published: true,
     seo: {
       title: "Obnova fotelje — Tapetarija Alekom",
-      description: "Fotelja presvučena u tkaninu boje gline, uz obnovu drvenih nogu.",
+      description:
+        "Primer obnove fotelje sa drvenim rukonaslonima i novom zelenom presvlakom.",
     },
   },
   {
-    slug: "trpezarijske-stolice-lan",
-    title: "Trpezarijske stolice u lanu",
-    shortTitle: "Stolice",
-    category: "Presvlačenje nameštaja",
+    slug: "obnova-barske-stolice",
+    title: "Presvlačenje barske stolice",
+    shortTitle: "Barska stolica",
+    category: "Presvlačenje stolica",
     summary:
-      "Sedišta su bila probijena od svakodnevne upotrebe. Tapacirana su u lan boje peska, sa pojačanjem ispod sedišta.",
+      "Istrošena braon presvlaka zamenjena je tamnosivom tkaninom, dok je postojeća metalna konstrukcija stolice zadržana.",
     beforeImage: "stolice-pre",
     afterImage: "stolice-posle",
     gallery: ["stolice-posle"],
-    materials: ["Lan boje peska", "Pojačanje ispod sedišta"],
+    materials: ["Tamnosiva tkanina"],
     workPerformed: [
-      "Skidanje sedišta",
-      "Pojačanje nosećih ploča",
-      "Tapaciranje i zatezanje",
-      "Vraćanje na ram",
+      "Skidanje stare presvlake",
+      "Presvlačenje sedišta i naslona",
+      "Završna obrada ivica",
     ],
     duration: null,
-    isPlaceholder: true,
+    isPlaceholder: false,
     featured: true,
     published: true,
     seo: {
-      title: "Tapaciranje trpezarijskih stolica — Tapetarija Alekom",
-      description: "Trpezarijske stolice sa sedištima tapaciranim u lan boje peska.",
+      title: "Presvlačenje barske stolice — Tapetarija Alekom",
+      description:
+        "Primer presvlačenja barske stolice iz braon u tamnosivu presvlaku.",
     },
   },
 ];

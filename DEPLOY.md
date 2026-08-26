@@ -16,9 +16,8 @@ Pre javnog lansiranja:
 
 - zameniti privremeni `kontakt@tapetarijaalekom.rs` konačnom adresom u
   `src/data/site.ts`, `.env.example` i Vercel env varijablama;
-- dodati originalne fotografije;
-- postaviti `NEXT_PUBLIC_SHOW_DEMO_PROJECTS=false` ako demo projekti još nisu
-  zamenjeni;
+- proveriti finalni izbor originalnih fotografija i po potrebi zameniti samo privremeni hero;
+- držati `NEXT_PUBLIC_SHOW_DEMO_PROJECTS=false` u produkciji osim ako namerno pregledate razvojni demo;
 - pravno pregledati politiku privatnosti i potvrditi rok čuvanja od 12 meseci;
 - testirati stvarnu isporuku forme i priloga.
 
@@ -43,9 +42,8 @@ U **Project → Settings → Environment Variables** dodati:
 # Forma ostaje bezbedno isključena dok Resend i pravna provera nisu gotovi.
 NEXT_PUBLIC_CONTACT_FORM_ENABLED=false
 
-# Privremeno prikazuje jasno označen demo slider; false pre javnog lansiranja
-# ako nema originalnih radova.
-NEXT_PUBLIC_SHOW_DEMO_PROJECTS=true
+# Demo projekti su samo razvojna rezerva; stvarni projekti se prikazuju nezavisno.
+NEXT_PUBLIC_SHOW_DEMO_PROJECTS=false
 
 # Resend — samo server, nikada NEXT_PUBLIC_.
 RESEND_API_KEY=re_...
@@ -112,7 +110,7 @@ Ručno proveriti:
 - forma šalje stvaran email sa fotografijama;
 - poziv, Viber i WhatsApp linkovi rade na telefonu;
 - mapa i Instagram se otvaraju;
-- nema demo projekata u sitemapu (dok ne postoje pravi);
+- `/radovi` je u sitemapu jer postoje objavljeni stvarni projekti;
 - Search Console prihvata `/sitemap.xml`;
 - Google Business profil vodi na novi HTTPS domen;
 - NAP (naziv, adresa, telefon) je isti na sajtu i Google profilu.

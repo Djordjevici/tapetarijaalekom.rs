@@ -21,7 +21,7 @@ export default function PreIPosle() {
         <Zaglavlje
           nadnaslov="Pre i posle"
           naslov="Razlika se najbolje vidi na istom komadu."
-          uvod="Povucite klizač i uporedite. Isti ugao, isto svetlo — samo pre i posle radova."
+          uvod="Povucite klizač i uporedite stanje komada pre i nakon radova."
           prigusen="text-mist-2"
         />
 

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   ...meta({
     title: "Radovi i pre/posle | Tapetarija Alekom Novi Sad",
     description:
-      "Galerija presvlačenja kauča, fotelja i stolica Tapetarije Alekom. Dok čekamo originalne fotografije, prikazan je jasno označen demonstracioni slider.",
+      "Galerija stvarnih radova Tapetarije Alekom sa fotografijama komada pre i nakon presvlačenja i obnove.",
     path: "/radovi",
   }),
   ...(!hasPublishedRealProjects

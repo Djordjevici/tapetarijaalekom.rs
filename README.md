@@ -40,7 +40,8 @@ src/
 public/
   logo/                odobrene SVG varijante logotipa
   icons/               PNG app i touch ikone
-  images/placeholders/ PRIVREMENE fotografije
+  images/placeholders/ privremeni hero vizuel
+  images/radovi/       stvarne fotografije radova
 tools/
   logo/                skripte i interni pregled logotipa
   snimci.py            full-page snimci sajta
@@ -82,14 +83,14 @@ export const flags = {
   extendedServiceArea: true,
   showPrices: false,     // prikaz cena
   reviews: false,        // sekcija recenzija
-  beforeAfter: true,     // sekcija pre/posle (demo dok nema pravih foto)
+  beforeAfter: true,     // sekcija pre/posle sa stvarnim fotografijama
   worksInNav: true,      // link /radovi u navigaciji
 };
 ```
 
 ### Zamena fotografija
 
-1. Ubaci fajl u `public/images/` (privremene su u `placeholders/`)
+1. Ubaci fajl u `public/images/radovi/`
 2. Upiši ga u `src/data/images.ts` — putanja, **prave dimenzije** i alt tekst na srpskom
 3. Ako je nov projekat, dodaj unos u `src/data/projects.ts` sa
    `isPlaceholder: false` i `published: true`
@@ -118,10 +119,10 @@ Komponente se pri tome ne diraju.
 }
 ```
 
-Kada stignu pravi parovi, stavi `isPlaceholder: false`. Do tada je demo jasno
-označen i `/radovi` ima `noindex`; uz
-`NEXT_PUBLIC_SHOW_DEMO_PROJECTS=false` demo se potpuno skriva. Sitemap dodaje
-`/radovi` tek kada postoji bar jedan objavljen pravi projekat.
+Trenutna dva para koriste stvarne fotografije i imaju `isPlaceholder: false`,
+zbog čega je `/radovi` indeksabilan i ulazi u sitemap. Demo infrastruktura je
+ostavljena samo kao razvojna rezerva i može se potpuno isključiti preko
+`NEXT_PUBLIC_SHOW_DEMO_PROJECTS=false`.
 
 ### Dodavanje recenzije
 
@@ -180,7 +181,7 @@ samim alatima.
   `kontakt@tapetarijaalekom.rs`; zameniti konačnim poslovnim emailom.
 - U Vercelu uneti pravi `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` i
   `RESEND_API_KEY`, pa testirati formu sa prilozima.
-- Zameniti privremene fotografije originalnim radovima i fotografijama
+- Hero fotografija je i dalje privremena po zahtevu; ostali ključni vizueli koriste originalne fotografije radova
   radionice.
 - Pravno pregledati politiku privatnosti i potvrditi predloženi rok čuvanja od
   12 meseci.
