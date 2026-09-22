@@ -124,13 +124,25 @@ export default function MobileMenu({
                   otvoren ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
                 }`}
               >
-                <Link
-                  href={l.href}
-                  onClick={zatvori}
-                  className="block border-b border-linija-tamna py-5 font-display text-[1.7rem]"
-                >
-                  {l.label}
-                </Link>
+                {"external" in l && l.external ? (
+                  <a
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={zatvori}
+                    className="block border-b border-linija-tamna py-5 font-display text-[1.7rem]"
+                  >
+                    {l.label}
+                  </a>
+                ) : (
+                  <Link
+                    href={l.href}
+                    onClick={zatvori}
+                    className="block border-b border-linija-tamna py-5 font-display text-[1.7rem]"
+                  >
+                    {l.label}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>

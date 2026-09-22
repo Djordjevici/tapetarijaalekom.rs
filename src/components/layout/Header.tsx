@@ -68,12 +68,23 @@ export default function Header() {
             <ul className="flex items-center gap-7 text-[0.91rem] tracking-wide text-mist-2">
               {linkovi.map((l) => (
                 <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    className="relative py-2.5 transition-colors duration-300 hover:text-platno"
-                  >
-                    {l.label}
-                  </Link>
+                  {"external" in l && l.external ? (
+                    <a
+                      href={l.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative py-2.5 transition-colors duration-300 hover:text-platno"
+                    >
+                      {l.label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={l.href}
+                      className="relative py-2.5 transition-colors duration-300 hover:text-platno"
+                    >
+                      {l.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
