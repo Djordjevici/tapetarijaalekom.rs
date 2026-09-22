@@ -3,10 +3,9 @@ import type { ImageKey, Slika } from "@/types";
 /**
  * Sve slike na jednom mestu.
  *
- * PAŽNJA: sve slike su privremene i generisane su samo da bi se razvio dizajn.
- * Nijedna ne prikazuje stvaran rad Tapetarije Alekom. Zamena je opisana u
- * public/images/placeholders/IZVORI.md — dovoljno je zameniti fajl i ažurirati
- * dimenzije i alt tekst ovde, komponente se ne diraju.
+ * Opisi prikazuju tapetarske radove i detalje iz radionice. Za ažuriranje
+ * slike dovoljno je zameniti fajl i ažurirati dimenzije i alt tekst ovde;
+ * komponente se ne diraju.
  */
 
 const P = "/images/placeholders";

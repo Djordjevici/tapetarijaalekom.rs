@@ -4,13 +4,6 @@ import Sekcija, { Zaglavlje } from "@/components/ui/Sekcija";
 import { flags } from "@/data/site";
 import { visibleProjects } from "@/data/projects";
 
-/**
- * Pre i posle.
- *
- * Sekcija se renderuje kada je flags.beforeAfter uključen i postoje vidljivi
- * projekti (pravi ili demonstracioni preko showPlaceholderProjects).
- * Link u navigaciji: „Pre i posle" → /#radovi.
- */
 export default function PreIPosle() {
   const projekti = visibleProjects(flags.showPlaceholderProjects);
   if (!projekti.length || !flags.beforeAfter) return null;
@@ -24,14 +17,6 @@ export default function PreIPosle() {
           uvod="Povucite klizač i uporedite. Isti ugao, isto svetlo — samo pre i posle radova."
           prigusen="text-mist-2"
         />
-
-        {projekti.every((p) => p.isPlaceholder) && (
-          <p className="mt-7 max-w-2xl border-l-2 border-bakar pl-4 text-malo text-mist-2">
-            Demonstracioni prikaz slidera — fotografije nisu radovi Tapetarije
-            Alekom. Originalni pre/posle parovi mogu se zameniti kroz centralne
-            podatke bez izmene komponente.
-          </p>
-        )}
 
         <Otkrij className="mt-14">
           <IzborProjekta projekti={projekti} />
