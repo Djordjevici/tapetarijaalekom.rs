@@ -146,12 +146,23 @@ export default function Footer() {
             <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
               {linkovi.map((l) => (
                 <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    className="transition-colors duration-300 hover:text-platno"
-                  >
-                    {l.label}
-                  </Link>
+                  {"external" in l && l.external ? (
+                    <a
+                      href={l.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition-colors duration-300 hover:text-platno"
+                    >
+                      {l.label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={l.href}
+                      className="transition-colors duration-300 hover:text-platno"
+                    >
+                      {l.label}
+                    </Link>
+                  )}
                 </li>
               ))}
               <li>

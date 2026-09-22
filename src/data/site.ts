@@ -161,6 +161,11 @@ export const nav = [
   { label: "Radovi", href: "/radovi", flag: "worksInNav" as const },
   { label: "O nama", href: "/#o-nama" },
   { label: "Kontakt", href: "/kontakt" },
+  {
+    label: "Galerija fotografija",
+    href: "https://photos.google.com/u/1/album/AF1QipMZcrr8QmeFpqyWw0tYAl_a7FKDXz7BcxZaoW_N",
+    external: true,
+  },
 ] as const;
 
 /** Sekcije početne strane, za praćenje aktivne u navigaciji. */
