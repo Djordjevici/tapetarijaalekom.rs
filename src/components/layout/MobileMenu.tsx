@@ -83,7 +83,7 @@ export default function MobileMenu({
       }`}
     >
       <div className="flex h-full flex-col">
-        <div className="flex items-center justify-between px-5 py-4">
+        <div className="flex items-center justify-between px-5 py-4 max-[700px]:py-2">
           <span className="text-eyebrow font-semibold uppercase text-mist-3">
             Meni
           </span>
@@ -105,13 +105,13 @@ export default function MobileMenu({
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-5 pt-6">
+        <nav className="flex-1 overflow-y-auto px-5 pt-6 max-[700px]:pt-2">
           <ul>
             <li>
               <Link
                 href="/"
                 onClick={zatvori}
-                className="block border-b border-linija-tamna py-5 font-display text-[1.7rem]"
+                className="block border-b border-linija-tamna py-3 font-display text-[1.35rem]"
               >
                 Početna
               </Link>
@@ -130,7 +130,7 @@ export default function MobileMenu({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={zatvori}
-                    className="block border-b border-linija-tamna py-5 font-display text-[1.7rem]"
+                    className="block border-b border-linija-tamna py-3 font-display text-[1.35rem]"
                   >
                     {l.label}
                   </a>
@@ -138,7 +138,7 @@ export default function MobileMenu({
                   <Link
                     href={l.href}
                     onClick={zatvori}
-                    className="block border-b border-linija-tamna py-5 font-display text-[1.7rem]"
+                    className="block border-b border-linija-tamna py-3 font-display text-[1.35rem]"
                   >
                     {l.label}
                   </Link>
@@ -148,7 +148,7 @@ export default function MobileMenu({
           </ul>
         </nav>
 
-        <div className="border-t border-linija-tamna px-5 py-5">
+        <div className="border-t border-linija-tamna px-5 py-5 max-[700px]:py-3">
           <div className="grid gap-2.5">
             <a
               href={telLink}
@@ -181,7 +181,7 @@ export default function MobileMenu({
               </a>
             )}
           </div>
-          <p className="mt-4 text-malo text-mist-3">{site.address.full}</p>
+          <p className="mt-4 text-malo text-mist-3 max-[700px]:mt-2">{site.address.full}</p>
         </div>
       </div>
     </div>
