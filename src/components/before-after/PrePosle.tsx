@@ -46,6 +46,7 @@ export default function PrePosle({
   const diranoRef = useRef(false);
   const animacijaRef = useRef<number | null>(null);
   const naslovId = useId();
+  const uklopi = slikaPre.height > slikaPre.width;
 
   const prekiniDemo = useCallback(() => {
     diranoRef.current = true;
@@ -153,7 +154,9 @@ export default function PrePosle({
         width={slikaPosle.width}
         height={slikaPosle.height}
         sizes={sizes}
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        className={`pointer-events-none absolute inset-0 h-full w-full ${
+          uklopi ? "object-contain" : "object-cover"
+        }`}
       />
 
       {/* pre: gornji sloj, isečen po poziciji klizača */}
@@ -167,7 +170,7 @@ export default function PrePosle({
           width={slikaPre.width}
           height={slikaPre.height}
           sizes={sizes}
-          className="h-full w-full object-cover"
+          className={`h-full w-full ${uklopi ? "object-contain" : "object-cover"}`}
         />
       </div>
 

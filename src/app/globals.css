@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    --visina-headera: 4.5rem;
     --sumrak: #1c2f2a;
     --ugljen: #12151a;
     --platno: #e7e6e0;
@@ -14,7 +15,7 @@
   html {
     scroll-behavior: smooth;
     /* fiksni header ne sme da prekrije odredište kotve */
-    scroll-padding-top: 7.5rem;
+    scroll-padding-top: var(--visina-headera);
     -webkit-text-size-adjust: 100%;
     /* clip, ne hidden: hidden bi napravio scroll kontejner i pokvario sticky */
     overflow-x: clip;
@@ -114,6 +115,12 @@
 }
 
 /* Bez animacija: sve odmah vidljivo, parallax i marquee ugašeni. */
+@media (min-width: 1024px) {
+  :root {
+    --visina-headera: 7rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
