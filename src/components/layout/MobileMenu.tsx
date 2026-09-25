@@ -65,6 +65,13 @@ export default function MobileMenu({
     };
   }, [otvoren, zatvori]);
 
+  const navigiraj = (href: string) => {
+    zatvori();
+    if (href.startsWith("/") && !href.includes("#")) {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+  };
+
   const linkovi = nav.filter((n) => !("flag" in n) || flags[n.flag]);
 
   return (
@@ -110,7 +117,7 @@ export default function MobileMenu({
             <li>
               <Link
                 href="/"
-                onClick={zatvori}
+                onClick={() => navigiraj("/")}
                 className="block border-b border-linija-tamna py-3 font-display text-[1.35rem]"
               >
                 Početna
@@ -137,7 +144,7 @@ export default function MobileMenu({
                 ) : (
                   <Link
                     href={l.href}
-                    onClick={zatvori}
+                    onClick={() => navigiraj(l.href)}
                     className="block border-b border-linija-tamna py-3 font-display text-[1.35rem]"
                   >
                     {l.label}
@@ -158,7 +165,7 @@ export default function MobileMenu({
             </a>
             <a
               href="/kontakt#procena"
-              onClick={zatvori}
+              onClick={() => navigiraj("/kontakt#procena")}
               className="flex min-h-[52px] items-center justify-center border border-mist-3 font-semibold"
             >
               Pošaljite fotografiju
