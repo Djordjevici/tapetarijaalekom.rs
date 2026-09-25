@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   ...meta({
     title: "Radovi i pre/posle | Tapetarija Alekom Novi Sad",
     description:
-      "Galerija presvlačenja kauča, fotelja i stolica Tapetarije Alekom. Dok čekamo originalne fotografije, prikazan je jasno označen demonstracioni slider.",
+      "Galerija presvlačenja kauča, fotelja i stolica Tapetarije Alekom, sa prikazom radova pre i posle.",
     path: "/radovi",
   }),
   ...(!hasPublishedRealProjects
@@ -30,7 +30,6 @@ export default function RadoviStrana() {
   const projekti = visibleProjects(flags.showPlaceholderProjects);
   const kategorije = categoriesOf(projekti);
   const imaSadrzaj = projekti.length > 0;
-  const samoDemo = imaSadrzaj && projekti.every((p) => p.isPlaceholder);
 
   return (
     <>
@@ -81,18 +80,7 @@ export default function RadoviStrana() {
 
           {imaSadrzaj ? (
             <Otkrij className="mt-14">
-              {samoDemo && (
-                <p className="mb-6 max-w-2xl border-l-2 border-bakar pl-4 text-malo text-mist-2">
-                  Demonstracioni prikaz komponente. Fotografije nisu radovi
-                  Tapetarije Alekom i biće zamenjene originalnim pre/posle
-                  materijalom pre javnog predstavljanja portfolija.
-                </p>
-              )}
-              <h2 className="sr-only">
-                {samoDemo
-                  ? "Demonstracioni projekti pre i posle"
-                  : "Projekti pre i posle"}
-              </h2>
+              <h2 className="sr-only">Projekti pre i posle</h2>
               <IzborProjekta projekti={projekti} />
             </Otkrij>
           ) : (
@@ -140,12 +128,6 @@ export default function RadoviStrana() {
               nadnaslov="Iz radionice"
               naslov="Detalji koji se ne vide na gotovom komadu."
             />
-            {samoDemo && (
-              <p className="mt-5 max-w-xl text-malo text-ink-3">
-                I fotografije u nastavku su privremeni vizuelni sadržaj za
-                proveru rasporeda.
-              </p>
-            )}
             <div className="mt-12 grid auto-rows-[9rem] gap-5 sm:grid-cols-2 lg:grid-cols-12">
               {(["radionica-detalj", "servis-sivenje", "materijali"] as const).map(
                 (k, i) => (

@@ -51,7 +51,7 @@ src/
 public/
   logo/                odobrene SVG varijante logotipa
   icons/               PNG app i touch ikone
-  images/placeholders/ PRIVREMENE fotografije
+  images/placeholders/ slike za sadržaj sajta
 tools/
   logo/                skripte i interni pregled logotipa
   snimci.py            full-page snimci sajta
@@ -81,7 +81,7 @@ renderuju:
 export const flags = {
   viber: true,           // Viber na mobilnom broju
   whatsapp: true,        // direktna WhatsApp prečica, ne izbor u formi
-  publicEmail: false,    // privremeni email se ne ističe javno
+  publicEmail: false,    // email se ne ističe javno
   facebook: false,       // uz to popuniti site.social.facebook
   landline: false,       // aktivan, ali namerno skriven u v1
   pickupDelivery: true,  // po dogovoru
@@ -93,14 +93,14 @@ export const flags = {
   extendedServiceArea: true,
   showPrices: false,     // prikaz cena
   reviews: false,        // sekcija recenzija
-  beforeAfter: true,     // sekcija pre/posle (demo dok nema pravih foto)
+  beforeAfter: true,     // sekcija pre/posle
   worksInNav: true,      // link /radovi u navigaciji
 };
 ```
 
 ### Zamena fotografija
 
-1. Ubaci fajl u `public/images/` (privremene su u `placeholders/`)
+1. Ubaci fajl u `public/images/` (slike su u `placeholders/`)
 2. Upiši ga u `src/data/images.ts` — putanja, **prave dimenzije** i alt tekst na srpskom
 3. Ako je nov projekat, dodaj unos u `src/data/projects.ts` sa
    `isPlaceholder: false` i `published: true`
@@ -129,10 +129,9 @@ Komponente se pri tome ne diraju.
 }
 ```
 
-Kada stignu pravi parovi, stavi `isPlaceholder: false`. Do tada je demo jasno
-označen i `/radovi` ima `noindex`; uz
-`NEXT_PUBLIC_SHOW_DEMO_PROJECTS=false` demo se potpuno skriva. Sitemap dodaje
-`/radovi` tek kada postoji bar jedan objavljen pravi projekat.
+Podesi `isPlaceholder: false` za projekat koji treba da bude vidljiv.
+`NEXT_PUBLIC_SHOW_DEMO_PROJECTS=false` isključuje projekte označene tim internim
+poljem. Sitemap dodaje `/radovi` tek kada postoji bar jedan objavljen projekat.
 
 ### Dodavanje recenzije
 
@@ -173,7 +172,7 @@ Svaka ima `-dark` verziju za tamnu podlogu i `-mono` za jednu boju.
 Jednobojnu verziju treba ubacivati **ugrađeno** (inline SVG), jer kroz
 `<img>` `currentColor` ne može da se nasledi.
 
-Regenerisanje posle izmena: `tools/logo/README.md`.
+Ažuriranje posle izmena: `tools/logo/README.md`.
 
 ## Provere
 
@@ -187,12 +186,11 @@ samim alatima.
 
 ## Obavezno pre produkcije
 
-- `site.email` i `site.privacyEmail` su trenutno privremeno
-  `kontakt@tapetarijaalekom.rs`; zameniti konačnim poslovnim emailom.
+- `site.email` i `site.privacyEmail` koriste adresu
+  `kontakt@tapetarijaalekom.rs`; po potrebi je ažurirati poslovnim emailom.
 - U budućem produkcionom Next.js okruženju uneti pravi `CONTACT_TO_EMAIL`,
   `CONTACT_FROM_EMAIL` i `RESEND_API_KEY`, pa testirati formu sa prilozima.
-- Zameniti privremene fotografije originalnim radovima i fotografijama
-  radionice.
+- Ažurirati fotografije radovima i prizorima iz radionice.
 - Pravno pregledati politiku privatnosti i potvrditi predloženi rok čuvanja od
   12 meseci.
 - Uneti GA4 Measurement ID tek kada je spreman; bez njega se analitika i banner

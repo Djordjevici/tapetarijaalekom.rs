@@ -3,14 +3,10 @@ import type { Project } from "@/types";
 /**
  * Projekti za sekciju „Pre i posle" i stranicu /radovi.
  *
- * SVI projekti su trenutno demonstracioni (isPlaceholder: true) i služe samo
- * razvoju dizajna i animacija. U produkciji se ne prikazuju — vidi
- * flags.showPlaceholderProjects i flags.beforeAfter.
- *
- * Kako dodati pravi projekat:
+ * Kako dodati projekat:
  *   1. Ubaci fotografije u public/images/ i upiši ih u src/data/images.ts
  *   2. Dodaj unos ovde sa isPlaceholder: false i published: true
- *   3. Kad postoje najmanje 2–3 prava para, uključi flags.beforeAfter
+ *   3. Podesi flags.beforeAfter prema potrebama prikaza
  * Komponente se pri tome ne menjaju.
  */
 export const projects: readonly Project[] = [
@@ -109,7 +105,7 @@ export function categoriesOf(list: readonly Project[]): readonly string[] {
   return seen.size > 1 && list.length >= 4 ? [...seen.keys()] : [];
 }
 
-/** Koristi se za sitemap/noindex: demo projekti nisu javni portfolio. */
+/** Koristi se za sitemap/noindex i javni portfolio. */
 export const hasPublishedRealProjects = projects.some(
   (p) => p.published && !p.isPlaceholder,
 );

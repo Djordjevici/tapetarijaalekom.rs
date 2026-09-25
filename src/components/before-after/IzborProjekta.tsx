@@ -21,20 +21,12 @@ export default function IzborProjekta({
   const p = projekti[aktivan];
   if (!p) return null;
 
-  const demo = p.isPlaceholder;
-
   return (
     <div className="grid gap-9 lg:grid-cols-12 lg:gap-12">
       <div className="lg:col-span-8">
         <div key={p.slug} className="animate-[fadeUp_0.6s_cubic-bezier(0.22,1,0.36,1)]">
           <PrePosle pre={p.beforeImage} posle={p.afterImage} />
         </div>
-
-        {demo && (
-          <p className="mt-3 inline-block border border-bakar/60 px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.1em] text-bakar-svetli">
-            Demonstracioni sadržaj
-          </p>
-        )}
       </div>
 
       <div className="lg:col-span-4">
@@ -53,7 +45,7 @@ export default function IzborProjekta({
           </div>
           <div>
             <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-mist-3">
-              {demo ? "Demonstracioni koraci" : "Izvedeni radovi"}
+              Izvedeni radovi
             </dt>
             <dd className="mt-1.5">
               <ul className="grid gap-1.5 text-malo text-mist-1">

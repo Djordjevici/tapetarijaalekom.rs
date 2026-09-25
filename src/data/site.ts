@@ -5,7 +5,7 @@
  * tvrdnju o usluzi direktno. Sve ide odavde, da se pred lansiranje menja
  * na jednom mestu.
  *
- * Sve što klijent još nije potvrdio je isključeno ili je placeholder.
+ * Nepotvrđeni podaci i funkcije ostaju isključeni.
  * Vidi PODACI-ZA-POTVRDU.md.
  */
 
@@ -45,10 +45,7 @@ export const site = {
     display: "021 64 33 621",
   },
 
-  /**
-   * PRIVREMENA profesionalna adresa. Zameniti konačnom adresom na domenu pre
-   * produkcionog uključivanja forme i potvrditi je u Resend-u.
-   */
+  /** Profesionalna adresa za kontakt formu i Resend potvrdu. */
   email: "kontakt@tapetarijaalekom.rs",
   privacyEmail: "kontakt@tapetarijaalekom.rs",
 
@@ -124,15 +121,11 @@ export const flags = {
 
   // sekcije
   reviews: false,
-  /** Uključeno radi pregleda — isključiti pred lansiranje ako nema pravih fotografija. */
+  /** Kontrola prikaza sekcije pre i posle. */
   beforeAfter: true,
   worksInNav: true,
 
-  /**
-   * Demonstracioni projekti (označeni „Demonstracioni sadržaj").
-   * Uključeno dok stignu prave fotografije iz radionice — tada staviti false
-   * i flags.beforeAfter ostaviti true samo sa pravim parovima.
-   */
+  /** Kontrola prikaza projekata kroz internu konfiguraciju. */
   showPlaceholderProjects:
     process.env.NEXT_PUBLIC_SHOW_DEMO_PROJECTS !== "false",
 } as const;
