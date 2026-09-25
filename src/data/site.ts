@@ -150,10 +150,10 @@ export const telLink = `tel:${site.phone.e164}`;
 export const mailLink = `mailto:${site.email}`;
 
 export const nav = [
-  { label: "Usluge", href: "/usluge" },
-  { label: "Radovi", href: "/radovi", flag: "worksInNav" as const },
+  { label: "Usluge", href: "/#usluge" },
+  { label: "Radovi", href: "/#radovi", flag: "worksInNav" as const },
   { label: "O nama", href: "/#o-nama" },
-  { label: "Kontakt", href: "/kontakt" },
+  { label: "Kontakt", href: "/#kontakt" },
   {
     label: "Galerija fotografija",
     href: "https://photos.google.com/u/1/album/AF1QipMZcrr8QmeFpqyWw0tYAl_a7FKDXz7BcxZaoW_N",

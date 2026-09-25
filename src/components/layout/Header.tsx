@@ -28,6 +28,10 @@ export default function Header() {
     return () => window.removeEventListener("scroll", naSkrol);
   }, []);
 
+  const resetujSkrolNaVrh = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  };
+
   const linkovi = nav.filter((n) => !("flag" in n) || flags[n.flag]);
 
   return (
@@ -44,6 +48,7 @@ export default function Header() {
             href="/"
             aria-label={`${site.name} — početna`}
             className="shrink-0 py-1"
+            onClick={resetujSkrolNaVrh}
           >
             {/* pun lockup od sm nadalje, kompaktni na telefonu */}
             <Image
@@ -80,6 +85,7 @@ export default function Header() {
                   ) : (
                     <Link
                       href={l.href}
+                      onClick={resetujSkrolNaVrh}
                       className="relative py-2.5 transition-colors duration-300 hover:text-platno"
                     >
                       {l.label}
