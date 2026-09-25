@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import Sekcija from "@/components/ui/Sekcija";
 import { allowIndexing, site } from "@/data/site";
@@ -69,12 +70,12 @@ export default function PolitikaKolacica() {
               <h2>Više informacija</h2>
               <p>
                 O obradi ličnih podataka pročitajte u{" "}
-                <a
+                <Link
                   href="/politika-privatnosti"
                   className="underline decoration-bakar underline-offset-2"
                 >
                   politici privatnosti
-                </a>
+                </Link>
                 . Za pitanja nas kontaktirajte na {site.privacyEmail}.
               </p>
             </section>

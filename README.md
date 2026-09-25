@@ -181,8 +181,16 @@ python3 tools/snimci.py           # full-page snimci, desktop i mobilni
 python3 tools/provera-klizaca.py  # klizač pre/posle + vodoravno prelivanje
 ```
 
-Za provere treba pokrenuti odgovarajući lokalni server; portovi su navedeni u
-samim alatima.
+Navigaciona provera zahteva server na portu 3210 (ili `SITE_BASE`), Google
+Chrome i Python paket `websocket-client`, koje koriste i postojeći alati:
+
+```bash
+PORT=3210 npm run start
+SITE_BASE=http://127.0.0.1:3210 EXPECT_HOME_RADOVI=true npm run test:navigation
+NEXT_PUBLIC_SHOW_DEMO_PROJECTS=false npm run build
+PORT=3210 npm run start
+SITE_BASE=http://127.0.0.1:3210 EXPECT_HOME_RADOVI=false npm run test:navigation
+```
 
 ## Obavezno pre produkcije
 

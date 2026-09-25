@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import {
@@ -49,8 +50,9 @@ export default function FloatingContact() {
     {
       label: "Pošaljite fotografiju",
       href: "/kontakt#procena",
+      internal: true,
       prikazi: true,
-    },
+    }
   ].filter((s) => s.prikazi);
 
   return (
@@ -70,13 +72,23 @@ export default function FloatingContact() {
         <ul>
           {stavke.map((s) => (
             <li key={s.label}>
-              <a
-                href={s.href}
-                onClick={() => setOtvoren(false)}
-                className="flex min-h-[46px] items-center px-3 text-malo font-medium text-platno transition-colors duration-200 hover:text-bakar-svetli"
-              >
-                {s.label}
-              </a>
+              {"internal" in s && s.internal ? (
+                <Link
+                  href={s.href}
+                  onClick={() => setOtvoren(false)}
+                  className="flex min-h-[46px] items-center px-3 text-malo font-medium text-platno transition-colors duration-200 hover:text-bakar-svetli"
+                >
+                  {s.label}
+                </Link>
+              ) : (
+                <a
+                  href={s.href}
+                  onClick={() => setOtvoren(false)}
+                  className="flex min-h-[46px] items-center px-3 text-malo font-medium text-platno transition-colors duration-200 hover:text-bakar-svetli"
+                >
+                  {s.label}
+                </a>
+              )}
             </li>
           ))}
         </ul>

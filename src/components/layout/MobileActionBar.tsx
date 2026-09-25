@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { site, telLink } from "@/data/site";
@@ -32,12 +33,12 @@ export default function MobileActionBar() {
         <span aria-hidden>✆</span> Pozovite odmah
         <span className="sr-only">{site.phone.display}</span>
       </a>
-      <a
+      <Link
         href="/kontakt#procena"
         className="flex min-h-[56px] items-center justify-center border-l border-linija-tamna text-malo font-semibold text-platno"
       >
         Pošaljite fotografiju
-      </a>
+      </Link>
     </div>
   );
 }

@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:navigation": "python3 tools/provera-navigacije.py"
   },
   "dependencies": {
     "next": "^16.3.1",

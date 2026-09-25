@@ -4,12 +4,12 @@ import Link from "next/link";
 import {
   flags,
   mailLink,
-  nav,
   site,
   telLink,
   viberLink,
   whatsappLink,
 } from "@/data/site";
+import { nav } from "@/data/navigation";
 import { services } from "@/data/services";
 
 export default function Footer() {

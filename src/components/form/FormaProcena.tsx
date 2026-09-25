@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState } from "react";
 
 import {
@@ -530,12 +531,12 @@ export default function FormaProcena() {
           <span>
             Saglasan sam da se moji podaci i priložene fotografije koriste radi
             odgovora na ovaj upit.{" "}
-            <a
+            <Link
               href="/politika-privatnosti"
               className="underline decoration-bakar underline-offset-2"
             >
               Politika privatnosti
-            </a>
+            </Link>
           </span>
         </label>
         {greske.pristanak && (

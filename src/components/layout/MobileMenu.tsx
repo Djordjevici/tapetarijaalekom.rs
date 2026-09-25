@@ -1,16 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type MouseEvent } from "react";
 
 import {
   flags,
-  nav,
   site,
   telLink,
   viberLink,
   whatsappLink,
 } from "@/data/site";
+import { nav } from "@/data/navigation";
 
 /**
  * Mobilni meni preko celog ekrana.
@@ -65,11 +65,24 @@ export default function MobileMenu({
     };
   }, [otvoren, zatvori]);
 
-  const navigiraj = (href: string) => {
+  const navigiraj = (): void => {
     zatvori();
-    if (href.startsWith("/")) {
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  };
+
+  const naKlikPocetne = (event: MouseEvent<HTMLAnchorElement>): void => {
+    zatvori();
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey ||
+      window.location.pathname !== "/"
+    ) {
+      return;
     }
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   };
 
   const linkovi = nav.filter((n) => !("flag" in n) || flags[n.flag]);
@@ -117,7 +130,7 @@ export default function MobileMenu({
             <li>
               <Link
                 href="/"
-                onClick={() => navigiraj("/")}
+                onClick={naKlikPocetne}
                 className="block border-b border-linija-tamna py-3 font-display text-[1.35rem]"
               >
                 Početna
@@ -144,7 +157,7 @@ export default function MobileMenu({
                 ) : (
                   <Link
                     href={l.href}
-                    onClick={() => navigiraj(l.href)}
+                    onClick={navigiraj}
                     className="block border-b border-linija-tamna py-3 font-display text-[1.35rem]"
                   >
                     {l.label}
@@ -163,13 +176,13 @@ export default function MobileMenu({
             >
               Pozovite {site.phone.display}
             </a>
-            <a
+            <Link
               href="/kontakt#procena"
-              onClick={() => navigiraj("/kontakt#procena")}
+              onClick={navigiraj}
               className="flex min-h-[52px] items-center justify-center border border-mist-3 font-semibold"
             >
               Pošaljite fotografiju
-            </a>
+            </Link>
             {/* Viber i WhatsApp se prikazuju samo kada su potvrđeni. */}
             {flags.viber && (
               <a

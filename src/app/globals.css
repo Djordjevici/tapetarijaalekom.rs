@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --visina-headera: 4.5rem;
+    --visina-headera: 5.5rem;
     --sumrak: #1c2f2a;
     --ugljen: #12151a;
     --platno: #e7e6e0;
@@ -101,6 +101,12 @@
   .otkrij[data-vidljivo="true"] {
     opacity: 1;
     transform: none;
+  }
+
+  section:target .otkrij {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0ms;
   }
 
   /* Ako JS ne radi, ništa ne sme da ostane skriveno. */

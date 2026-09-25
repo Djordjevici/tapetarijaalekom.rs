@@ -3,10 +3,11 @@ import Otkrij from "@/components/ui/Otkrij";
 import Sekcija, { Zaglavlje } from "@/components/ui/Sekcija";
 import { flags } from "@/data/site";
 import { visibleProjects } from "@/data/projects";
+import { showHomepageWorks } from "@/data/navigation";
 
 export default function PreIPosle() {
   const projekti = visibleProjects(flags.showPlaceholderProjects);
-  if (!projekti.length || !flags.beforeAfter) return null;
+  if (!showHomepageWorks) return null;
 
   return (
     <Sekcija id="radovi" podloga="ugljen">

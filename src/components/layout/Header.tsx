@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type MouseEvent } from "react";
 
 import MobileMenu from "./MobileMenu";
-import { flags, nav, telLink, site } from "@/data/site";
+import { flags, telLink, site } from "@/data/site";
+import { nav } from "@/data/navigation";
 
 export default function Header() {
   const [skrolovan, setSkrolovan] = useState(false);
@@ -28,7 +29,20 @@ export default function Header() {
     return () => window.removeEventListener("scroll", naSkrol);
   }, []);
 
-  const resetujSkrolNaVrh = () => {
+  const naKlikLogotipa = (event: MouseEvent<HTMLAnchorElement>): void => {
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey ||
+      window.location.pathname !== "/"
+    ) {
+      return;
+    }
+    event.preventDefault();
+    window.history.replaceState(window.history.state, "", "/");
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   };
 
@@ -48,7 +62,7 @@ export default function Header() {
             href="/"
             aria-label={`${site.name} — početna`}
             className="shrink-0 py-1"
-            onClick={resetujSkrolNaVrh}
+            onClick={naKlikLogotipa}
           >
             {/* pun lockup od sm nadalje, kompaktni na telefonu */}
             <Image
@@ -85,7 +99,6 @@ export default function Header() {
                   ) : (
                     <Link
                       href={l.href}
-                      onClick={resetujSkrolNaVrh}
                       className="relative py-2.5 transition-colors duration-300 hover:text-platno"
                     >
                       {l.label}
@@ -97,12 +110,12 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2.5">
-            <a
+            <Link
               href="/kontakt#procena"
               className="hidden min-h-[48px] items-center bg-bakar-dugme px-5 text-[0.9rem] font-semibold text-white transition-colors duration-300 hover:bg-bakar-dugme-hover xl:inline-flex"
             >
               Pošaljite fotografiju
-            </a>
+            </Link>
             <a
               href={telLink}
               className="inline-flex min-h-[48px] items-center bg-bakar-dugme px-4 py-3.5 text-[0.9rem] font-semibold text-white transition-colors duration-300 hover:bg-bakar-dugme-hover sm:px-5 xl:border xl:border-mist-3 xl:bg-transparent xl:text-platno xl:hover:border-bakar xl:hover:bg-transparent xl:hover:text-bakar-svetli"

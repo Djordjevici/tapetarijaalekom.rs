@@ -31,7 +31,7 @@ export default function Sekcija({
   return (
     <section
       id={id}
-      className={`relative scroll-mt-[var(--visina-headera)] ${podloge[podloga]} ${
+      className={`relative ${podloge[podloga]} ${
         tesna ? "py-sekcija-tesna" : "py-sekcija"
       } ${className}`}
       style={tamna ? { isolation: "isolate" } : undefined}
