@@ -1,13 +1,10 @@
 # Deploy — Coolify Docker Compose
 
-Jedan Coolify resurs gradi dve odvojene slike iz ovog repozitorijuma:
-
-- `landing`: statična „Uskoro” stranica iz `landing-page/`, Nginx na portu `80`;
-- `website`: Next.js aplikacija iz korena, Node na portu `3000`.
-
-Javni domeni `tapetarijaalekom.rs` i `www.tapetarijaalekom.rs` vode na landing.
-Razvojni sajt je na `dev.tapetarijaalekom.rs`, javan je radi pregleda, ali ima
-`noindex, nofollow`, blokirajući `robots.txt` i isključenu kontakt formu.
+Produkcija koristi jednu Coolify Docker Compose aplikaciju, UUID
+`salbmytyaflmprszapfx8x7h`, sa servisom `website` na kontejnerskom portu
+`3000`. Kanonski javni domen je `https://tapetarijaalekom.rs`; javni alias je
+`https://www.tapetarijaalekom.rs`. Nema landing servisa, porta `8080`, staging
+rutiranja ni HTTP Basic Auth-a.
 
 ## 1. Provera pre deploya
 
@@ -15,134 +12,84 @@ Razvojni sajt je na `dev.tapetarijaalekom.rs`, javan je radi pregleda, ali ima
 npm ci
 npm run lint
 npm run typecheck
-npm run build
-docker compose config
-docker compose -f docker-compose.yml -f docker-compose.local.yml config
-docker compose -f docker-compose.yml -f docker-compose.local.yml build
+NEXT_PUBLIC_SITE_URL=https://tapetarijaalekom.rs NEXT_PUBLIC_ALLOW_INDEXING=true NEXT_PUBLIC_CONTACT_FORM_ENABLED=true npm run build
+docker compose config --quiet
+docker compose -f docker-compose.yml -f docker-compose.local.yml config --quiet
 ```
 
-Lokalno pokretanje obe slike:
+Lokalno se pokreće samo `website` na `http://localhost:3000`:
 
 ```bash
-docker compose -f docker-compose.yml -f docker-compose.local.yml up --build
-```
-
-Landing je na `http://localhost:8080`, a Next.js na
-`http://localhost:3000`. Zaustavljanje:
-
-```bash
+NEXT_PUBLIC_CONTACT_FORM_ENABLED=true RESEND_API_KEY=local-validation-placeholder docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build website
 docker compose -f docker-compose.yml -f docker-compose.local.yml down
 ```
 
-## 2. Coolify resurs
+## 2. Coolify postupak
 
-U Coolify-ju napraviti jednu aplikaciju iz Git repozitorijuma i podesiti:
+Ovlašćeni operator prvo u maskiranom Coolify interfejsu za aplikaciju
+`salbmytyaflmprszapfx8x7h` beleži redigovani snapshot: naziv, repozitorijum i
+branch, deployment ID/commit, build/compose podešavanja, servise/domene,
+redirect-e, health check, nazive environment promenljivih i rollback akciju.
+Ne beleže se vrednosti tajni.
 
-| Podešavanje | Vrednost |
-|---|---|
-| Build pack | **Docker Compose** |
-| Base directory | `/` |
-| Compose location | `/docker-compose.yml` |
-
-`docker-compose.yml` namerno nema host portove ni sopstvenu mrežu. Coolify
-povezuje servise sa svojim reverse proxy-jem. Posle učitavanja Compose fajla,
-u podešavanjima pojedinačnih servisa dodeliti:
-
-| Servis | Domen u Coolify-ju | Container port |
-|---|---|---|
-| `landing` | `https://tapetarijaalekom.rs` | `80` |
-| `landing` | `https://www.tapetarijaalekom.rs` | `80` |
-| `website` | `https://dev.tapetarijaalekom.rs:3000` | `3000` |
-
-Sufiks `:3000` govori Coolify-ju na koji port kontejnera prosleđuje zahtev;
-posetioci i dalje koriste normalan `https://dev.tapetarijaalekom.rs` URL bez
-porta. Nginx u `landing` servisu trajno preusmerava `www` na apex domen.
-
-## 3. Environment promenljive
-
-Compose ima bezbedne podrazumevane vrednosti za dev sajt:
+U Coolify-ju se postojeća aplikacija ažurira ovim javnim vrednostima, i za
+build argumente i za runtime environment:
 
 ```env
-NEXT_PUBLIC_SITE_URL=https://dev.tapetarijaalekom.rs
-NEXT_PUBLIC_ALLOW_INDEXING=false
-NEXT_PUBLIC_CONTACT_FORM_ENABLED=false
-NEXT_PUBLIC_SHOW_DEMO_PROJECTS=true
-NEXT_PUBLIC_GA_ID=
+NEXT_PUBLIC_SITE_URL=https://tapetarijaalekom.rs
+NEXT_PUBLIC_ALLOW_INDEXING=true
+NEXT_PUBLIC_CONTACT_FORM_ENABLED=true
 ```
 
-`NEXT_PUBLIC_SITE_URL` se koristi za canonical, Open Graph, sitemap i
-strukturirane podatke. `NEXT_PUBLIC_ALLOW_INDEXING=false` dodaje robots
-metadata, `X-Robots-Tag` zaglavlje i `Disallow: /` u `robots.txt`.
-
-`NEXT_PUBLIC_*` vrednosti se ugrađuju tokom `next build`, zato posle svake
-promene treba uraditi **Redeploy**, ne samo restart kontejnera. Za ovaj dev
-resurs vrednosti za indeksiranje i formu su u Compose fajlu namerno fiksirane
-na `false`.
-
-`website` je dodatno zaštićen HTTP Basic Auth prijavom na Traefik nivou.
-Compose definiše bcrypt korisnika i Coolify shorthand labelu koja middleware
-automatski dodaje generisanom HTTPS routeru. Kredencijali su korisničko ime
-`alekom2026` i lozinka `alekom2026`; u Git-u je samo bcrypt hash lozinke.
-
-Resend promenljive su ostavljene kao opcione za kasnije aktiviranje na
-budućem produkcionom Next.js resursu:
+`NEXT_PUBLIC_*` promenljive se ugrađuju tokom `next build`; promena zahteva
+Redeploy, a ne samo restart. Server-only runtime promenljive su obavezne:
 
 ```env
-RESEND_API_KEY=re_...
-CONTACT_TO_EMAIL=KONACNI_EMAIL_NA_DOMENU
-CONTACT_FROM_EMAIL=Tapetarija Alekom <upiti@tapetarijaalekom.rs>
+RESEND_API_KEY
+CONTACT_TO_EMAIL
+CONTACT_FROM_EMAIL
 ```
 
-Pre uključivanja forme treba potvrditi domen u Resend-u, pravno pregledati
-politiku privatnosti, testirati priloge, pa promeniti
-`NEXT_PUBLIC_CONTACT_FORM_ENABLED` i u build args i u runtime environment-u.
-Dok je vrednost `false`, `/api/upit` odmah vraća `503` i ne obrađuje lične
-podatke.
+Ovlašćeni operator ih pribavlja/proverava u Resend-u i odobrenom password
+manager-u, zatim ih samo ručno unosi ili proverava u Coolify maskiranim poljima.
+`CONTACT_FROM_EMAIL` mora koristiti Resend-verifikovan sender domen, a
+`CONTACT_TO_EMAIL` mora biti kontrolisan, nadziran i testabilan mailbox.
+Vrednosti se nikad ne stavljaju u Git, MCP/chat tekst, shell history,
+screenshot-e, logove ili sačuvani command output.
 
-## 4. DNS i TLS
+Mapirati oba javna hosta na `website:3000`, ukloniti landing i Basic Auth
+mapiranja, bez dupliranja domena ako Compose/Coolify već upravlja rutiranjem.
+Deployovati pregledani commit, čekati uspešan i healthy status, pa ponovo
+pročitati redigovano stanje aplikacije, environment-a, domena i health-a.
 
-Kod DNS provajdera usmeriti web zapise ka Coolify serveru:
+## 3. Provera produkcije i kontakt forme
 
-- apex (`@`) — `A`/`AAAA` vrednost servera;
-- `www` — `CNAME` ka apexu ili odgovarajući `A`/`AAAA`;
-- `dev` — `A`/`AAAA` vrednost servera.
+Posle deploya proveriti TLS, oba hosta, odsustvo `WWW-Authenticate`, canonical
+apex URL, indeksabilni `robots.txt`, health i omogućen endpoint. Nepotpuni
+multipart zahtev prema `/api/upit` mora vratiti `422` i
+`neispravni-podaci`, ne `503`.
 
-Ne menjati MX, SPF, DKIM, DMARC niti druge zapise za email. Tačne IP vrednosti
-uzima administrator Coolify servera; ne upisivati primer IP adresu. Kada DNS
-propagira, Coolify proxy izdaje TLS sertifikate za sva tri hosta.
+Zatim poslati tačno jednu sintetičku prijavu bez korisničkih podataka, sa
+apex `Origin`, praznim honeypot poljem i 1-pixel PNG prilogom, prema postupku
+iz plana. Sačuvati samo odgovor `{"ok":true}` i generisani test ID. Operator
+potvrđuje da se isti ID jednom vidi kao accepted/delivered u Resend-u i jednom
+u nadziranom mailbox-u; ne čuvaju se adresa, ključ, header-i ni screenshot.
 
-## 5. Provera posle deploya
+Ako je stvarno slanje zabranjeno ili privremeno nemoguće, redigovani operator
+note beleži odobravaoca, razlog i vreme. Tada se proverava omogućen UI i `422`
+probe, pa se Resend `GET /domains` pokreće samo sa privremeno, tiho unetim
+`RESEND_API_KEY`; zahtev mora vratiti `200`, a operator ručno potvrđuje da je
+domen iz `CONTACT_FROM_EMAIL` `verified`. Ne-200, neverifikovan domen,
+onemogućen endpoint ili nemogućnost autentikacije su neuspešan rollout.
 
-```bash
-curl -I https://tapetarijaalekom.rs
-curl -I https://www.tapetarijaalekom.rs
-curl -I https://dev.tapetarijaalekom.rs
-curl -u alekom2026:alekom2026 -I https://dev.tapetarijaalekom.rs
-curl -u alekom2026:alekom2026 https://dev.tapetarijaalekom.rs/robots.txt
-curl -u alekom2026:alekom2026 https://dev.tapetarijaalekom.rs/sitemap.xml
-curl -u alekom2026:alekom2026 -i -X POST https://dev.tapetarijaalekom.rs/api/upit
-```
+## 4. Rollback
 
-Potvrditi sledeće:
-
-- apex prikazuje landing, a `www` vraća trajni redirect na apex;
-- oba servisa imaju status **healthy**;
-- dev domen bez kredencijala vraća `401`, a sa kredencijalima učitava sajt;
-- `/`, `/usluge`, `/radovi`, `/kontakt` i pravne stranice rade na dev domenu;
-- HTML dev sajta ima canonical i Open Graph URL-ove sa `dev` domenom;
-- dev odgovori imaju `X-Robots-Tag: noindex, nofollow`;
-- dev HTML ima `noindex, nofollow`, a `robots.txt` sadrži `Disallow: /`;
-- sitemap i JSON-LD koriste `https://dev.tapetarijaalekom.rs`;
-- `/api/upit` vraća `503` sa razlogom `slanje-nije-konfigurisano`;
-- landing i Next.js statički/optimizovani resursi se učitavaju bez grešaka.
-
-## 6. Napomene
-
-- Coolify gradi direktno iz Git repozitorijuma; nema registry workflow-a.
-- Landing namerno i dalje koristi Google Fonts i Unsplash resurse sa interneta.
-- `Dockerfile` pravi Next.js standalone runtime i izvršava ga kao non-root
-  korisnik.
-- Lokalni portovi postoje samo u `docker-compose.local.yml`.
-- Ograničenje priloga od 4 MB štiti Node proces i email isporuku. Za jaču
-  zaštitu forme dodati rate limiting na Coolify reverse proxy-ju ili deljeno
-  skladište između replika.
+Sačuvati Step 1 redigovani snapshot do završetka provere. Kod neuspešnog
+build-a, TLS-a, rutiranja, health-a, indeksiranja, forme, Resend-a ili prijema,
+zaustaviti rollout i Coolify rollback/redeploy akcijom vratiti prethodni
+uspešan deployment/commit. Ako rollback ne vrati runtime polja, vratiti
+prethodna javna polja iz snapshot-a, a tajne operator ručno iz password
+manager-a u maskirana polja. U neizvesnom rollback-u postaviti indeksiranje na
+`false`, vratiti prethodno apex/`www` mapiranje i Basic Auth samo ako su bili u
+snapshot-u, redeployovati i ponovo proveriti prethodnu topologiju. Ne brisati
+ni rotirati Resend kredencijale bez posebnog odobrenja.

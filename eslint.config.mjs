@@ -14,7 +14,6 @@ export default defineConfig([
   globalIgnores([
     ".next/**",
     "node_modules/**",
-    "landing-page/**",
     "examples/**",
     "brand-predlog/**",
   ]),

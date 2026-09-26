@@ -22,12 +22,10 @@ npm run typecheck  # tsc --noEmit
 
 Node 24 je produkcioni target u Docker slici.
 
-Oba servisa mogu lokalno da se pokrenu istovremeno:
+Website se lokalno pokreće na `http://localhost:3000`:
 
 ```bash
 docker compose -f docker-compose.yml -f docker-compose.local.yml up --build
-# landing: http://localhost:8080
-# website: http://localhost:3000
 ```
 
 Osnovni `docker-compose.yml` nema objavljene host portove i namenjen je

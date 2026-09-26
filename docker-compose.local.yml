@@ -1,13 +1,15 @@
 services:
-  landing:
-    ports:
-      - "8080:80"
-
   website:
     build:
       args:
         NEXT_PUBLIC_SITE_URL: http://localhost:3000
+        NEXT_PUBLIC_ALLOW_INDEXING: "false"
+        NEXT_PUBLIC_CONTACT_FORM_ENABLED: >-
+          ${NEXT_PUBLIC_CONTACT_FORM_ENABLED:-false}
     environment:
       NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      NEXT_PUBLIC_ALLOW_INDEXING: "false"
+      NEXT_PUBLIC_CONTACT_FORM_ENABLED: >-
+        ${NEXT_PUBLIC_CONTACT_FORM_ENABLED:-false}
     ports:
       - "3000:3000"
