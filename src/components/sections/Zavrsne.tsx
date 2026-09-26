@@ -14,7 +14,11 @@ import {
 /** Glavna konverzija: slanje fotografija za procenu. */
 export function Procena() {
   return (
-    <Sekcija id="procena" podloga="sumrak">
+    <Sekcija
+      id="procena"
+      podloga="sumrak"
+      className="scroll-mt-24 lg:scroll-mt-28"
+    >
       <div className="sadrzaj">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">

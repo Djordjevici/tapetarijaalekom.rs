@@ -113,7 +113,7 @@ export default function Header() {
 
           <div className="flex items-center gap-2.5">
             <Link
-              href="/kontakt#procena"
+              href="/kontakt#forma-procena"
               className="hidden min-h-[48px] items-center bg-bakar-dugme px-5 text-[0.9rem] font-semibold text-white transition-colors duration-300 hover:bg-bakar-dugme-hover xl:inline-flex"
             >
               Pošaljite fotografiju

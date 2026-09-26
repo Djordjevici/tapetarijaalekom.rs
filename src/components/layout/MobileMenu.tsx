@@ -178,8 +178,8 @@ export default function MobileMenu({
               Pozovite {site.phone.display}
             </a>
             <Link
-              href="/kontakt#procena"
-              onClick={(event) => navigiraj(event, "/kontakt#procena")}
+              href="/kontakt#forma-procena"
+              onClick={(event) => navigiraj(event, "/kontakt#forma-procena")}
               className="flex min-h-[52px] items-center justify-center border border-mist-3 font-semibold"
             >
               Pošaljite fotografiju

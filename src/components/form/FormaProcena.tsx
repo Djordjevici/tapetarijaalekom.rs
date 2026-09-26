@@ -236,7 +236,13 @@ export default function FormaProcena() {
     "placeholder:text-mist-3 focus:border-bakar focus:outline-none focus-visible:outline-none";
 
   return (
-    <form ref={forma} onSubmit={posalji} noValidate className="grid gap-5">
+    <form
+      id="forma-procena"
+      ref={forma}
+      onSubmit={posalji}
+      noValidate
+      className="scroll-mt-24 lg:scroll-mt-28 grid gap-5"
+    >
       {/* zamka za botove, skrivena od korisnika i čitača ekrana */}
       <input
         type="text"
