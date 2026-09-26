@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "coolify": {
+      "url": "https://coolify.devbox.zone/mcp",
+      "auth": "bearer",
+      "bearerTokenStore": true,
+      "directTools": true
+    }
+  }
+}
