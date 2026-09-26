@@ -11,6 +11,7 @@ import {
   whatsappLink,
 } from "@/data/site";
 import { nav } from "@/data/navigation";
+import { ponoviHashNavigaciju } from "@/lib/ponovi-navigaciju";
 
 /**
  * Mobilni meni preko celog ekrana.
@@ -65,8 +66,9 @@ export default function MobileMenu({
     };
   }, [otvoren, zatvori]);
 
-  const navigiraj = (): void => {
+  const navigiraj = (event: MouseEvent<HTMLAnchorElement>, href: string): void => {
     zatvori();
+    ponoviHashNavigaciju(event, href);
   };
 
   const naKlikPocetne = (event: MouseEvent<HTMLAnchorElement>): void => {
@@ -82,7 +84,6 @@ export default function MobileMenu({
     ) {
       return;
     }
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   };
 
   const linkovi = nav.filter((n) => !("flag" in n) || flags[n.flag]);
@@ -157,7 +158,7 @@ export default function MobileMenu({
                 ) : (
                   <Link
                     href={l.href}
-                    onClick={navigiraj}
+                    onClick={(event) => navigiraj(event, l.href)}
                     className="block border-b border-linija-tamna py-3 font-display text-[1.35rem]"
                   >
                     {l.label}
@@ -178,7 +179,7 @@ export default function MobileMenu({
             </a>
             <Link
               href="/kontakt#procena"
-              onClick={navigiraj}
+              onClick={(event) => navigiraj(event, "/kontakt#procena")}
               className="flex min-h-[52px] items-center justify-center border border-mist-3 font-semibold"
             >
               Pošaljite fotografiju

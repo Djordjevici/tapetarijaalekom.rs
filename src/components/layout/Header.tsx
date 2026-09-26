@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState, type MouseEvent } from "react";
 import MobileMenu from "./MobileMenu";
 import { flags, telLink, site } from "@/data/site";
 import { nav } from "@/data/navigation";
+import { ponoviHashNavigaciju } from "@/lib/ponovi-navigaciju";
 
 export default function Header() {
   const [skrolovan, setSkrolovan] = useState(false);
@@ -100,6 +101,7 @@ export default function Header() {
                     <Link
                       href={l.href}
                       className="relative py-2.5 transition-colors duration-300 hover:text-platno"
+                      onClick={(event) => ponoviHashNavigaciju(event, l.href)}
                     >
                       {l.label}
                     </Link>

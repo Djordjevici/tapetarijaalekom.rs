@@ -24,14 +24,19 @@ def start_chrome():
         try:
             urllib.request.urlopen(f"http://127.0.0.1:{PORT}/json/version", timeout=1)
             return True
-        except Exception:
-            pass
+        except Exception as error:
+            if _ == 39:
+                print(f"Chrome nije dostupan: {error}", file=sys.stderr)
     return False
 
 
 class Tab:
     def __init__(self):
-        tabs = json.load(urllib.request.urlopen(f"http://127.0.0.1:{PORT}/json"))
+        try:
+            with urllib.request.urlopen(f"http://127.0.0.1:{PORT}/json") as response:
+                tabs = json.load(response)
+        except (OSError, ValueError) as error:
+            raise RuntimeError(f"CDP tabovi nisu dostupni: {error}") from error
         page = next(t for t in tabs if t["type"] == "page")
         self.ws = websocket.create_connection(page["webSocketDebuggerUrl"], timeout=30,
                                                origin="", suppress_origin=True)
@@ -43,7 +48,10 @@ class Tab:
         self.n += 1
         self.ws.send(json.dumps({"id": self.n, "method": method, "params": params}))
         while True:
-            message = json.loads(self.ws.recv())
+            try:
+                message = json.loads(self.ws.recv())
+            except (TypeError, ValueError, websocket.WebSocketException) as error:
+                raise RuntimeError(f"CDP odgovor nije validan: {error}") from error
             if message.get("id") == self.n:
                 return message
 
@@ -101,6 +109,22 @@ def check_static(tab):
     assert_true(not result["badBlank"], "_blank eksterni link nema noopener/noreferrer")
 
 
+def check_repeated_section_click(tab, mobile=False):
+    tab.goto("/#usluge")
+    tab.js("window.scrollTo({top: document.documentElement.scrollHeight, behavior: 'instant'})")
+    if mobile:
+        tab.js("document.querySelector('button[aria-label=\"Otvorite meni\"]').click()")
+        selector = "#mobilni-meni a[href=\"/#usluge\"]"
+    else:
+        selector = "header nav a[href=\"/#usluge\"]"
+    before = tab.js("scrollY")
+    tab.js("document.querySelector(" + json.dumps(selector) + ").click()")
+    time.sleep(1)
+    result = tab.js("({hash: location.hash, y: scrollY, before: " + str(before) + "})")
+    assert_true(result["hash"] == "#usluge" and result["y"] < result["before"] - 20,
+                "ponovljeni klik na aktivnu sekciju nije ponovo skrolovao")
+
+
 def check_radovi_click(tab):
     tab.goto("/")
     if not EXPECT_WORKS:
@@ -149,10 +173,11 @@ def run_viewport(tab, width, height):
                     "početna bez projekata ipak ima radovi ID")
     for slug in ("presvlacenje-namestaja", "kozni-namestaj", "poslovni-enterijeri",
                  "sivenje-i-izrada-po-meri", "stilski-i-zahtevni-komadi",
-                 "bastenski-moto-i-nauticki-program"): 
+                 "bastenski-moto-i-nauticki-program"):
         check_target(tab, "/usluge", slug)
     check_target(tab, "/kontakt", "procena")
     check_radovi_click(tab)
+    check_repeated_section_click(tab, mobile=width < 600)
     check_logo(tab)
     print(f"PASS {width}x{height}")
 
