@@ -15,7 +15,7 @@ export const nav = [
   { label: "Kontakt", href: "/#kontakt" },
   {
     label: "Galerija fotografija",
-    href: "https://photos.google.com/u/1/album/AF1QipMZcrr8QmeFpqyWw0tYAl_a7FKDXz7BcxZaoW_N",
+    href: "https://photos.app.goo.gl/afSsKdP9CR5AvkBj7",
     external: true,
   },
 ] as const;
