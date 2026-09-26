@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   contactFormEnabled,
@@ -76,6 +76,14 @@ export default function FormaProcena() {
   const [obrada, setObrada] = useState(false);
   const forma = useRef<HTMLFormElement>(null);
   const unos = useRef<HTMLInputElement>(null);
+  const potvrda = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (stanje !== "uspeh") return;
+    requestAnimationFrame(() => {
+      potvrda.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }, [stanje]);
 
   const dodaj = async (lista: FileList | null) => {
     if (!lista?.length) return;
@@ -201,8 +209,9 @@ export default function FormaProcena() {
   if (stanje === "uspeh") {
     return (
       <div
+        ref={potvrda}
         role="status"
-        className="border border-bakar/50 bg-sumrak/40 p-8 text-center"
+        className="scroll-mt-24 border border-bakar/50 bg-sumrak/40 p-8 text-center"
       >
         <p className="font-display text-[1.4rem] text-platno">
           Upit je poslat.

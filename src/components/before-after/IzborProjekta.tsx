@@ -18,11 +18,19 @@ export default function IzborProjekta({
 }) {
   const [aktivan, setAktivan] = useState(0);
   const tabovi = useRef<HTMLDivElement>(null);
+  const slider = useRef<HTMLDivElement>(null);
   const p = projekti[aktivan];
+
+  const izaberiProjekat = (index: number) => {
+    setAktivan(index);
+    requestAnimationFrame(() => {
+      slider.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
   if (!p) return null;
 
   return (
-    <div className="grid gap-9 lg:grid-cols-12 lg:gap-12">
+    <div ref={slider} className="scroll-mt-24 lg:scroll-mt-28 grid gap-9 lg:grid-cols-12 lg:gap-12">
       <div className="lg:col-span-8">
         <div key={p.slug} className="animate-[fadeUp_0.6s_cubic-bezier(0.22,1,0.36,1)]">
           <PrePosle pre={p.beforeImage} posle={p.afterImage} />
@@ -85,7 +93,7 @@ export default function IzborProjekta({
                   role="tab"
                   aria-selected={aktivna}
                   tabIndex={aktivna ? 0 : -1}
-                  onClick={() => setAktivan(i)}
+                  onClick={() => izaberiProjekat(i)}
                   onKeyDown={(e) => {
                     let sledeci: number | null = null;
                     if (e.key === "ArrowRight")
@@ -96,7 +104,7 @@ export default function IzborProjekta({
                     if (e.key === "End") sledeci = projekti.length - 1;
                     if (sledeci === null) return;
                     e.preventDefault();
-                    setAktivan(sledeci);
+                    izaberiProjekat(sledeci);
                     requestAnimationFrame(() => {
                       tabovi.current
                         ?.querySelectorAll<HTMLButtonElement>('[role="tab"]')
